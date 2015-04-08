@@ -1,20 +1,19 @@
 package bussinesslogic.player;
 
 import java.io.File;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import rmiLink.PlayerRmi;
 import assistance.GetFileData;
 import bslogicService.PlayerInfoService;
+import data.player.PlayerDataInAndOut;
 import data.po.MatchDataPO;
 import data.po.PlayerDataPO;
 
 public class PlayerLogic implements PlayerInfoService{
 	GetFileData g = new GetFileData();
 	PlayerDataPO AllInfo = new PlayerDataPO();
-	PlayerRmi p = new PlayerRmi();
+	//PlayerRmi p = new PlayerRmi();
+	PlayerDataInAndOut pio = new PlayerDataInAndOut();
 	public void analysData(String name) {
 		// TODO Auto-generated method stub
 		String filepath = "./迭代一数据/players/info/" + name;
@@ -38,7 +37,7 @@ public class PlayerLogic implements PlayerInfoService{
 		
 		AllInfo.setSchool(tempbasic[8]);
 		getAllMatch("./迭代一数据/matches",name);
-		p.addInfo(AllInfo);
+		pio.WriteIn(AllInfo);
 	}
 	public void getAllMatch(String filepath,String name){
 		System.out.println(name);
@@ -507,7 +506,7 @@ public class PlayerLogic implements PlayerInfoService{
 	}
 	public PlayerDataPO getInfo(String name) {
 		// TODO Auto-generated method stub
-		PlayerDataPO res = p.getInfo(name.replaceAll("'", "‘"));
+		PlayerDataPO res = pio.WriteOut(name);
 		return res;
 	}
 	public void setOrder(String orderName,boolean isASC) {
@@ -516,9 +515,19 @@ public class PlayerLogic implements PlayerInfoService{
 	}
 	public PlayerDataPO[] getAllInfo() {
 		// TODO Auto-generated method stub
+		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
+		File root = new File("./playerInfo");//从ser文件中读取所有数据
+		File[] files = root.listFiles();
+		for(File file:files){
+			PlayerDataPO temp = pio.WriteOut(file.getName().replace(".ser", ""));
+			res.add(temp);
+		}
 		
-		PlayerDataPO[] res = p.getAllInfo();
-		return res ;
+		PlayerDataPO[] res2 = new PlayerDataPO[res.size()];
+		for(int i =0;i<res2.length;i++){
+			res2[i] = res.get(i);
+		}
+		return res2 ;
 	}
 	public PlayerDataPO[] getFirstFifty(String orderName) {
 		//PlayerDataPO[] res = p.getFirstFifty(orderName);
@@ -526,16 +535,191 @@ public class PlayerLogic implements PlayerInfoService{
 		return null ;
 	}
 	public PlayerDataPO[] getSelect(String position,String Union){//都是英文，如Union可以是“E”或“W”,默认的话不要改就行
-		PlayerDataPO[] res = p.getSelect(position,Union);
-		return res;
+		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
+		PlayerDataPO[] temp = getAllInfo();
+		if(position.equals("null")){
+			if(Union.equals("null")){
+				return temp;
+			}
+			else if(Union.equals("Southeast")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("ATL"))
+							||(temp[i].getTeamName().equals("CHA"))
+							||(temp[i].getTeamName().equals("MIA"))
+							||(temp[i].getTeamName().equals("ORL"))
+							||(temp[i].getTeamName().equals("WAS"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Central")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("CHI"))
+							||(temp[i].getTeamName().equals("DET"))
+							||(temp[i].getTeamName().equals("CLE"))
+							||(temp[i].getTeamName().equals("IND"))
+							||(temp[i].getTeamName().equals("MIL"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Atlantic")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("BOS"))
+							||(temp[i].getTeamName().equals("BKN"))
+							||(temp[i].getTeamName().equals("NYK"))
+							||(temp[i].getTeamName().equals("PHI"))
+							||(temp[i].getTeamName().equals("TOR"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Southwest")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("DAL"))
+							||(temp[i].getTeamName().equals("HOU"))
+							||(temp[i].getTeamName().equals("MEM"))
+							||(temp[i].getTeamName().equals("NOP"))
+							||(temp[i].getTeamName().equals("SAS"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Northwest")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("DEN"))
+							||(temp[i].getTeamName().equals("MIN"))
+							||(temp[i].getTeamName().equals("OKC"))
+							||(temp[i].getTeamName().equals("POR"))
+							||(temp[i].getTeamName().equals("UTA"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Pacific")){
+				for(int i = 0;i<temp.length;i++){
+					if((temp[i].getTeamName().equals("GSW"))
+							||(temp[i].getTeamName().equals("LAC"))
+							||(temp[i].getTeamName().equals("LAL"))
+							||(temp[i].getTeamName().equals("PHX"))
+							||(temp[i].getTeamName().equals("SAC"))){
+						res.add(temp[i]);
+					}
+				}
+			}
+		}
+		else{
+			if(Union.equals("null")){
+				for(int i =0 ;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+						res.add(temp[i]);
+					}
+				}
+			}
+			else if(Union.equals("Southeast")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("ATL"))
+							||(temp[i].getTeamName().equals("CHA"))
+							||(temp[i].getTeamName().equals("MIA"))
+							||(temp[i].getTeamName().equals("ORL"))
+							||(temp[i].getTeamName().equals("WAS"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+			else if(Union.equals("Central")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("CHI"))
+							||(temp[i].getTeamName().equals("DET"))
+							||(temp[i].getTeamName().equals("CLE"))
+							||(temp[i].getTeamName().equals("IND"))
+							||(temp[i].getTeamName().equals("MIL"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+			else if(Union.equals("Atlantic")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("BOS"))
+							||(temp[i].getTeamName().equals("BKN"))
+							||(temp[i].getTeamName().equals("NYK"))
+							||(temp[i].getTeamName().equals("PHI"))
+							||(temp[i].getTeamName().equals("TOR"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+			else if(Union.equals("Southwest")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("DAL"))
+							||(temp[i].getTeamName().equals("HOU"))
+							||(temp[i].getTeamName().equals("MEM"))
+							||(temp[i].getTeamName().equals("NOP"))
+							||(temp[i].getTeamName().equals("SAS"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+			else if(Union.equals("Northwest")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("DEN"))
+							||(temp[i].getTeamName().equals("MIN"))
+							||(temp[i].getTeamName().equals("OKC"))
+							||(temp[i].getTeamName().equals("POR"))
+							||(temp[i].getTeamName().equals("UTA"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+			else if(Union.equals("Pacific")){
+				for(int i = 0;i<temp.length;i++){
+					if(temp[i].getPosition().contains(position)){
+					if((temp[i].getTeamName().equals("GSW"))
+							||(temp[i].getTeamName().equals("LAC"))
+							||(temp[i].getTeamName().equals("LAL"))
+							||(temp[i].getTeamName().equals("PHX"))
+							||(temp[i].getTeamName().equals("SAC"))){
+						res.add(temp[i]);
+					}
+					}
+				}
+			}
+		}
+		PlayerDataPO[] res2 = new PlayerDataPO[res.size()];
+		for(int i =0;i<res2.length;i++){
+			res2[i] = res.get(i);
+		}
+		return res2 ;
 	}
 	public PlayerDataPO[] getSearch(String keys){
-		PlayerDataPO[] res = p.getSearch(keys);
-		return res;
+		PlayerDataPO[] temp = getAllInfo();
+		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
+		
+		for(int i = 0;i<temp.length;i++){
+			
+			if(temp[i].getName().contains(keys)){
+			res.add(temp[i]);
+			}
+			
+		}
+		PlayerDataPO[] res2 = new PlayerDataPO[res.size()];
+		for(int i =0;i<res2.length;i++){
+			res2[i] = res.get(i);
+		}
+		return res2 ;
 	}
 	public PlayerDataPO[] getAllSearch(String namekeys,String position,String Union){
-		PlayerDataPO[] res = p.getSelect(position, Union);
-		System.out.println(res[0].getName()+"dddd");
+		PlayerDataPO[] res = getSelect(position, Union);
 		if(namekeys.equals("null")){
 			return res;
 		}
@@ -554,18 +738,18 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 	}
 	public String initialize(String filepath){
-		if(p.judge()==true){
+		//if(p.judge()==true){
 		File root = new File(filepath);
 		File[] files = root.listFiles();
 		for(File file:files){
-			System.out.println(file.getName());
+			//System.out.println(file.getName());
 			analysData(file.getName());
 			
 		}
 		return "initialization completed.";
-		}
-		else{
-			return "has initialized";
-		}
+		//}
+		//else{
+		//	return "has initialized";
+		//}
 	}
 }
