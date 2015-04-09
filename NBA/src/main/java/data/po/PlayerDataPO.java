@@ -18,80 +18,171 @@ public class PlayerDataPO implements Serializable{
 	int Exp;//球龄
 	String school;//学校
 	String TeamName;//队伍
-	int GP;//比赛场数
-	int GS;//先发场数
 	
-	int backboard;//总篮板
-	double BPG;//场均篮板
 	
-	int assist;//助攻数
-	double APG;// 场均助攻
+	int GP = 0;//姣旇禌鍦烘暟
+	int GS = 0;//鍏堝彂鍦烘暟
 	
-	double MinutesOnField;//在场时间
-	double MPG;//场均时间
+	int totalb = 0;//鐞冮槦鎬荤鏉�
+	int totalbother = 0;//瀵规柟鐞冮槦鎬荤鏉�
+	int Offb = 0;//杩涙敾绡澘
+	int Defb = 0;
+	int backboard = 0;//鎬荤鏉�
+	double BPG;//鍦哄潎绡澘
 	
-	double FieldGoalPercentage;//投篮命中率
+	int assist = 0;//鍔╂敾鏁�
+	double APG;// 鍦哄潎鍔╂敾
 	
-	double ThreePGPercentage;//三分命中率
+	double totalminute = 0;//鐞冮槦鎬讳笂鍦烘椂闂�
+	double MinutesOnField = 0;//鍦ㄥ満鏃堕棿
+	double MPG = 0;//鍦哄潎鏃堕棿
 	
-	double FTPercentage;//罚球命中率，Free Throw
+	int OtherTotalFieldGoal = 0;//瀵归潰鐞冮槦鍑烘墜娆℃暟
+	int TotalGoal = 0;//鐞冮槦鎬诲嚭鎵�
+	int FieldGoal = 0;//鎶曠鍛戒腑
+	int TotalFieldGoal = 0;//鎶曠鎬绘暟
+	double FieldGoalPercentage ;//鎶曠鍛戒腑鐜�
 	
-	int Off;//进攻数
-	double OffPG;//场均
+	int ThreeGoal = 0;//涓夊垎鍛戒腑涓暟
+	int TotalThreeGoal = 0;//涓夊垎鎬诲嚭鎵�
+	double ThreePGPercentage ;//涓夊垎鍛戒腑鐜�
 	
-	int Def;//防守数
-	double DefPG;//场均
+	int AllFT = 0;//鐞冮槦缃氱悆娆℃暟
+	int FT = 0;//缃氱悆鍛戒腑
+	int TotalFT = 0;
+	double FTPercentage ;//缃氱悆鍛戒腑鐜囷紝Free Throw
 	
-	int Steal;//抢断数
-	double StealPG;//场均抢断
+	int TotalOffb = 0;//瀵规墜杩涙敾娆℃暟
+	int Off = 0;//杩涙敾鏁�
+	double OffPG = 0;//鍦哄潎
 	
-	int Rejection;//盖帽数
-	double RPG;//场均盖帽
+	int Def = 0;//闃插畧鏁�
+	double DefPG = 0;//鍦哄潎
 	
-	int To;//失误
-	double ToPG;//场均失误
+	int Steal = 0;//鎶㈡柇鏁�
+	double StealPG = 0;//鍦哄潎鎶㈡柇
 	
-	int foul;//犯规
-	double foulPG;//场均犯规
+	int Rejection = 0;//鐩栧附鏁�
+	double RPG = 0;//鍦哄潎鐩栧附
 	
-	int PTS;//得分
-	double PPG;//场均得分
+	int AllTo = 0;//鐞冮槦鎬诲け璇�
+	int To = 0;//澶辫
+	double ToPG = 0;//鍦哄潎澶辫
 	
-	double Eff;//效率
+	int foul = 0;//鐘
+	double foulPG = 0;//鍦哄潎鐘
 	
-	double Gmsc;//GMSC效率
+	int PTS = 0;//寰楀垎
+	double PPG = 0;//鍦哄潎寰楀垎
 	
-	double TruePercentage;//真实命中率
+	double Eff;//鏁堢巼
 	
-	double ShootEff;//投篮效率，
+	double Gmsc;//GMSC鏁堢巼
 	
-	double BackboardEff;//篮板率，
+	double TruePercentage;//鐪熷疄鍛戒腑鐜�
 	
-	double OffBEff;//进攻篮板率，
+	double ShootEff;//鎶曠鏁堢巼锛�
 	
-	double DefBEff;//防守篮板率，
+	double BackboardEff;//绡澘鐜囷紝
 	
-	double AssitEff;//助攻率，
+	double OffBEff;//杩涙敾绡澘鐜囷紝
 	
-	double StealEff;//抢断率，
+	double DefBEff;//闃插畧绡澘鐜囷紝
 	
-	double RejectionEff;//盖帽率，
+	double AssitEff;//鍔╂敾鐜囷紝
 	
-	double ToEff;//失误率，
+	double StealEff;//鎶㈡柇鐜囷紝
 	
-	double UseEff;//使用率
+	double RejectionEff;//鐩栧附鐜囷紝
+	
+	double ToEff;//澶辫鐜囷紝
+	
+	double UseEff;//浣跨敤鐜�
 
-	int Double;//两双
+	int Double = 0;//涓ゅ弻
 	
-	int FieldGoal;//投篮命中数
-	int TotalFieldGoal;//总出手数
 	
-	int ThreeGoal;//三分
-	int TotalThreeGoal;
 	
-	int FT;//罚球
-	int TotalFT;
-	
+	public int getTotalb() {
+		return totalb;
+	}
+
+	public void setTotalb(int totalb) {
+		this.totalb = totalb;
+	}
+
+	public int getTotalbother() {
+		return totalbother;
+	}
+
+	public void setTotalbother(int totalbother) {
+		this.totalbother = totalbother;
+	}
+
+	public int getOffb() {
+		return Offb;
+	}
+
+	public void setOffb(int offb) {
+		Offb = offb;
+	}
+
+	public int getDefb() {
+		return Defb;
+	}
+
+	public void setDefb(int defb) {
+		Defb = defb;
+	}
+
+	public double getTotalminute() {
+		return totalminute;
+	}
+
+	public void setTotalminute(double totalminute) {
+		this.totalminute = totalminute;
+	}
+
+	public int getOtherTotalFieldGoal() {
+		return OtherTotalFieldGoal;
+	}
+
+	public void setOtherTotalFieldGoal(int otherTotalFieldGoal) {
+		OtherTotalFieldGoal = otherTotalFieldGoal;
+	}
+
+	public int getTotalGoal() {
+		return TotalGoal;
+	}
+
+	public void setTotalGoal(int totalGoal) {
+		TotalGoal = totalGoal;
+	}
+
+	public int getAllFT() {
+		return AllFT;
+	}
+
+	public void setAllFT(int allFT) {
+		AllFT = allFT;
+	}
+
+	public int getTotalOffb() {
+		return TotalOffb;
+	}
+
+	public void setTotalOffb(int totalOffb) {
+		TotalOffb = totalOffb;
+	}
+
+	public int getAllTo() {
+		return AllTo;
+	}
+
+	public void setAllTo(int allTo) {
+		AllTo = allTo;
+	}
+
 	public int getFieldGoal() {
 		return FieldGoal;
 	}

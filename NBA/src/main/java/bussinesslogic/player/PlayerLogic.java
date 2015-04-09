@@ -12,13 +12,22 @@ import data.po.PlayerDataPO;
 public class PlayerLogic implements PlayerInfoService{
 	GetFileData g = new GetFileData();
 	PlayerDataPO AllInfo = new PlayerDataPO();
+	ArrayList<PlayerDataPO> PlayerList = new ArrayList<PlayerDataPO>();
 	//PlayerRmi p = new PlayerRmi();
 	PlayerDataInAndOut pio = new PlayerDataInAndOut();
-	public void analysData(String name) {
+	public void analysData(String filepath) {
 		// TODO Auto-generated method stub
-		String filepath = "./迭代一数据/players/info/" + name;
+		File root = new File(filepath);
+		File[] files = root.listFiles();
+		for(File file:files){
+			//System.out.println(file.getName());
+			
+			
+		
+		String filePath = "./迭代一数据/players/info/" + file.getName();
 		//System.out.println(filepath);
-		String basicInfo = g.readPlayerfile(filepath);
+		String basicInfo = g.readPlayerfile(filePath);
+		
 		String[] tempbasic = basicInfo.split("\n");
 
 		AllInfo.setName(tempbasic[0]);
@@ -36,93 +45,16 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 		
 		AllInfo.setSchool(tempbasic[8]);
-		getAllMatch("./迭代一数据/matches",name);
+		AllInfo.setTeamName("null");
+		PlayerList.add(AllInfo);
+		}
+		//loop over
+		getAllMatch("./迭代一数据/matches");
+		//写入所有数据
 		pio.WriteIn(AllInfo);
 	}
-	public void getAllMatch(String filepath,String name){
-		System.out.println(name);
-		int GP = 0;//姣旇禌鍦烘暟
-		int GS = 0;//鍏堝彂鍦烘暟
-		
-		int totalb = 0;//鐞冮槦鎬荤鏉�
-		int totalbother = 0;//瀵规柟鐞冮槦鎬荤鏉�
-		int Offb = 0;//杩涙敾绡澘
-		int Defb = 0;
-		int backboard = 0;//鎬荤鏉�
-		double BPG;//鍦哄潎绡澘
-		
-		int assist = 0;//鍔╂敾鏁�
-		double APG;// 鍦哄潎鍔╂敾
-		
-		double totalminute = 0;//鐞冮槦鎬讳笂鍦烘椂闂�
-		double MinutesOnField = 0;//鍦ㄥ満鏃堕棿
-		double MPG = 0;//鍦哄潎鏃堕棿
-		
-		int OtherTotalFieldGoal = 0;//瀵归潰鐞冮槦鍑烘墜娆℃暟
-		int TotalGoal = 0;//鐞冮槦鎬诲嚭鎵�
-		int FieldGoal = 0;//鎶曠鍛戒腑
-		int TotalFieldGoal = 0;//鎶曠鎬绘暟
-		double FieldGoalPercentage ;//鎶曠鍛戒腑鐜�
-		
-		int ThreeGoal = 0;//涓夊垎鍛戒腑涓暟
-		int TotalThreeGoal = 0;//涓夊垎鎬诲嚭鎵�
-		double ThreePGPercentage ;//涓夊垎鍛戒腑鐜�
-		
-		int AllFT = 0;//鐞冮槦缃氱悆娆℃暟
-		int FT = 0;//缃氱悆鍛戒腑
-		int TotalFT = 0;
-		double FTPercentage ;//缃氱悆鍛戒腑鐜囷紝Free Throw
-		
-		int TotalOffb = 0;//瀵规墜杩涙敾娆℃暟
-		int Off = 0;//杩涙敾鏁�
-		double OffPG = 0;//鍦哄潎
-		
-		int Def = 0;//闃插畧鏁�
-		double DefPG = 0;//鍦哄潎
-		
-		int Steal = 0;//鎶㈡柇鏁�
-		double StealPG = 0;//鍦哄潎鎶㈡柇
-		
-		int Rejection = 0;//鐩栧附鏁�
-		double RPG = 0;//鍦哄潎鐩栧附
-		
-		int AllTo = 0;//鐞冮槦鎬诲け璇�
-		int To = 0;//澶辫
-		double ToPG = 0;//鍦哄潎澶辫
-		
-		int foul = 0;//鐘
-		double foulPG = 0;//鍦哄潎鐘
-		
-		int PTS = 0;//寰楀垎
-		double PPG = 0;//鍦哄潎寰楀垎
-		
-		double Eff;//鏁堢巼
-		
-		double Gmsc;//GMSC鏁堢巼
-		
-		double TruePercentage;//鐪熷疄鍛戒腑鐜�
-		
-		double ShootEff;//鎶曠鏁堢巼锛�
-		
-		double BackboardEff;//绡澘鐜囷紝
-		
-		double OffBEff;//杩涙敾绡澘鐜囷紝
-		
-		double DefBEff;//闃插畧绡澘鐜囷紝
-		
-		double AssitEff;//鍔╂敾鐜囷紝
-		
-		double StealEff;//鎶㈡柇鐜囷紝
-		
-		double RejectionEff;//鐩栧附鐜囷紝
-		
-		double ToEff;//澶辫鐜囷紝
-		
-		double UseEff;//浣跨敤鐜�
-
-		int Double = 0;//涓ゅ弻
-		
-		AllInfo.setTeamName("null");
+	public void getAllMatch(String filepath){
+		//System.out.println(name);	
 		File root = new File(filepath);
 		File[] files = root.listFiles();
 		for(File file:files){
@@ -201,22 +133,23 @@ public class PlayerLogic implements PlayerInfoService{
 				
 				String[] temp = m.firstTeamInfo.get(i).split(";");
 				
-				if(temp[0].equals(name)){
-					AllInfo.setTeamName(m.firstTeamInfo.get(0));
+				for(int k = 0;k<PlayerList.size();k++){
+				if(temp[0].equals(PlayerList.get(k).getName())){
+					PlayerList.get(k).setTeamName(m.firstTeamInfo.get(0));
 					
-					totalb = totalb + firstb;
-					totalbother = totalbother + secondb;
-					totalminute = totalminute + firsttotaltime;
-					TotalGoal = TotalGoal + firstGoal;
-					OtherTotalFieldGoal = OtherTotalFieldGoal + secondGoal;
-					AllFT = AllFT + firstFT;
-					TotalOffb = TotalOffb + secondOffb;
-					AllTo = AllTo + firstTo;
+					PlayerList.get(k).setTotalb(PlayerList.get(k).getTotalb() + firstb); 
+					PlayerList.get(k).setTotalbother(PlayerList.get(k).getTotalbother()+ secondb);
+					PlayerList.get(k).setTotalminute(PlayerList.get(k).getTotalminute()+firsttotaltime);
+					PlayerList.get(k).setTotalGoal(PlayerList.get(k).getTotalGoal()+firstGoal);
+					PlayerList.get(k).setOtherTotalFieldGoal(PlayerList.get(k).getOtherTotalFieldGoal()+ secondGoal);
+					PlayerList.get(k).setAllFT(PlayerList.get(k).getAllFT()+firstFT);
+					PlayerList.get(k).setTotalOffb(PlayerList.get(k).getTotalOffb()+secondOffb);
+					PlayerList.get(k).setAllTo(PlayerList.get(k).getAllTo()+firstTo);
 					
-					GP++;
+					PlayerList.get(k).setGP(PlayerList.get(k).getGP()+1);
 					//System.out.println(file.getAbsolutePath());
 					if(!temp[1].equals("")){
-						GS++;
+						PlayerList.get(k).setGS(PlayerList.get(k).getGS()+1);
 					}
 					
 					try{
@@ -230,151 +163,185 @@ public class PlayerLogic implements PlayerInfoService{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					MinutesOnField = MinutesOnField + minute*60+seconds;
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
 					}catch(Exception e){
 						
 					}
 					
-					FieldGoal = FieldGoal + Integer.valueOf(temp[3]);
-					TotalFieldGoal = TotalFieldGoal + Integer.valueOf(temp[4]);
+					PlayerList.get(k).setFieldGoal(PlayerList.get(k).getFieldGoal()+Integer.valueOf(temp[3]));
+					PlayerList.get(k).setTotalFieldGoal(PlayerList.get(k).getTotalFieldGoal() + Integer.valueOf(temp[4]));
 					
-					ThreeGoal = ThreeGoal + Integer.valueOf(temp[5]);
-					TotalThreeGoal = TotalThreeGoal + Integer.valueOf(temp[6]);
+					PlayerList.get(k).setThreeGoal(PlayerList.get(k).getThreeGoal()+ Integer.valueOf(temp[5]));
+					PlayerList.get(k).setTotalThreeGoal(PlayerList.get(k).getTotalThreeGoal() + Integer.valueOf(temp[6]));
 					
-					FT = FT + Integer.valueOf(temp[7]);
-					TotalFT = TotalFT + Integer.valueOf(temp[8]);
+					PlayerList.get(k).setFT(PlayerList.get(k).getFT() + Integer.valueOf(temp[7]));
+					PlayerList.get(k).setTotalFT(PlayerList.get(k).getTotalFT() + Integer.valueOf(temp[8]));
 					
-					Offb = Offb + Integer.valueOf(temp[9]);
+					PlayerList.get(k).setOffb(PlayerList.get(k).getOffb() + Integer.valueOf(temp[9]));
 					
-					Defb = Defb + Integer.valueOf(temp[10]);
+					PlayerList.get(k).setDefb(PlayerList.get(k).getDefb() + Integer.valueOf(temp[10]));
 					
-					backboard = backboard + Integer.valueOf(temp[11]);
+					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
 					
-					assist = assist + Integer.valueOf(temp[12]);
+					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
 					
-					Rejection = Rejection + Integer.valueOf(temp[14]);
+					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
 					
-					Steal = Steal + Integer.valueOf(temp[13]);
+					PlayerList.get(k).setSteal(PlayerList.get(k).getSteal() + Integer.valueOf(temp[13]));
 					
-					To = To + Integer.valueOf(temp[15]);
+					PlayerList.get(k).setTo (PlayerList.get(k).getTo() + Integer.valueOf(temp[15]));
 					
-					foul = foul + Integer.valueOf(temp[16]);
+					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
 					try{
-						PTS = PTS + Integer.valueOf(temp[17]);
+						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
 					
 					}
 					int tempd = 0;
-					if(PTS>=10){
+					if(Integer.valueOf(temp[17])>=10){
 						tempd++;
 					}
-					if(backboard>=10){
+					if(Integer.valueOf(temp[11])>=10){
 						tempd++;
 					}
-					if(assist>=10){
+					if(Integer.valueOf(temp[12])>=10){
 						tempd++;
 					}
-					if(Rejection>=10){
+					if(Integer.valueOf(temp[13])>=10){
 						tempd++;
 					}
-					if(Steal>=10){
+					if(Integer.valueOf(temp[14])>=10){
 						tempd++;
 					}
 					if(tempd>=2){
-						Double++;
+						PlayerList.get(k).setDouble(PlayerList.get(k).getDouble()+1);
 					}
 					
 					break;
 				}
+				}
 			}
-			for(int i = 1;i<m.secondTeamInfo.size();i++){
+			for(int i = 1;i<m.secondTeamInfo.size();i++){//鏁翠釜鐞冮槦鐨勬暟鎹�
+				int fminute = 0;
+				int fseconds = 0;
+				
 				String[] temp = m.secondTeamInfo.get(i).split(";");
-				if(temp[0].equals(name)){
-					AllInfo.setTeamName(m.secondTeamInfo.get(0));
+				secondb = secondb + Integer.valueOf(temp[11]);
+				
+				try{
+				String[] ftime = temp[2].split(":");
+				if(temp[2].equals(null)){
 					
-					totalb = totalb + secondb;
-					totalbother = totalbother + firstb;
-					totalminute = totalminute + secondtotaltime;
-					TotalGoal = TotalGoal + secondGoal;
-					OtherTotalFieldGoal = OtherTotalFieldGoal + firstGoal;
-					AllFT = AllFT + secondFT;
-					TotalOffb = TotalOffb + firstOffb;
-					AllTo = AllTo + secondTo;
+				}
+				else{
+				 fminute = Integer.valueOf(ftime[0]);//time
+				fseconds = Integer.valueOf(ftime[1]);
+				}
+				secondtotaltime = secondtotaltime + fminute*60+fseconds;
+			
+				}
+				catch(Exception e){
 					
-					GP++;
+				}
+				
+				secondGoal = secondGoal + Integer.valueOf(temp[3]);
+				secondFT = secondFT + Integer.valueOf(temp[8]);
+				secondOffb = secondOffb + Integer.valueOf(temp[9]);
+				secondTo = secondTo + Integer.valueOf(temp[15]);
+			}
+			
+			for(int i = 1;i<m.secondTeamInfo.size();i++){				
+				
+				String[] temp = m.secondTeamInfo.get(i).split(";");
+				
+				for(int k = 0;k<PlayerList.size();k++){
+				if(temp[0].equals(PlayerList.get(k).getName())){
+					PlayerList.get(k).setTeamName(m.secondTeamInfo.get(0));
+					
+					PlayerList.get(k).setTotalb(PlayerList.get(k).getTotalb() + secondb); 
+					PlayerList.get(k).setTotalbother(PlayerList.get(k).getTotalbother()+ firstb);
+					PlayerList.get(k).setTotalminute(PlayerList.get(k).getTotalminute()+secondtotaltime);
+					PlayerList.get(k).setTotalGoal(PlayerList.get(k).getTotalGoal()+secondGoal);
+					PlayerList.get(k).setOtherTotalFieldGoal(PlayerList.get(k).getOtherTotalFieldGoal()+ firstGoal);
+					PlayerList.get(k).setAllFT(PlayerList.get(k).getAllFT()+secondFT);
+					PlayerList.get(k).setTotalOffb(PlayerList.get(k).getTotalOffb()+firstOffb);
+					PlayerList.get(k).setAllTo(PlayerList.get(k).getAllTo()+secondTo);
+					
+					PlayerList.get(k).setGP(PlayerList.get(k).getGP()+1);
 					//System.out.println(file.getAbsolutePath());
-					if(!temp[1].equals(null)){
-						GS++;
+					if(!temp[1].equals("")){
+						PlayerList.get(k).setGS(PlayerList.get(k).getGS()+1);
 					}
 					
 					try{
 					String[] time = temp[2].split(":");
 					int minute = 0;
 					int seconds = 0;
-					if(temp[2].equals("")){
+					if(temp[2].equals(null)){
 						
 					}
 					else{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					MinutesOnField = MinutesOnField + minute*60+seconds;
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
 					}catch(Exception e){
 						
 					}
 					
-					FieldGoal = FieldGoal + Integer.valueOf(temp[3]);
-					TotalFieldGoal = TotalFieldGoal + Integer.valueOf(temp[4]);
+					PlayerList.get(k).setFieldGoal(PlayerList.get(k).getFieldGoal()+Integer.valueOf(temp[3]));
+					PlayerList.get(k).setTotalFieldGoal(PlayerList.get(k).getTotalFieldGoal() + Integer.valueOf(temp[4]));
 					
-					ThreeGoal = ThreeGoal + Integer.valueOf(temp[5]);
-					TotalThreeGoal = TotalThreeGoal + Integer.valueOf(temp[6]);
+					PlayerList.get(k).setThreeGoal(PlayerList.get(k).getThreeGoal()+ Integer.valueOf(temp[5]));
+					PlayerList.get(k).setTotalThreeGoal(PlayerList.get(k).getTotalThreeGoal() + Integer.valueOf(temp[6]));
 					
-					FT = FT + Integer.valueOf(temp[7]);
-					TotalFT = TotalFT + Integer.valueOf(temp[8]);
+					PlayerList.get(k).setFT(PlayerList.get(k).getFT() + Integer.valueOf(temp[7]));
+					PlayerList.get(k).setTotalFT(PlayerList.get(k).getTotalFT() + Integer.valueOf(temp[8]));
 					
-					Offb = Offb + Integer.valueOf(temp[9]);
+					PlayerList.get(k).setOffb(PlayerList.get(k).getOffb() + Integer.valueOf(temp[9]));
 					
-					Defb = Defb + Integer.valueOf(temp[10]);
+					PlayerList.get(k).setDefb(PlayerList.get(k).getDefb() + Integer.valueOf(temp[10]));
 					
-					backboard = backboard + Integer.valueOf(temp[11]);
+					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
 					
-					assist = assist + Integer.valueOf(temp[12]);
+					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
 					
-					Rejection = Rejection + Integer.valueOf(temp[14]);
+					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
 					
-					Steal = Steal + Integer.valueOf(temp[13]);
+					PlayerList.get(k).setSteal(PlayerList.get(k).getSteal() + Integer.valueOf(temp[13]));
 					
-					To = To + Integer.valueOf(temp[15]);
+					PlayerList.get(k).setTo (PlayerList.get(k).getTo() + Integer.valueOf(temp[15]));
 					
-					foul = foul + Integer.valueOf(temp[16]);
-					
+					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
 					try{
-					PTS = PTS + Integer.valueOf(temp[17]);
+						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
-						
+					
 					}
 					int tempd = 0;
-					if(PTS>=10){
+					if(Integer.valueOf(temp[17])>=10){
 						tempd++;
 					}
-					if(backboard>=10){
+					if(Integer.valueOf(temp[11])>=10){
 						tempd++;
 					}
-					if(assist>=10){
+					if(Integer.valueOf(temp[12])>=10){
 						tempd++;
 					}
-					if(Rejection>=10){
+					if(Integer.valueOf(temp[13])>=10){
 						tempd++;
 					}
-					if(Steal>=10){
+					if(Integer.valueOf(temp[14])>=10){
 						tempd++;
 					}
 					if(tempd>=2){
-						Double++;
+						PlayerList.get(k).setDouble(PlayerList.get(k).getDouble()+1);
 					}
+					
 					break;
+				}
 				}
 			}
 			}catch(Exception e){
@@ -382,122 +349,109 @@ public class PlayerLogic implements PlayerInfoService{
 			}
 			
 		}
-		if(GP!=0){
-			BPG = backboard/(double)GP;
-			APG = assist/(double)GP;
-			MPG = MinutesOnField/(double)GP;
-			FieldGoalPercentage = FieldGoal/(double)TotalFieldGoal;
+		
+		
+		
+		
+		for(int i = 0;i<PlayerList.size();i++){
+			int backboard = PlayerList.get(i).getBackboard();
+			int GP =  PlayerList.get(i).getGP();
+			int assist =  PlayerList.get(i).getAssist();
+			double MinutesOnField =  PlayerList.get(i).getMinutesOnField();
+			int FieldGoal =  PlayerList.get(i).getFieldGoal();
+			int TotalFieldGoal =  PlayerList.get(i).getTotalFieldGoal();
+			int TotalThreeGoal =  PlayerList.get(i).getTotalThreeGoal();
+			int ThreeGoal =  PlayerList.get(i).getThreeGoal();
+			int Offb =  PlayerList.get(i).getOffb();
+			int Defb =  PlayerList.get(i).getDefb();
+			int Steal =  PlayerList.get(i).getSteal();
+			int Rejection =  PlayerList.get(i).getRejection();
+			int To =  PlayerList.get(i).getTo();
+			int foul =  PlayerList.get(i).getFoul();
+			int PTS =  PlayerList.get(i).getPTS();
+			int TotalFT =  PlayerList.get(i).getTotalFT();
+			int FT =  PlayerList.get(i).getFT();
+			double totalminute =  PlayerList.get(i).getTotalminute();
+			int totalb =  PlayerList.get(i).getTotalb();
+			int totalbother =  PlayerList.get(i).getTotalbother();
+			int TotalGoal =  PlayerList.get(i).getTotalGoal();
+			int TotalOffb =  PlayerList.get(i).getTotalOffb();
+			int OtherTotalFieldGoal =  PlayerList.get(i).getOtherTotalFieldGoal();
+			int AllFT  =  PlayerList.get(i).getAllFT();
+			int AllTo =  PlayerList.get(i).getAllTo();
+		if(PlayerList.get(i).getGP()!=0){
+			PlayerList.get(i).setBPG(backboard/(double)GP);
+			PlayerList.get(i).setAPG(assist/(double)GP);
+			PlayerList.get(i).setMPG( MinutesOnField/(double)GP);
+			PlayerList.get(i).setFieldGoalPercentage(FieldGoal/(double)TotalFieldGoal);
+			
 			if(TotalThreeGoal!=0){
-			ThreePGPercentage = ThreeGoal/(double)TotalThreeGoal;
+				PlayerList.get(i).setThreePGPercentage(ThreeGoal/(double)TotalThreeGoal);
 			}
 			else{
-				ThreePGPercentage = 0;
+				PlayerList.get(i).setThreePGPercentage(0);
 			}
 			if(TotalFT!=0){
-			FTPercentage = FT/(double)TotalFT;
+				PlayerList.get(i).setFTPercentage(FT/(double)TotalFT);
 			}
 			else{
-				FTPercentage = 0;
+				PlayerList.get(i).setFTPercentage(0);
 			}
-			Off = Offb;//杩涙敾鏁�
-			OffPG = Off/(double)GP;
-			Def = Defb;//闃插畧鏁�
-			DefPG = Def/(double)GP;
-			StealPG = Steal/(double)GP;
-			RPG = Rejection/(double)GP;
-			ToPG = To/(double)GP;
-			foulPG = foul/(double)GP;
-			PPG = PTS/(double)GP;
-			Eff =  (PTS+backboard+assist+Steal+Rejection)-(TotalFieldGoal-FieldGoal)-(TotalFT-FT)-To; 
-			Gmsc = PTS+0.4*FieldGoal-0.7*TotalFieldGoal-0.4*(TotalFT-FT)+0.7*Offb+0.3*Defb+Steal+0.7*assist+0.7*Rejection
-				-0.4*foul-To; 
-			TruePercentage =  PTS/(double)(2*(TotalFieldGoal+0.44*TotalFT));
-			ShootEff = (FieldGoal+0.5*ThreeGoal)/(double)TotalFieldGoal;//鎶曠鏁堢巼锛�	
-			BackboardEff = backboard*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) ;//绡澘鐜囷紝		
-			OffBEff = Offb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) ;//杩涙敾绡澘鐜囷紝		
-			DefBEff = Defb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) ;//闃插畧绡澘鐜囷紝		
-			AssitEff = assist/((double)MinutesOnField/((double)totalminute/5)*TotalGoal-TotalFieldGoal) ;//鍔╂敾鐜囷紝		
-			StealEff = Steal*((double)totalminute/5)/(double)MinutesOnField/TotalOffb;//鎶㈡柇鐜囷紝		
-			RejectionEff = Rejection*((double)totalminute/5)/(double)MinutesOnField/OtherTotalFieldGoal;//鐩栧附鐜囷紝		
-			ToEff = To/(double)(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To) ;//澶辫鐜囷紝		
-			UseEff =  (TotalFieldGoal+0.44*TotalFT+To)*(totalminute/5)/(double)MinutesOnField/(TotalGoal+0.44*AllFT
-						+AllTo) ;//浣跨敤鐜�
+			PlayerList.get(i).setOff(Offb);//杩涙敾鏁�
+			PlayerList.get(i).setOffPG( PlayerList.get(i).getOff()/(double)GP);
+			PlayerList.get(i).setDef(Defb);//闃插畧鏁�
+			PlayerList.get(i).setDefPG( PlayerList.get(i).getDef()/(double)GP);
+			PlayerList.get(i).setStealPG(Steal/(double)GP);
+			PlayerList.get(i).setRPG(Rejection/(double)GP);
+			PlayerList.get(i).setToPG(To/(double)GP);
+			PlayerList.get(i).setFoulPG(foul/(double)GP);
+			PlayerList.get(i).setPPG(PTS/(double)GP);
+			PlayerList.get(i).setEff( (PTS+backboard+assist+Steal+Rejection)-(TotalFieldGoal-FieldGoal)-(TotalFT-FT)-To); 
+			 PlayerList.get(i).setGmsc ( PTS+0.4*FieldGoal-0.7*TotalFieldGoal-0.4*(TotalFT-FT)+0.7*Offb+0.3*Defb+Steal+0.7*assist+0.7*Rejection
+				-0.4*foul-To); 
+			PlayerList.get(i).setTruePercentage(PTS/(double)(2*(TotalFieldGoal+0.44*TotalFT)));
+			PlayerList.get(i).setShootEff((FieldGoal+0.5*ThreeGoal)/(double)TotalFieldGoal);//鎶曠鏁堢巼锛�	
+			PlayerList.get(i).setBackboardEff ( backboard*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother)) ;//绡澘鐜囷紝		
+			PlayerList.get(i).setOffBEff(Offb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//杩涙敾绡澘鐜囷紝		
+			PlayerList.get(i).setDefBEff(Defb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//闃插畧绡澘鐜囷紝		
+			PlayerList.get(i).setAssitEff (assist/((double)MinutesOnField/((double)totalminute/5)*TotalGoal-TotalFieldGoal)) ;//鍔╂敾鐜囷紝		
+			PlayerList.get(i).setStealEff( Steal*((double)totalminute/5)/(double)MinutesOnField/TotalOffb);//鎶㈡柇鐜囷紝		
+			PlayerList.get(i).setRejectionEff ( Rejection*((double)totalminute/5)/(double)MinutesOnField/OtherTotalFieldGoal);//鐩栧附鐜囷紝		
+			PlayerList.get(i).setToEff ( To/(double)(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To) );//澶辫鐜囷紝		
+			PlayerList.get(i).setUseEff((TotalFieldGoal+0.44*TotalFT+To)*(totalminute/5)/(double)MinutesOnField/(TotalGoal+0.44*AllFT
+						+AllTo) );//浣跨敤鐜�
 		}
 		else{
-			BPG = 0;
-			APG = 0;
-			MPG = 0;
-			FieldGoalPercentage = 0;
-			ThreePGPercentage = 0;
-			FTPercentage = 0;
-			Off = 0;//杩涙敾鏁�
-			OffPG = 0;
-			Def = 0;//闃插畧鏁�
-			DefPG = 0;
-			StealPG =0;
-			RPG = 0;
-			ToPG = 0;
-			foulPG =0;
-			PPG = 0;
-			Eff =  0; 
-			Gmsc = 0; 
-			TruePercentage =  0;
-			ShootEff = 0;//鎶曠鏁堢巼锛�	
-			BackboardEff = 0;//绡澘鐜囷紝		
-			OffBEff = 0;//杩涙敾绡澘鐜囷紝		
-			DefBEff = 0;//闃插畧绡澘鐜囷紝		
-			AssitEff = 0;//鍔╂敾鐜囷紝		
-			StealEff = 0;//鎶㈡柇鐜囷紝		
-			RejectionEff = 0;//鐩栧附鐜囷紝		
-			ToEff =0 ;//澶辫鐜囷紝		
-			UseEff = 0;
+			PlayerList.get(i).setBPG(0);
+			PlayerList.get(i).setAPG(0);
+			PlayerList.get(i).setMPG (0);
+			PlayerList.get(i).setFieldGoalPercentage(0);
+			PlayerList.get(i).setThreePGPercentage (0);
+			PlayerList.get(i).setFTPercentage (0);
+			PlayerList.get(i).setOff (0);//杩涙敾鏁�
+			PlayerList.get(i).setOffPG (0);
+			PlayerList.get(i).setDef (0);//闃插畧鏁�
+			PlayerList.get(i).setDefPG (0);
+			PlayerList.get(i).setStealPG(0);
+			PlayerList.get(i).setRPG (0);
+			PlayerList.get(i).setToPG (0);
+			PlayerList.get(i).setFoulPG (0);
+			PlayerList.get(i).setPPG (0);
+			PlayerList.get(i).setEff (0);
+			PlayerList.get(i).setGmsc(0);
+			PlayerList.get(i).setTruePercentage(0);
+			PlayerList.get(i).setShootEff (0);//鎶曠鏁堢巼锛�	
+			PlayerList.get(i).setBackboardEff (0);//绡澘鐜囷紝		
+			PlayerList.get(i).setOffBEff (0);//杩涙敾绡澘鐜囷紝		
+			PlayerList.get(i).setDefBEff (0);//闃插畧绡澘鐜囷紝		
+			PlayerList.get(i).setAssitEff (0);//鍔╂敾鐜囷紝		
+			PlayerList.get(i).setStealEff (0);//鎶㈡柇鐜囷紝		
+			PlayerList.get(i).setRejectionEff (0);//鐩栧附鐜囷紝		
+			PlayerList.get(i).setToEff (0);//澶辫鐜囷紝		
+			PlayerList.get(i).setUseEff (0);
 		}
-		
-		AllInfo.setGP(GP);
-		AllInfo.setGS(GS);
-		AllInfo.setBackboard(backboard);
-		AllInfo.setBPG(BPG);
-		AllInfo.setAssist(assist);
-		AllInfo.setAPG(APG);
-		AllInfo.setMinutesOnField(MinutesOnField);
-		AllInfo.setMPG(MPG);
-		AllInfo.setFieldGoalPercentage(FieldGoalPercentage);
-		AllInfo.setThreePGPercentage(ThreePGPercentage);
-		AllInfo.setFTPercentage(FTPercentage);
-		AllInfo.setOff(Off);
-		AllInfo.setOffPG(OffPG);//off
-		AllInfo.setDef(Def);
-		AllInfo.setDefPG(DefPG);//def
-		AllInfo.setSteal(Steal);
-		AllInfo.setStealPG(StealPG);
-		AllInfo.setRejection(Rejection);
-		AllInfo.setRPG(RPG);
-		AllInfo.setTo(To);
-		AllInfo.setToPG(ToPG);
-		AllInfo.setFoul(foul);
-		AllInfo.setFoulPG(foulPG);
-		AllInfo.setPTS(PTS);
-		AllInfo.setPPG(PPG);
-		AllInfo.setEff(Eff);
-		AllInfo.setGmsc(Gmsc);
-		AllInfo.setTruePercentage(TruePercentage);
-		AllInfo.setShootEff(ShootEff);
-		AllInfo.setBackboardEff(BackboardEff);
-		AllInfo.setOffBEff(OffBEff);
-		AllInfo.setDefBEff(DefBEff);
-		AllInfo.setAssitEff(AssitEff);
-		AllInfo.setStealEff(StealEff);//steal
-		AllInfo.setRejectionEff(RejectionEff);
-		AllInfo.setToEff(ToEff);
-		AllInfo.setUseEff(UseEff);
-		AllInfo.setDouble(Double);
-		AllInfo.setFieldGoal(FieldGoal);
-		AllInfo.setTotalFieldGoal(TotalFieldGoal);
-		AllInfo.setThreeGoal(ThreeGoal);
-		AllInfo.setTotalThreeGoal(TotalThreeGoal);
-		AllInfo.setFT(FT);
-		AllInfo.setTotalFT(TotalFT);
-		
+		}
+			
 		//
 		//p.addInfo(AllInfo);
 	}
@@ -739,17 +693,19 @@ public class PlayerLogic implements PlayerInfoService{
 	}
 	public String initialize(String filepath){
 		//if(p.judge()==true){
-		File root = new File(filepath);
-		File[] files = root.listFiles();
-		for(File file:files){
-			//System.out.println(file.getName());
-			analysData(file.getName());
-			
-		}
-		return "initialization completed.";
+//		File root = new File(filepath);
+//		File[] files = root.listFiles();
+//		for(File file:files){
+//			//System.out.println(file.getName());
+//			analysData(file.getName());
+//			
+//		}
+//		return "initialization completed.";
 		//}
 		//else{
 		//	return "has initialized";
 		//}
+		analysData(filepath);
+		return "ok";
 	}
 }
