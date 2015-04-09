@@ -18,62 +18,21 @@ public class MatchDataPO implements Serializable{
 	String second_pts;
 	String third_pts;
 	String forth_pts;
-	
 	String fifth_pts;
 	String sixth_pts;
 	String seventh_pts;
 	
+ArrayList<Match_PlayerPO> players1=new ArrayList<Match_PlayerPO>();   //一队队员数据
+ArrayList<Match_PlayerPO> players2=new ArrayList<Match_PlayerPO>();  //二队队员数据
 	
-	
-	
-	/**
-	 * @return the fifth_pts
-	 */
-	public String getFifth_pts() {
-		return fifth_pts;
-	}
-	/**
-	 * @param fifth_pts the fifth_pts to set
-	 */
-	public void setFifth_pts(String fifth_pts) {
-		this.fifth_pts = fifth_pts;
-	}
-	/**
-	 * @return the sixth_pts
-	 */
-	public String getSixth_pts() {
-		return sixth_pts;
-	}
-	/**
-	 * @param sixth_pts the sixth_pts to set
-	 */
-	public void setSixth_pts(String sixth_pts) {
-		this.sixth_pts = sixth_pts;
-	}
-	/**
-	 * @return the seventh_pts
-	 */
-	public String getSeventh_pts() {
-		return seventh_pts;
-	}
-	/**
-	 * @param seventh_pts the seventh_pts to set
-	 */
-	public void setSeventh_pts(String seventh_pts) {
-		this.seventh_pts = seventh_pts;
-	}
-
 	double teamround1;  //1队进攻回合
 	double teamround2;
 	
-	
 	double team1Off;   //1队进攻篮板
-	double team1Def;
+	double team1Def; //1队防守篮板
 	
-	double team2Off;    //1队防守篮板
+	double team2Off;   
 	double team2Def;
-	
-	
 	
 	double lostSH1;    //1队投失球数
 	double lostSH2;
@@ -117,220 +76,183 @@ public class MatchDataPO implements Serializable{
 	double Foul2;
 	
 	
+	public ArrayList<Match_PlayerPO> getPlayers1() {
+		return players1;
+	}
+	public void setPlayers1(ArrayList<Match_PlayerPO> players1) {
+		this.players1 = players1;
+	}
+	public ArrayList<Match_PlayerPO> getPlayers2() {
+		return players2;
+	}
+	public void setPlayers2(ArrayList<Match_PlayerPO> players2) {
+		this.players2 = players2;
+	}
 	
-	/**
-	 * @return the team1bank
-	 */
+	public String getFifth_pts() {
+		return fifth_pts;
+	}
+
+	public void setFifth_pts(String fifth_pts) {
+		this.fifth_pts = fifth_pts;
+	}
+
+	public String getSixth_pts() {
+		return sixth_pts;
+	}
+	
+	public void setSixth_pts(String sixth_pts) {
+		this.sixth_pts = sixth_pts;
+	}
+	
+	public String getSeventh_pts() {
+		return seventh_pts;
+	}
+
+	public void setSeventh_pts(String seventh_pts) {
+		this.seventh_pts = seventh_pts;
+	}
+	
 	public double getTeam1bank() {
 		return team1bank;
 	}
-	/**
-	 * @param team1bank the team1bank to set
-	 */
+
 	public void setTeam1bank(double team1bank) {
 		this.team1bank = team1bank;
 	}
-	/**
-	 * @return the team2bank
-	 */
+	
 	public double getTeam2bank() {
 		return team2bank;
 	}
-	/**
-	 * @param team2bank the team2bank to set
-	 */
+
 	public void setTeam2bank(double team2bank) {
 		this.team2bank = team2bank;
 	}
-	/**
-	 * @return the shootEff1
-	 */
+
 	public double getShootEff1() {
 		return ShootEff1;
 	}
-	/**
-	 * @param shootEff1 the shootEff1 to set
-	 */
+
 	public void setShootEff1(double shootEff1) {
 		ShootEff1 = shootEff1;
 	}
-	/**
-	 * @return the shootEff2
-	 */
+
 	public double getShootEff2() {
 		return ShootEff2;
 	}
-	/**
-	 * @param shootEff2 the shootEff2 to set
-	 */
+
 	public void setShootEff2(double shootEff2) {
 		ShootEff2 = shootEff2;
 	}
-	/**
-	 * @return the tPShoot1
-	 */
+
 	public double getTPShoot1() {
 		return TPShoot1;
 	}
-	/**
-	 * @param tPShoot1 the tPShoot1 to set
-	 */
+	
 	public void setTPShoot1(double tPShoot1) {
 		TPShoot1 = tPShoot1;
 	}
-	/**
-	 * @return the tPShoot2
-	 */
+	
 	public double getTPShoot2() {
 		return TPShoot2;
 	}
-	/**
-	 * @param tPShoot2 the tPShoot2 to set
-	 */
+	
 	public void setTPShoot2(double tPShoot2) {
 		TPShoot2 = tPShoot2;
 	}
-	/**
-	 * @return the tPShootEff1
-	 */
+	
 	public double getTPShootEff1() {
 		return TPShootEff1;
 	}
-	/**
-	 * @param tPShootEff1 the tPShootEff1 to set
-	 */
+	
 	public void setTPShootEff1(double tPShootEff1) {
 		TPShootEff1 = tPShootEff1;
 	}
-	/**
-	 * @return the tPShootEff2
-	 */
+	
 	public double getTPShootEff2() {
 		return TPShootEff2;
 	}
-	/**
-	 * @param tPShootEff2 the tPShootEff2 to set
-	 */
+	
 	public void setTPShootEff2(double tPShootEff2) {
 		TPShootEff2 = tPShootEff2;
 	}
-	/**
-	 * @return the fTShootEff1
-	 */
+	
 	public double getFTShootEff1() {
 		return FTShootEff1;
 	}
-	/**
-	 * @param fTShootEff1 the fTShootEff1 to set
-	 */
+
 	public void setFTShootEff1(double fTShootEff1) {
 		FTShootEff1 = fTShootEff1;
 	}
-	/**
-	 * @return the fTShootEff2
-	 */
+	
 	public double getFTShootEff2() {
 		return FTShootEff2;
 	}
-	/**
-	 * @param fTShootEff2 the fTShootEff2 to set
-	 */
+
 	public void setFTShootEff2(double fTShootEff2) {
 		FTShootEff2 = fTShootEff2;
 	}
-	/**
-	 * @return the ass1
-	 */
+	
 	public double getAss1() {
 		return Ass1;
 	}
-	/**
-	 * @param ass1 the ass1 to set
-	 */
+	
 	public void setAss1(double ass1) {
 		Ass1 = ass1;
 	}
-	/**
-	 * @return the ass2
-	 */
+	
 	public double getAss2() {
 		return Ass2;
 	}
-	/**
-	 * @param ass2 the ass2 to set
-	 */
+	
 	public void setAss2(double ass2) {
 		Ass2 = ass2;
 	}
-	/**
-	 * @return the steal1
-	 */
+
 	public double getSteal1() {
 		return Steal1;
 	}
-	/**
-	 * @param steal1 the steal1 to set
-	 */
+
 	public void setSteal1(double steal1) {
 		Steal1 = steal1;
 	}
-	/**
-	 * @return the steal2
-	 */
+	
 	public double getSteal2() {
 		return Steal2;
 	}
-	/**
-	 * @param steal2 the steal2 to set
-	 */
+
 	public void setSteal2(double steal2) {
 		Steal2 = steal2;
 	}
-	/**
-	 * @return the rejection1
-	 */
+	
 	public double getRejection1() {
 		return Rejection1;
 	}
-	/**
-	 * @param rejection1 the rejection1 to set
-	 */
+
 	public void setRejection1(double rejection1) {
 		Rejection1 = rejection1;
 	}
-	/**
-	 * @return the rejection2
-	 */
+	
 	public double getRejection2() {
 		return Rejection2;
 	}
-	/**
-	 * @param rejection2 the rejection2 to set
-	 */
+
 	public void setRejection2(double rejection2) {
 		Rejection2 = rejection2;
 	}
-	/**
-	 * @return the foul1
-	 */
+	
 	public double getFoul1() {
 		return Foul1;
 	}
-	/**
-	 * @param foul1 the foul1 to set
-	 */
+
 	public void setFoul1(double foul1) {
 		Foul1 = foul1;
 	}
-	/**
-	 * @return the foul2
-	 */
+	
 	public double getFoul2() {
 		return Foul2;
 	}
-	/**
-	 * @param foul2 the foul2 to set
-	 */
+	
 	public void setFoul2(double foul2) {
 		Foul2 = foul2;
 	}

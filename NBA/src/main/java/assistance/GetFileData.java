@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 import data.po.MatchDataPO;
+import data.po.Match_PlayerPO;
 import data.po.TeamDataPO;
 
 public class GetFileData {
@@ -111,6 +112,7 @@ public class GetFileData {
 	
 	public MatchDataPO detailMatch(String filename){
 		MatchDataPO res = new MatchDataPO();
+		Match_PlayerPO player=new Match_PlayerPO();
 		try {
 			File f = new File(filename);
 			FileReader fr = new FileReader(f);
@@ -152,49 +154,86 @@ public class GetFileData {
 			data = br.readLine();  //跳过两行数据
 			while((data=br.readLine()).contains(";")){
 				String[] detail=data.split(";");
+				player.setTeam(res.getFirstteam());
+				player.setPlayername((detail[0]));
+				player.setState((detail[1]));
+				player.setTime((detail[2]));
+				player.setShootEff(Integer.parseInt(detail[3]));
 				res.setShootEff1(res.getShootEff1()+Integer.parseInt(detail[3]));
+				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot1(res.getShoot1()+Integer.parseInt(detail[4]));
+				player.setLostSH(Integer.parseInt(detail[4])-Integer.parseInt(detail[3]));
 				res.setLostSH1(res.getLostSH1()+Integer.parseInt(detail[4])-Integer.parseInt(detail[3]));
+				player.setTPShootEff(Integer.parseInt(detail[5]));
 				res.setTPShootEff1(res.getTPShootEff1()+Integer.parseInt(detail[5]));
+				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot1(res.getTPShoot1()+Integer.parseInt(detail[6]));
+				player.setFTShootEff(Integer.parseInt(detail[7]));
 				res.setFTShootEff1(res.getFTShootEff1()+Integer.parseInt(detail[7]));
+				player.setFT(Integer.parseInt(detail[8]));
 			    res.setFT1(res.getFT1()+Integer.parseInt(detail[8]));
+				player.setBankOff(Integer.parseInt(detail[9]));
 			    res.setTeam1Off(res.getTeam1Off()+Integer.parseInt(detail[9]));
+				player.setBankDef(Integer.parseInt(detail[10]));
 			    res.setTeam1Def(res.getTeam1Def()+Integer.parseInt(detail[10]));
+				player.setBank(Integer.parseInt(detail[11]));
 			    res.setTeam1bank(res.getTeam1bank()+Integer.parseInt(detail[11]));
+				player.setAss(Integer.parseInt(detail[12]));
 			    res.setAss1(res.getAss1()+Integer.parseInt(detail[12]));
+				player.setSteal(Integer.parseInt(detail[13]));
 			    res.setSteal1(res.getSteal1()+Integer.parseInt(detail[13]));
+				player.setRejection(Integer.parseInt(detail[14]));
 			    res.setRejection1(res.getRejection1()+Integer.parseInt(detail[14]));
+				player.setTo(Integer.parseInt(detail[15]));
 			    res.setTo1(res.getTo1()+Integer.parseInt(detail[15]));
+				player.setFoul(Integer.parseInt(detail[16]));
 			    res.setFoul1(res.getFoul1()+Integer.parseInt(detail[16]));
+			    res.getPlayers1().add(player);
 			}
 			 data=br.readLine();
 			while(data!=null){
-				
 				String[] detail=data.split(";");
+				player.setTeam(res.getSecondteam());
+				player.setPlayername((detail[0]));
+				player.setState((detail[1]));
+				player.setTime((detail[2]));
+				player.setShootEff(Integer.parseInt(detail[3]));
 				res.setShootEff2(res.getShootEff2()+Integer.parseInt(detail[3]));
+				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot2(res.getShoot2()+Integer.parseInt(detail[4]));
+				player.setLostSH(Integer.parseInt(detail[4])-Integer.parseInt(detail[3]));
 				res.setLostSH2(res.getLostSH2()+Integer.parseInt(detail[4])-Integer.parseInt(detail[3]));
+				player.setTPShootEff(Integer.parseInt(detail[5]));
 				res.setTPShootEff2(res.getTPShootEff2()+Integer.parseInt(detail[5]));
+				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot2(res.getTPShoot2()+Integer.parseInt(detail[6]));
+				player.setFTShootEff(Integer.parseInt(detail[7]));
 				res.setFTShootEff2(res.getFTShootEff2()+Integer.parseInt(detail[7]));
+				player.setFT(Integer.parseInt(detail[8]));
 			    res.setFT2(res.getFT2()+Integer.parseInt(detail[8]));
+				player.setBankOff(Integer.parseInt(detail[9]));
 			    res.setTeam2Off(res.getTeam2Off()+Integer.parseInt(detail[9]));
+				player.setBankDef(Integer.parseInt(detail[10]));
 			    res.setTeam2Def(res.getTeam2Def()+Integer.parseInt(detail[10]));
+				player.setBank(Integer.parseInt(detail[11]));
 			    res.setTeam2bank(res.getTeam2bank()+Integer.parseInt(detail[11]));
+				player.setAss(Integer.parseInt(detail[12]));
 			    res.setAss2(res.getAss2()+Integer.parseInt(detail[12]));
+				player.setSteal(Integer.parseInt(detail[13]));
 			    res.setSteal2(res.getSteal2()+Integer.parseInt(detail[13]));
+				player.setRejection(Integer.parseInt(detail[14]));
 			    res.setRejection2(res.getRejection2()+Integer.parseInt(detail[14]));
+				player.setTo(Integer.parseInt(detail[15]));
 			    res.setTo2(res.getTo2()+Integer.parseInt(detail[15]));
+				player.setFoul(Integer.parseInt(detail[16]));
 			    res.setFoul2(res.getFoul2()+Integer.parseInt(detail[16]));
+			    res.getPlayers2().add(player);
 			    data = br.readLine();
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-
 		return res;
 	}
 

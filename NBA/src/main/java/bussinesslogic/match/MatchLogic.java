@@ -1,10 +1,9 @@
 package bussinesslogic.match;
 
 import java.util.ArrayList;
-
-import rmiLink.MatchRmi;
 import assistance.GetFileData;
 import bslogicService.MatchInfoService;
+import data.match.Matchdata;
 import data.po.MatchDataPO;
 
 
@@ -12,11 +11,10 @@ import data.po.MatchDataPO;
 
 
 public class MatchLogic implements MatchInfoService{
-	MatchRmi m = new MatchRmi();
-	
-	private boolean isExit(){
+	Matchdata add = new Matchdata();
+/*	private boolean isExit(){
 		return m.judge();
-	} 
+	} */
 	
 
 	//返回一个包含回合数等信息的match
@@ -27,9 +25,9 @@ public class MatchLogic implements MatchInfoService{
 		for (int i = 0; i < fileList.length; i++) {
 			MatchList.add(calcuRound(MatchReader.detailMatch(fileList[i])));
 		}
-		System.out.println("calcuRound complete");
-		MatchRmi add = new MatchRmi();
-		add.addInfo(MatchList);
+		
+		add.writeIn(MatchList, MatchList.get(0).getFirstteam());
+		add.writeIn(MatchList, MatchList.get(0).getSecondteam());
 		System.out.println("match信息成功初始化！");
 		return MatchList;
 	}
@@ -47,22 +45,23 @@ public class MatchLogic implements MatchInfoService{
 				* match.getTo2());
 		return match;
 	}
+	
+	public void addMatch(MatchDataPO match){
+		add.writeIn(calcuRound(match), match.getFirstteam());
+		add.writeIn(calcuRound(match), match.getSecondteam());
+	}
 
 	public ArrayList<MatchDataPO> GetAllInfo() {
-		if(!isExit()){
-			return m.getAllInfo();
-		}
 		return getMatchDetail();
 	}
 
 	public ArrayList<MatchDataPO> GetInfo(String team1, String team2, String data) {
-		return m.getInfo(team1, team2, data);
+		return    null;/* m.getInfo(team1, team2, data);*/
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		MatchLogic match = new MatchLogic();
-		System.out.println(match.isExit());
 		System.out.println(match.GetAllInfo().size());
-	}*/
+	}
 
 }
