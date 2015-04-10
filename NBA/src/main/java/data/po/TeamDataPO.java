@@ -12,94 +12,191 @@ public class TeamDataPO implements Serializable {
 	String ShortName; // 缩写
 	String City;// 城市
 	String EorW;// 东西部
-	String area;// 分区
-	String mainposition;// 场馆
-	String players; // 球员，以英文分号隔开 形如 xxx;xxx;xxx;。。。;
+	String Area;// 分区
+	String Mainposition;// 场馆
+	String Players; // 球员，以英文分号隔开 形如 xxx;xxx;xxx;。。。;
 
-	int buildyear;// 年份
-
+	int Buildyear;// 年份
 	double MatchNumber;// 比赛场数
-
 	double WinMatch; // 胜场数
-
 	int ShootNumber;// 投篮数
 	double ShootNumberPG;// 场均投篮
-
 	double ShootEffNumber;// 投篮命中数
 	double ShootEffNumberPG;// 场均
-
 	int TPNumber;// 三分出手数
 	double TPNumberPG;// 场均
-
 	double TPEffNumber;// 三分命中数
 	double TPEffNumberPG;// 场均
-
 	double FTEffNumber;// 罚球命中数
 	double FTEffNumberPG;// 场均
-
 	int FTNumber;// 罚球出手数
 	double FTNumberPG;// 场均
-
 	double OffBackBoard;// 进攻篮板
 	double OffBackBoardPG;// 场均
-
 	double DefBackBoard;// 防守篮板
 	double DefBackBoradPG;// 场均
-
 	double OtherDefBoard;// 对手后场篮板
 	double OtherOffBoard;// 对手前场篮板
-
 	int BackBoard;// 篮板数
 	double BackBoardPG;// 场均
-
 	int AssitNumber;// 助攻数
 	double AssitNumberPG;
-
 	int StealNumber;// 抢断数
 	double StealNumberPG;
-
 	int Rejection;// 盖帽数，
 	double RejectionPG;
-
 	int To;// 失误数
 	double ToPG;
-
 	int Foul;// 犯规数，
 	double FoulPG;
-
 	int PTS;// 比赛得分，
 	double PPG;
-
 	double LPS;// 比赛失分
 	double LPG;// 场均失分
-
 	double ShootEff;// 投篮命中率，
-
 	double TPEff;// 三分命中率，
-
 	double FTEff;// 罚球命中率，
-
 	double WR;// 胜率，
-
 	double Off;// 进攻回合，
 	double OffPG;
-
 	double Def;// 防守回合，
 	double DefPG;
-
 	double OffEff;// 进攻效率，
-
 	double DefEff;// 防守效率，
-
 	double OffBackBoardEff;// 进攻篮板效率，
-
 	double BackBoardEff;// 篮板效率，
-
 	double DefBackBoardEff;// 防守篮板效率，
-
 	double StealEff;// 抢断效率，
-
 	double AssistEff;// 助攻率
+
+	public double getDoubleProperty(String property_double) {
+		if (property_double.equals("Buildyear"))
+			return this.Buildyear;
+		else if (property_double.equals("MatchNumber"))
+			return this.MatchNumber;
+		else if (property_double.equals("WinMatch"))
+			return this.WinMatch;
+		else if (property_double.equals("ShootNumber"))
+			return this.ShootNumber;
+		else if (property_double.equals("ShootNumberPG"))
+			return this.ShootNumberPG;
+		else if (property_double.equals("ShootEffNumber"))
+			return this.ShootEffNumber;
+		else if (property_double.equals("ShootEffNumberPG"))
+			return this.ShootEffNumberPG;
+		else if (property_double.equals("TPNumber"))
+			return this.TPNumber;
+		else if (property_double.equals("TPNumberPG"))
+			return this.TPNumberPG;
+		else if (property_double.equals("TPEffNumber"))
+			return this.TPEffNumber;
+		else if (property_double.equals("TPEffNumberPG"))
+			return this.TPEffNumberPG;
+		else if (property_double.equals("FTEffNumber"))
+			return this.FTEffNumber;
+		else if (property_double.equals("FTEffNumberPG"))
+			return this.FTEffNumberPG;
+		else if (property_double.equals("FTNumber"))
+			return this.FTNumber;
+		else if (property_double.equals("FTNumberPG"))
+			return this.FTNumberPG;
+		else if (property_double.equals("OffBackBoard"))
+			return this.OffBackBoard;
+		else if (property_double.equals("OffBackBoardPG"))
+			return this.OffBackBoardPG;
+		else if (property_double.equals("DefBackBoard"))
+			return this.DefBackBoard;
+		else if (property_double.equals("DefBackBoradPG"))
+			return this.DefBackBoradPG;
+		else if (property_double.equals("OtherDefBoard"))
+			return this.OtherDefBoard;
+		else if (property_double.equals("OtherOffBoard"))
+			return this.OtherOffBoard;
+		else if (property_double.equals("BackBoard"))
+			return this.BackBoard;
+		else if (property_double.equals("BackBoardPG"))
+			return this.BackBoardPG;
+		else if (property_double.equals("AssitNumber"))
+			return this.AssitNumber;
+		else if (property_double.equals("AssitNumberPG"))
+			return this.AssitNumberPG;
+		else if (property_double.equals("StealNumber"))
+			return this.StealNumber;
+		else if (property_double.equals("StealNumberPG"))
+			return this.StealNumberPG;
+		else if (property_double.equals("AssistEff"))
+			return this.AssistEff;
+		else if (property_double.equals("StealEff"))
+			return this.StealEff;
+		else if (property_double.equals("DefBackBoardEff"))
+			return this.DefBackBoardEff;
+		else if (property_double.equals("OffBackBoardEff"))
+			return this.OffBackBoardEff;
+		else if (property_double.equals("DefEff"))
+			return this.DefEff;
+		else if (property_double.equals("OffEff"))
+			return this.OffEff;
+		else if (property_double.equals("DefPG"))
+			return this.DefPG;
+		else if (property_double.equals("Def"))
+			return this.Def;
+		else if (property_double.equals("OffPG"))
+			return this.OffPG;
+		else if (property_double.equals("Off"))
+			return this.OffPG;
+		else if (property_double.equals("WR"))
+			return this.WR;
+		else if (property_double.equals("Rejection"))
+			return this.Rejection;
+		else if (property_double.equals("RejectionPG"))
+			return this.RejectionPG;
+		else if (property_double.equals("To"))
+			return this.To;
+		else if (property_double.equals("ToPG"))
+			return this.ToPG;
+		else if (property_double.equals("Foul"))
+			return this.Foul;
+		else if (property_double.equals("FoulPG"))
+			return this.FoulPG;
+		else if (property_double.equals("PTS"))
+			return this.PTS;
+		else if (property_double.equals("PPG"))
+			return this.PPG;
+		else if (property_double.equals("LPS"))
+			return this.LPS;
+		else if (property_double.equals("LPG"))
+			return this.LPG;
+		else if (property_double.equals("ShootEff"))
+			return this.ShootEff;
+		else if (property_double.equals("TPEff"))
+			return this.TPEff;
+		else if (property_double.equals("FTEff"))
+			return this.FTEff;
+
+		else {
+			return this.Buildyear;
+		}
+	}
+
+	public String getStringProperty(String property_stirng) {
+		if (property_stirng.equals("Name"))
+			return this.Name;
+		if (property_stirng.equals("ShortName"))
+			return this.ShortName;
+		if (property_stirng.equals("City"))
+			return this.City;
+		if (property_stirng.equals("EorW"))
+			return this.EorW;
+		if (property_stirng.equals("Area"))
+			return this.Area;
+		if (property_stirng.equals("Mainposition"))
+			return this.Mainposition;
+		if (property_stirng.equals("Players"))
+			return this.Players;
+		else {
+			return this.Name;
+		}
+	}
 
 	public double getLPS() {
 		return LPS;
@@ -110,7 +207,7 @@ public class TeamDataPO implements Serializable {
 		LPS = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
-	public double getLPG() {	
+	public double getLPG() {
 		return LPG;
 	}
 
@@ -128,11 +225,11 @@ public class TeamDataPO implements Serializable {
 	}
 
 	public String getPlayers() {
-		return players;
+		return Players;
 	}
 
 	public void setPlayers(String players) {
-		this.players = players;
+		this.Players = players;
 	}
 
 	public String getName() {
@@ -168,27 +265,27 @@ public class TeamDataPO implements Serializable {
 	}
 
 	public String getArea() {
-		return area;
+		return Area;
 	}
 
 	public void setArea(String area) {
-		this.area = area;
+		this.Area = area;
 	}
 
 	public String getMainposition() {
-		return mainposition;
+		return Mainposition;
 	}
 
 	public void setMainposition(String mainposition) {
-		this.mainposition = mainposition;
+		this.Mainposition = mainposition;
 	}
 
 	public int getBuildyear() {
-		return buildyear;
+		return Buildyear;
 	}
 
 	public void setBuildyear(int buildyear) {
-		this.buildyear = buildyear;
+		this.Buildyear = buildyear;
 	}
 
 	public double getMatchNumber() {
@@ -231,7 +328,8 @@ public class TeamDataPO implements Serializable {
 
 	public void setShootEffNumberPG(double shootEffNumberPG) {
 		BigDecimal bg = new BigDecimal(shootEffNumberPG);
-		ShootEffNumberPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		ShootEffNumberPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP)
+				.doubleValue();
 	}
 
 	public int getTPNumber() {
@@ -561,7 +659,8 @@ public class TeamDataPO implements Serializable {
 
 	public void setOffBackBoardEff(double offbackBoardEff) {
 		BigDecimal bg = new BigDecimal(offbackBoardEff);
-		OffBackBoardEff = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+		OffBackBoardEff = bg.setScale(3, BigDecimal.ROUND_HALF_UP)
+				.doubleValue();
 	}
 
 	public double getDefBackBoardEff() {
@@ -570,7 +669,8 @@ public class TeamDataPO implements Serializable {
 
 	public void setDefBackBoardEff(double defbackBoardEff) {
 		BigDecimal bg = new BigDecimal(defbackBoardEff);
-		DefBackBoardEff = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+		DefBackBoardEff = bg.setScale(3, BigDecimal.ROUND_HALF_UP)
+				.doubleValue();
 	}
 
 	public double getStealEff() {

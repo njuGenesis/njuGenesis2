@@ -80,11 +80,9 @@ ArrayList<Match_PlayerPO> players2=new ArrayList<Match_PlayerPO>();  //二队队
 	
 	double Rejection1;//1队盖帽数
 	double Rejection2;
-	
-	
+
 	double Foul1;//1队犯规数
 	double Foul2;
-	
 	
 	public ArrayList<Match_PlayerPO> getPlayers1() {
 		return players1;
