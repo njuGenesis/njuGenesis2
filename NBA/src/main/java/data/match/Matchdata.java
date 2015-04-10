@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import data.po.MatchDataPO;
 
 public class Matchdata implements Serializable {
@@ -16,12 +17,12 @@ public class Matchdata implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// 写入一组matchPO
-	public void writeIn(ArrayList<MatchDataPO> matches, String shotrName) {
+	public void writeIn(ArrayList<MatchDataPO> matches) {
 		try {
-			File matchFile = new File("matchInfo" + "/" + shotrName + ".ser");
+			File matchFile = new File("matchInfo" + "/" + "matchInfo" + ".ser");
 			FileOutputStream fos = new FileOutputStream(matchFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			ArrayList<MatchDataPO> originMatch = readOut(shotrName);
+			ArrayList<MatchDataPO> originMatch = readOut();
 			originMatch.addAll(matches);
 			oos.writeObject(originMatch);
 			fos.close();
@@ -32,12 +33,12 @@ public class Matchdata implements Serializable {
 	}
 
 	// 写入一个matchPO
-	public void writeIn(MatchDataPO matches, String shotrName) {
+	public void writeIn(MatchDataPO matches) {
 		try {
-			File matchFile = new File("matchInfo" + "/" + shotrName + ".ser");
+			File matchFile = new File("matchInfo" + "/" + "matchInfo" + ".ser");
 			FileOutputStream fos = new FileOutputStream(matchFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			ArrayList<MatchDataPO> originMatch = readOut(shotrName);
+			ArrayList<MatchDataPO> originMatch = readOut();
 			originMatch.add(matches);
 			oos.writeObject(matches);
 			fos.close();
@@ -48,9 +49,9 @@ public class Matchdata implements Serializable {
 	}
 
 	// 读取一个队伍所有的比赛信息
-	public ArrayList<MatchDataPO> readOut(String shotrName) {
+	public ArrayList<MatchDataPO> readOut() {
 		try {
-			File matchFile = new File("matchInfo" + "/" + shotrName);
+			File matchFile = new File("matchInfo" + "/" + "matchInfo");
 			if (!matchFile.exists()) {
 				ArrayList<MatchDataPO> Null = new ArrayList<MatchDataPO>();
 				return Null;
@@ -66,14 +67,36 @@ public class Matchdata implements Serializable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		ArrayList<MatchDataPO> Null = new ArrayList<MatchDataPO>();
+		return Null;
+	}
+	
+	
+	// 读取一个队伍所有的比赛信息
+	private ArrayList<MatchDataPO> readOut(File shotrName) {
+		try {
+			if (!shotrName.exists()) {
+				ArrayList<MatchDataPO> Null = new ArrayList<MatchDataPO>();
+				return Null;
+			}
+			FileInputStream fos = new FileInputStream(shotrName);
+			ObjectInputStream oos = new ObjectInputStream(fos);
+			@SuppressWarnings("unchecked")
+			ArrayList<MatchDataPO> matches = (ArrayList<MatchDataPO>) oos
+					.readObject();
+			fos.close();
+			oos.close();
+			return matches;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		ArrayList<MatchDataPO> Null = new ArrayList<MatchDataPO>();
 		return Null;
 	}
 
 	// 读取一个队伍某个时间段内的比赛（包括startDate和endDate） 
 	public ArrayList<MatchDataPO>readMatch(String startDate, String endDate, String shotrName) {
-		ArrayList<MatchDataPO> matches = readOut(shotrName);
+		ArrayList<MatchDataPO> matches = readOut();
 		for (int i = 0; i < matches.size(); i++) {
 			if (matches.get(i).getDate().compareTo(startDate) < 0
 					|| matches.get(i).getDate().compareTo(endDate) > 0) {
@@ -87,15 +110,15 @@ public class Matchdata implements Serializable {
 	public ArrayList<MatchDataPO> GetAllMatch() {
 		ArrayList<MatchDataPO> result = new ArrayList<MatchDataPO>();
 		File floder = new File("matchInfo");
-		for (int i = 0; i < floder.list().length; i++) {
-			result.addAll(readOut(floder.list()[i]));
+		for (int i = 0; i < floder.listFiles().length; i++) {
+			result.addAll(readOut(floder.listFiles()[i]));
 		}
 		return result;
 	}
 
 	public static void main(String[] args) {
 		Matchdata read = new Matchdata();
-		System.out.println(read.GetAllMatch().size());
+		read.GetAllMatch().size();
 	}
 
 }

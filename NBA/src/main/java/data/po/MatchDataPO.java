@@ -9,6 +9,16 @@ public class MatchDataPO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	boolean Valid=true;
+	
+	
+	public boolean isValid() {
+		return Valid;
+	}
+	public void setValid(boolean valid) {
+		this.Valid = valid;
+	}
+
 	String date;
 	String firstteam;
 	String secondteam;

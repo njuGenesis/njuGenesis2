@@ -25,7 +25,6 @@ public class TeamLogic implements TeamInfoService {
 					if (!Teams.get(k).getPlayers().contains(players[i].getName() )) {
 						Teams.get(k).setPlayers(Teams.get(k).getPlayers() + players[i].getName() + ";");
 					}
-					System.out.println(Teams.get(k).getPlayers());
 					break;
 				}
 			}
@@ -34,24 +33,29 @@ public class TeamLogic implements TeamInfoService {
 
 	// 球队名称，所在地等从teams文件里直接读取的信息
 	public void initTeamData() {
+	
 		GetFileData MatchFileReader = new GetFileData();
 		Teams = MatchFileReader.readTeamfile(); // 球队基本信息初始化
 		MatchLogic matchLogic = new MatchLogic();
 		ArrayList<MatchDataPO> Matches = matchLogic.GetAllInfo(); // 一个含有全部比赛基本信息的集合
+		
+		
+		
 		for (int i = 0; i < Matches.size(); i++) {
+			if(Matches.get(i).isValid())
 			calcuPoints(Matches.get(i).getPoints(), Matches.get(i)
 					.getFirstteam(), Matches.get(i).getSecondteam());
 		}
 		for (int i = 0; i < Matches.size(); i++) {
+			if(Matches.get(i).isValid())
 			calcuRate(Matches.get(i), Matches.get(i).getFirstteam(), Matches
 					.get(i).getSecondteam());
 		}
 		PlayerLogic getPlayers = new PlayerLogic();
 		saveTeamPlayer(getPlayers.getAllInfo());
-
 		TeamData add = new TeamData();
 		add.WriteIn(Teams);
-		System.out.println("team信息成功初始化！");
+		
 	}
 
 	// 计算球队的比赛场数，总得分和均分
@@ -339,11 +343,10 @@ public class TeamLogic implements TeamInfoService {
 	}
 
 	public static void main(String[] args) {
+		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
-		MatchLogic match = new MatchLogic();
 		team.initTeamData();
-		System.out.println(team.GetAllInfo().size());
-		System.out.println(match.GetAllInfo().size());
+		System.out.println(MatchLogic.getTime());
 	}
 
 

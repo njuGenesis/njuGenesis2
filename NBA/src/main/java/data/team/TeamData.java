@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import bussinesslogic.match.MatchLogic;
 import data.po.TeamDataPO;
 
 
@@ -34,7 +35,6 @@ public class TeamData {
 						name=floder.list()[i];
 					}
 				}
-				System.out.println(name);
 				FileInputStream fos = new FileInputStream("./TeamInfo/"+name);
 				ObjectInputStream oos = new ObjectInputStream(fos);
 				TeamDataPO res = (TeamDataPO) oos.readObject();
