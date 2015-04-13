@@ -11,53 +11,58 @@ import data.po.PlayerDataPO;
 
 public class PlayerLogic implements PlayerInfoService{
 	GetFileData g = new GetFileData();
-	PlayerDataPO AllInfo = new PlayerDataPO();
+	
 	ArrayList<PlayerDataPO> PlayerList = new ArrayList<PlayerDataPO>();
 	//PlayerRmi p = new PlayerRmi();
 	PlayerDataInAndOut pio = new PlayerDataInAndOut();
-	public void analysData(String filepath) {
+	public void analysData(String filepath,String season) {
 		// TODO Auto-generated method stub
+		PlayerList.clear();
 		File root = new File(filepath);
 		File[] files = root.listFiles();
-		for(File file:files){
-			//System.out.println(file.getName());
-			
-			
-		
+		for(File file:files){		
 		String filePath = "./迭代一数据/players/info/" + file.getName();
 		//System.out.println(filepath);
 		String basicInfo = g.readPlayerfile(filePath);
-		
 		String[] tempbasic = basicInfo.split("\n");
-
-		AllInfo.setName(tempbasic[0]);
-		AllInfo.setNumber(tempbasic[1]);
-		AllInfo.setPosition(tempbasic[2]);
-		AllInfo.setHeight(tempbasic[3]);
-		AllInfo.setWeight(Double.valueOf(tempbasic[4]));
-		AllInfo.setBirth(tempbasic[5]);
-		AllInfo.setAge(Integer.valueOf(tempbasic[6]));
+		PlayerDataPO temp = new PlayerDataPO();
+		temp.setName(tempbasic[0].replaceAll("\\.", ""));	
+		temp.setNumber(tempbasic[1]);
+		temp.setPosition(tempbasic[2]);
+		temp.setHeight(tempbasic[3]);
+		temp.setWeight(Double.valueOf(tempbasic[4]));
+		temp.setBirth(tempbasic[5]);
+		temp.setAge(Integer.valueOf(tempbasic[6]));
 		if(tempbasic[7].equals("R")){
-			AllInfo.setExp(0);
+			temp.setExp(0);
 		}
 		else{
-			AllInfo.setExp(Integer.valueOf(tempbasic[7]));
+			temp.setExp(Integer.valueOf(tempbasic[7]));
 		}
 		
-		AllInfo.setSchool(tempbasic[8]);
-		AllInfo.setTeamName("null");
-		PlayerList.add(AllInfo);
+		temp.setSchool(tempbasic[8]);
+		temp.setTeamName("null");
+		//System.out.println(AllInfo.getName());
+		
+		PlayerList.add(temp);
+		
 		}
 		//loop over
-		getAllMatch("./迭代一数据/matches");
+		getAllMatch("./迭代一数据/matches",season);
 		//写入所有数据
-		pio.WriteIn(AllInfo);
+		System.out.print(PlayerList.size());
+		for(int i = 0;i<PlayerList.size();i++){	
+			//System.out.println(PlayerList.get(i).getName());
+		pio.WriteIn(PlayerList.get(i),season);
+		}
 	}
-	public void getAllMatch(String filepath){
+	public void getAllMatch(String filepath,String season){
 		//System.out.println(name);	
 		File root = new File(filepath);
 		File[] files = root.listFiles();
 		for(File file:files){
+			if(file.getName().startsWith(season)){
+				//System.out.println(file.getAbsolutePath());
 			MatchDataPO m = g.readMatchfile(file.getAbsolutePath());
 			
 			int firstb = 0;//鐞冮槦鎬荤鏉�
@@ -134,7 +139,9 @@ public class PlayerLogic implements PlayerInfoService{
 				String[] temp = m.firstTeamInfo.get(i).split(";");
 				
 				for(int k = 0;k<PlayerList.size();k++){
+					
 				if(temp[0].equals(PlayerList.get(k).getName())){
+					
 					PlayerList.get(k).setTeamName(m.firstTeamInfo.get(0));
 					
 					PlayerList.get(k).setTotalb(PlayerList.get(k).getTotalb() + firstb); 
@@ -196,7 +203,7 @@ public class PlayerLogic implements PlayerInfoService{
 						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
-					
+						temp[17] = "0";
 					}
 					int tempd = 0;
 					if(Integer.valueOf(temp[17])>=10){
@@ -318,7 +325,7 @@ public class PlayerLogic implements PlayerInfoService{
 						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
-					
+					   temp[17] = "0";
 					}
 					int tempd = 0;
 					if(Integer.valueOf(temp[17])>=10){
@@ -345,12 +352,13 @@ public class PlayerLogic implements PlayerInfoService{
 				}
 			}
 			}catch(Exception e){
+				
 				System.out.println(file.getAbsolutePath());
 			}
 			
 		}
 		
-		
+		}
 		
 		
 		for(int i = 0;i<PlayerList.size();i++){
@@ -383,8 +391,12 @@ public class PlayerLogic implements PlayerInfoService{
 			PlayerList.get(i).setBPG(backboard/(double)GP);
 			PlayerList.get(i).setAPG(assist/(double)GP);
 			PlayerList.get(i).setMPG( MinutesOnField/(double)GP);
+			if(TotalFieldGoal!=0){
 			PlayerList.get(i).setFieldGoalPercentage(FieldGoal/(double)TotalFieldGoal);
-			
+			}
+			else{
+				PlayerList.get(i).setFieldGoalPercentage(0);
+			}
 			if(TotalThreeGoal!=0){
 				PlayerList.get(i).setThreePGPercentage(ThreeGoal/(double)TotalThreeGoal);
 			}
@@ -409,15 +421,34 @@ public class PlayerLogic implements PlayerInfoService{
 			PlayerList.get(i).setEff( (PTS+backboard+assist+Steal+Rejection)-(TotalFieldGoal-FieldGoal)-(TotalFT-FT)-To); 
 			 PlayerList.get(i).setGmsc ( PTS+0.4*FieldGoal-0.7*TotalFieldGoal-0.4*(TotalFT-FT)+0.7*Offb+0.3*Defb+Steal+0.7*assist+0.7*Rejection
 				-0.4*foul-To); 
+			 
+			 if((2*(TotalFieldGoal+0.44*TotalFT))!=0){
 			PlayerList.get(i).setTruePercentage(PTS/(double)(2*(TotalFieldGoal+0.44*TotalFT)));
+			 }
+			 else{
+				 PlayerList.get(i).setTruePercentage(0);
+			 }
+			 
+			 if(TotalFieldGoal!=0){
 			PlayerList.get(i).setShootEff((FieldGoal+0.5*ThreeGoal)/(double)TotalFieldGoal);//鎶曠鏁堢巼锛�	
+			 }
+			 else{
+				 PlayerList.get(i).setShootEff(0);
+			 }
+			 
 			PlayerList.get(i).setBackboardEff ( backboard*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother)) ;//绡澘鐜囷紝		
 			PlayerList.get(i).setOffBEff(Offb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//杩涙敾绡澘鐜囷紝		
 			PlayerList.get(i).setDefBEff(Defb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//闃插畧绡澘鐜囷紝		
 			PlayerList.get(i).setAssitEff (assist/((double)MinutesOnField/((double)totalminute/5)*TotalGoal-TotalFieldGoal)) ;//鍔╂敾鐜囷紝		
 			PlayerList.get(i).setStealEff( Steal*((double)totalminute/5)/(double)MinutesOnField/TotalOffb);//鎶㈡柇鐜囷紝		
 			PlayerList.get(i).setRejectionEff ( Rejection*((double)totalminute/5)/(double)MinutesOnField/OtherTotalFieldGoal);//鐩栧附鐜囷紝		
-			PlayerList.get(i).setToEff ( To/(double)(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To) );//澶辫鐜囷紝		
+			
+			if(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To!=0){
+			PlayerList.get(i).setToEff ( To/(double)(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To) );
+			}
+			else{
+				PlayerList.get(i).setToEff (0);//澶辫鐜囷紝		
+			}
 			PlayerList.get(i).setUseEff((TotalFieldGoal+0.44*TotalFT+To)*(totalminute/5)/(double)MinutesOnField/(TotalGoal+0.44*AllFT
 						+AllTo) );//浣跨敤鐜�
 		}
@@ -455,25 +486,23 @@ public class PlayerLogic implements PlayerInfoService{
 		//
 		//p.addInfo(AllInfo);
 	}
-	public PlayerDataPO getpo(){
-		return AllInfo;
-	}
-	public PlayerDataPO getInfo(String name) {
+	
+	public PlayerDataPO getInfo(String name,String season) {
 		// TODO Auto-generated method stub
-		PlayerDataPO res = pio.WriteOut(name);
+		PlayerDataPO res = pio.WriteOut(name,season);
 		return res;
 	}
 	public void setOrder(String orderName,boolean isASC) {
 		// TODO Auto-generated method stub
 		//p.setOrder(orderName, isASC);
 	}
-	public PlayerDataPO[] getAllInfo() {
+	public PlayerDataPO[] getAllInfo(String season) {
 		// TODO Auto-generated method stub
 		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
-		File root = new File("./playerInfo");//从ser文件中读取所有数据
+		File root = new File("./迭代一数据/players/info");//从ser文件中读取所有数据
 		File[] files = root.listFiles();
 		for(File file:files){
-			PlayerDataPO temp = pio.WriteOut(file.getName().replace(".ser", ""));
+			PlayerDataPO temp = pio.WriteOut(file.getName(),season);
 			res.add(temp);
 		}
 		
@@ -488,9 +517,9 @@ public class PlayerLogic implements PlayerInfoService{
 		// TODO Auto-generated method stub
 		return null ;
 	}
-	public PlayerDataPO[] getSelect(String position,String Union){//都是英文，如Union可以是“E”或“W”,默认的话不要改就行
+	public PlayerDataPO[] getSelect(String position,String Union,String season){//都是英文，如Union可以是“E”或“W”,默认的话不要改就行
 		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
-		PlayerDataPO[] temp = getAllInfo();
+		PlayerDataPO[] temp = getAllInfo(season);
 		if(position.equals("null")){
 			if(Union.equals("null")){
 				return temp;
@@ -655,8 +684,8 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 		return res2 ;
 	}
-	public PlayerDataPO[] getSearch(String keys){
-		PlayerDataPO[] temp = getAllInfo();
+	public PlayerDataPO[] getSearch(String keys,String season){
+		PlayerDataPO[] temp = getAllInfo(season);
 		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
 		
 		for(int i = 0;i<temp.length;i++){
@@ -672,8 +701,8 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 		return res2 ;
 	}
-	public PlayerDataPO[] getAllSearch(String namekeys,String position,String Union){
-		PlayerDataPO[] res = getSelect(position, Union);
+	public PlayerDataPO[] getAllSearch(String namekeys,String position,String Union,String season){
+		PlayerDataPO[] res = getSelect(position, Union,season);
 		if(namekeys.equals("null")){
 			return res;
 		}
@@ -691,7 +720,7 @@ public class PlayerLogic implements PlayerInfoService{
 		return res2;
 		}
 	}
-	public String initialize(String filepath){
+	public String initialize(String filepath,String season){
 		//if(p.judge()==true){
 //		File root = new File(filepath);
 //		File[] files = root.listFiles();
@@ -705,7 +734,7 @@ public class PlayerLogic implements PlayerInfoService{
 		//else{
 		//	return "has initialized";
 		//}
-		analysData(filepath);
+		analysData(filepath,season);
 		return "ok";
 	}
 }

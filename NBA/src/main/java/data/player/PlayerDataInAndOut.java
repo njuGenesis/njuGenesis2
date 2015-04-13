@@ -8,9 +8,10 @@ import java.io.ObjectOutputStream;
 import data.po.PlayerDataPO;
 
 public class PlayerDataInAndOut {
-	public void WriteIn(PlayerDataPO p){
+	public void WriteIn(PlayerDataPO p,String season){
 		try{
-			FileOutputStream fs = new FileOutputStream("./playerInfo/"+p.getName()+".ser");
+			
+			FileOutputStream fs = new FileOutputStream("./playerInfo/"+season+p.getName()+".ser");
 			ObjectOutputStream os = new ObjectOutputStream(fs);
 			os.writeObject(p);
 			os.close();
@@ -18,9 +19,9 @@ public class PlayerDataInAndOut {
 			e.printStackTrace();
 		}
 	}
-	public PlayerDataPO WriteOut(String name){
+	public PlayerDataPO WriteOut(String name,String season){
 		try{
-			FileInputStream fs = new FileInputStream("./playerInfo/"+name+".ser");
+			FileInputStream fs = new FileInputStream("./playerInfo/"+season + name+".ser");
 			ObjectInputStream os = new ObjectInputStream(fs);
 			Object temp = os.readObject();
 			PlayerDataPO res = (PlayerDataPO)temp;
