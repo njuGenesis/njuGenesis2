@@ -18,19 +18,20 @@ import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
-public class GMainUI extends JPanel implements ActionListener{
+public class GMainUI extends JPanel implements Runnable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	protected static final double PI_DIV_2 = Math.PI / 2.0;
-	protected enum AutomatedAction {AUTO_TURN, AUTO_DROP_GO_BACK, AUTO_DROP_BUT_TURN}
+	protected enum AutomatedAction {AUTO_TURN}
 
 	protected int rotationX;
 	protected double nextPageAngle;
@@ -50,10 +51,6 @@ public class GMainUI extends JPanel implements ActionListener{
 	protected Image previousLeftImage;
 	protected Image previousRightImage;
 
-	protected String pageLocation;
-	protected String pageName;
-	protected String pageExtension;
-	protected int nrOfPages;
 	protected boolean leftPageTurn;
 	protected int refreshSpeed;
 
@@ -68,6 +65,10 @@ public class GMainUI extends JPanel implements ActionListener{
 	protected Color shadowDarkColor;
 	protected Color shadowNeutralColor;
 	protected GeneralPath clipPath;
+	
+	protected int left;
+	
+	protected Thread thread;
 
 	/* 
 	 * Constructor
@@ -75,7 +76,7 @@ public class GMainUI extends JPanel implements ActionListener{
 	public GMainUI() {
 		super();
 
-		refreshSpeed = 0;//刷新速度
+		refreshSpeed = 10;//刷新速度
 		shadowWidth = 100;//阴影宽度
 		bookBounds = new Rectangle();
 		borderLinesVisible = false;//是否显示书的边框
@@ -84,13 +85,12 @@ public class GMainUI extends JPanel implements ActionListener{
 		shadowNeutralColor = new Color(255,255,255,0);//设置颜色
 		//this.setBackground(Color.LIGHT_GRAY);
 
-		timer = new Timer(refreshSpeed, this);
-		timer.stop();
+		//timer = new Timer(refreshSpeed, this);                                  //this
+		//timer.stop();
 		leftPageIndex = 1;
-
-		setPages(null, null, null,
-				13, 210, 342);
-		setMargins(70, 80);
+		left = 0;
+		
+		thread = new Thread(this);
 	}
 
 	///////////////////
@@ -100,7 +100,7 @@ public class GMainUI extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(final Graphics g) {
 		final Graphics2D g2 = (Graphics2D) g;
-		setGraphicsHints(g2);
+		//setGraphicsHints(g2);
 
 		// background
 		//g.setColor(this.getBackground());
@@ -510,108 +510,43 @@ public class GMainUI extends JPanel implements ActionListener{
 
 
 
-	public void actionPerformed(final ActionEvent e) {
-
-		switch (action) {
-
-		case AUTO_TURN:
-
-			// update autoPoint
-			double nextX = autoPoint.getX() - 15.0;
-			double x = nextX;
-			x = x - bookBounds.x - pageWidth;
-			double y = -1.0 * Math.pow(x / pageWidth, 2);
-			y += 1;
-			y *= 50;
-
-			if (leftPageTurn) {
-				nextX = this.transformIndex(nextX);
-			}
-
-			autoPoint.setLocation(nextX, bookBounds.y + bookBounds.height - y);
-
-			if (nextX <= bookBounds.x || nextX >= bookBounds.x + bookBounds.width) {
-				timer.stop();
-				action = null;
-				switchImages();
-				autoPoint.x = bookBounds.x;
-				calculate(autoPoint);
-				initRotationX();
-				this.repaint();
-				return;
-			}
-
-			// calculate using new point
-			calculate(autoPoint);
-
-			break;
-
-		case AUTO_DROP_GO_BACK:
-
-			final int xDiff = bookBounds.width + bookBounds.x - autoPoint.x;
-			int stepsNeeded = 1 + (xDiff / 15);
-			if (stepsNeeded == 0) {
-				stepsNeeded = 1;
-			}
-			final int yStep = (bookBounds.y + bookBounds.height - autoPoint.y) / stepsNeeded;
-
-			tmpPoint.x = tmpPoint.x + 15;
-			tmpPoint.y = tmpPoint.y + yStep;
-			if (tmpPoint.x >= bookBounds.width + bookBounds.x) {
-				timer.stop();
-				action = null;
-			}
-
-			final Point newPoint = (Point) tmpPoint.clone();
-
-			if (leftPageTurn) {
-				newPoint.x = this.transformIndex(tmpPoint.x);
-			}
-
-			// calculate using new point
-			calculate(newPoint);
-
-			break;
-
-		case AUTO_DROP_BUT_TURN:
-
-			final int xDiff2 = autoPoint.x - bookBounds.x;
-			int stepsNeeded2 = 1 + (xDiff2 / 15);
-			if (stepsNeeded2 == 0) {
-				stepsNeeded2 = 1;
-			}
-			final int yStep2 = (bookBounds.y + bookBounds.height - autoPoint.y) / stepsNeeded2;
-
-			tmpPoint.x = tmpPoint.x - 15;
-			tmpPoint.y = tmpPoint.y + yStep2;
-			if (tmpPoint.x <= bookBounds.x) {
-				timer.stop();
-				action = null;
-				switchImages();
-				if (leftPageTurn) {
-					tmpPoint.x = this.transformIndex(bookBounds.x);
-				} else {
-					tmpPoint.x = bookBounds.x;
-				}
-				tmpPoint.y = bookBounds.y + bookBounds.height;
-				calculate(tmpPoint);
-				initRotationX();
-				this.repaint();
-				return;
-			}
-
-			final Point newPoint2 = (Point) tmpPoint.clone();
-
-			if (leftPageTurn) {
-				newPoint2.x = this.transformIndex(tmpPoint.x);
-			}
-
-			// calculate using new point
-			calculate(newPoint2);
-
-			break;
-		}
-	}
+//	public void actionPerformed(final ActionEvent e) {
+//
+//		switch (action) {
+//
+//		case AUTO_TURN:
+//
+//			// update autoPoint
+//			double nextX = autoPoint.getX() - 15.0;
+//			double x = nextX;
+//			x = x - bookBounds.x - pageWidth;
+//			double y = -1.0 * Math.pow(x / pageWidth, 2);
+//			y += 1;
+//			y *= 50;
+//
+//			if (leftPageTurn) {
+//				nextX = this.transformIndex(nextX);
+//			}
+//
+//			autoPoint.setLocation(nextX, bookBounds.y + bookBounds.height - y);
+//
+//			if (nextX <= bookBounds.x || nextX >= bookBounds.x + bookBounds.width) {
+//				//timer.stop();
+//				action = null;
+//				switchImages();
+//				autoPoint.x = bookBounds.x;
+//				calculate(autoPoint);
+//				initRotationX();
+//				this.repaint();
+//				return;
+//			}
+//
+//			// calculate using new point
+//			calculate(autoPoint);
+//
+//			break;
+//		}
+//	}
 
 	////////////////////
 	// HELPER METHODS //
@@ -659,16 +594,23 @@ public class GMainUI extends JPanel implements ActionListener{
 		this.repaint();
 	}
 
-	public void nextPage() {
+	public void nextPage(){
+		leftPageTurn = false;
+		turnPage();
+	}
+	
+	public void turnPage() {
 		action = AutomatedAction.AUTO_TURN;
 		autoPoint = new Point(bookBounds.x + bookBounds.width,
 				bookBounds.y + bookBounds.height);
-		this.timer.restart();
+		//this.timer.restart();
+		thread = new Thread(this);
+		thread.start();
 	}
 
 	public void previousPage() {
 		leftPageTurn = true;
-		nextPage();
+		turnPage();
 	}
 
 	protected void initRotationX() {
@@ -684,92 +626,21 @@ public class GMainUI extends JPanel implements ActionListener{
 	}
 
 	protected void switchImages() {
-		if (leftPageTurn) {
-			leftPageIndex -= 2;
+		if(leftPageTurn){
+			nextLeftImage = currentLeftImage;
+			nextRightImage = currentRightImage;
 			currentLeftImage = previousLeftImage;
 			currentRightImage = previousRightImage;
-
-		} else {
-			leftPageIndex += 2;
+			
+		}else{
+			previousLeftImage = currentLeftImage;
+			previousRightImage = currentRightImage;
 			currentLeftImage = nextLeftImage;
 			currentRightImage = nextRightImage;
-		}
-
-		nextLeftImage = getPage(leftPageIndex + 2);
-		nextRightImage = getPage(leftPageIndex + 3);
-		previousLeftImage = getPage(leftPageIndex - 2);
-		previousRightImage = getPage(leftPageIndex - 1);
-	}
-
-	protected BufferedImage getBlankPage(final int index) {
-		final BufferedImage img = new BufferedImage(pageWidth, bookBounds.height, BufferedImage.TYPE_3BYTE_BGR);
-		final Graphics gfx = img.getGraphics();
-		gfx.setColor(null);
-		gfx.fillRect(0, 0, img.getWidth(), img.getHeight());
-		return img;
-	}
-
-	protected void setGraphicsHints(final Graphics2D g2) {
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-				RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-		g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-				RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-	}
-
-	protected Image loadPage(final int index) {
-		return new ImageIcon(pageLocation + pageName
-				+ index + "." + pageExtension).getImage();
-	}
-
-	protected Image getPage(final int index) {
-
-		// if request goes beyond available pages return null
-		if (index > nrOfPages) {
-
-			// if back of existing page then return a blank
-			if ( (index - 1) % 2 == 0) {
-				return getBlankPage(index);
-			} else {
-				return null;
-			}
-		}
-		if (index < 1) {
-			if (index == 0) {
-				try {
-					return loadPage(index);
-				} catch (final Exception e) {
-					return getBlankPage(index);
-				}
-			} else {
-				return null;
-			}
-		}
-
-		// if no images specified return blank ones
-		if (pageLocation == null
-				|| pageName == null
-				||  pageExtension == null ) {
-
-			// create the blank page
-			final BufferedImage img = getBlankPage(index);
-
-			// draw page number
-			final Graphics gfx = img.getGraphics();
-			final Graphics2D g2 = (Graphics2D) gfx;
-			setGraphicsHints(g2);
-
-			return img;
-
-		} else {
-			return loadPage(index);
+			
 		}
 	}
+
 
 	/////////////////////////
 	// GETTERS AND SETTERS //
@@ -782,30 +653,29 @@ public class GMainUI extends JPanel implements ActionListener{
 		initRotationX();
 	}
 
-	/*
-	 * 设置图片
-	 * 初始的第一张图片名，初始的第二张图片名，图片格式，图片数量，图片宽，图片高
-	 */
-	public void setPages(final String pageLocation, final String pageName, final String pageExtension, final int nrOfPages,
-			final int pageWidth, final int pageHeight) {
+	public void setPages(Image[] imgCurrent, Image[] imgNext, final int pageWidth, final int pageHeight) {
+		
+			this.pageWidth = pageWidth;
+			bookBounds.width = 2 * pageWidth;
+			bookBounds.height = pageHeight;
 
-		this.pageLocation = pageLocation;
-		this.pageName = pageName;
-		this.pageExtension = pageExtension;
-		this.nrOfPages = nrOfPages;
+			initRotationX();
 
-		this.pageWidth = pageWidth;
-		bookBounds.width = 2 * pageWidth;
-		bookBounds.height = pageHeight;
-
-		initRotationX();
-
-		currentLeftImage = getPage(leftPageIndex);
-		currentRightImage = getPage(leftPageIndex + 1);
-		nextLeftImage = getPage(leftPageIndex + 2);
-		nextRightImage = getPage(leftPageIndex + 3);
-		previousLeftImage = getPage(leftPageIndex - 2);
-		previousRightImage = getPage(leftPageIndex - 1);
+			currentLeftImage = imgCurrent[0];
+			currentRightImage = imgCurrent[1];
+			nextLeftImage = imgNext[0];
+			nextRightImage = imgNext[1];
+			previousLeftImage = imgNext[0];
+			previousRightImage = imgNext[1];
+	}
+	
+	public void removePages(){
+		currentLeftImage = null;
+		currentRightImage =null;
+		nextLeftImage = null;
+		nextRightImage = null;
+		previousLeftImage = null;
+		previousRightImage = null;
 	}
 
 	public int getRefreshSpeed() {
@@ -852,18 +722,52 @@ public class GMainUI extends JPanel implements ActionListener{
 		return leftPageIndex;
 	}
 
-	public void setLeftPageIndex(int leftPageIndex) {
-		if (leftPageIndex <= -1) {
-			leftPageIndex = -1;
-		}
-		this.leftPageIndex = leftPageIndex;
+	public void run() {
+		boolean run = true;
+		while(run){
+			// update autoPoint
+			double nextX = autoPoint.getX() - 15.0;
+			double x = nextX;
+			x = x - bookBounds.x - pageWidth;
+			double y = -1.0 * Math.pow(x / pageWidth, 2);
+			y += 1;
+			y *= 50;
 
-		previousLeftImage = getPage(leftPageIndex - 2);
-		previousRightImage = getPage(leftPageIndex - 1);
-		currentLeftImage = getPage(leftPageIndex);;
-		currentRightImage = getPage(leftPageIndex + 1);;
-		nextLeftImage = getPage(leftPageIndex + 2);
-		nextRightImage = getPage(leftPageIndex + 3);
+			if (leftPageTurn) {
+				nextX = this.transformIndex(nextX);
+			}
+
+			autoPoint.setLocation(nextX, bookBounds.y + bookBounds.height - y);
+
+			if (nextX <= bookBounds.x || nextX >= bookBounds.x + bookBounds.width) {
+				//timer.stop();
+				run = false;
+				action = null;
+				switchImages();
+				autoPoint.x = bookBounds.x;
+				calculate(autoPoint);
+				initRotationX();
+				this.repaint();
+				this.setVisible(false);
+				thread.stop();
+			}
+
+			// calculate using new point
+			calculate(autoPoint);
+			
+			try {
+				thread.sleep(refreshSpeed);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//this.removePages();
+		
+	}
+	
+	public Thread getThread(){
+		return this.thread;
 	}
 
 }

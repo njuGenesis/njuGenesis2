@@ -30,6 +30,7 @@ public class GButton extends JButton{
 		this.setSize(size.x, size.y);
 		this.setBorder(null);//去掉边框
 		this.setContentAreaFilled(false);//去掉背景色
+		this.setOpaque(false);
 		this.setIcon(image);
 		container.add(this);
 		this.setVisible(visible);

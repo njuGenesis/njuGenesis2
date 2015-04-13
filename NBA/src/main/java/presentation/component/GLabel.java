@@ -17,12 +17,23 @@ public class GLabel extends JLabel{
 	private ImageIcon image;
 	private BufferedImage bi;
 	private BufferedImage sbi;
+	private int number;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	public GLabel(String file, Point location, Point size, Container container, boolean visible){
+		image = new ImageIcon(file);
+		image.setImage(image.getImage().getScaledInstance(size.x, size.y, Image.SCALE_SMOOTH)); 
+		this.setIcon(image);
+		this.setBounds(location.x, location.y, size.x, size.y);
+		this.setVisible(visible);
+		container.add(this);
+	}
+	
+	public GLabel(String file, Point location, Point size, Container container, boolean visible, int number){
+		this.number = number;
 		image = new ImageIcon(file);
 		image.setImage(image.getImage().getScaledInstance(size.x, size.y, Image.SCALE_SMOOTH)); 
 		this.setIcon(image);
@@ -59,5 +70,9 @@ public class GLabel extends JLabel{
 		sbi = bi.getSubimage(x, y, w, h);
 		image = new ImageIcon(sbi);
 		this.setIcon(image);
+	}
+	
+	public int getNumber(){
+		return number;
 	}
 }

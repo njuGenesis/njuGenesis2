@@ -15,10 +15,10 @@ public class GMainUIStart {
 	public static void main(String[] args) {
 		
 		final GMainUI turnerNewsPaper = new GMainUI();
-		turnerNewsPaper.setPages("img/", "", "png", 6, 500, 650);//8是个数，后面是图片大小
+		//turnerNewsPaper.setPages("img/", "", "png", 6, 500, 650);//8是个数，后面是图片大小
 		turnerNewsPaper.setMargins(0, 50);//设置第一张图片的位置
 		//turnerNewsPaper.setBackground(new Color(157,185,235));
-		turnerNewsPaper.setLeftPageIndex(-1);//第一张图片的编号
+		//turnerNewsPaper.setLeftPageIndex(-1);//第一张图片的编号
 		//turnerNewsPaper.setLayout(null);
 		turnerNewsPaper.setBounds(0, 50, 1000, 650);
 		
@@ -44,7 +44,7 @@ public class GMainUIStart {
 			public void actionPerformed(ActionEvent arg0) {
 				int x = turnerNewsPaper.leftPageIndex;
 				if(x!=-1){
-					turnerNewsPaper.previousPage();
+					//turnerNewsPaper.previousPage();
 				}
 			}
 		});
@@ -54,11 +54,11 @@ public class GMainUIStart {
 		next.setSize(60, 30);
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int x = turnerNewsPaper.leftPageIndex;
-				if(x==turnerNewsPaper.nrOfPages+1){
-				}else{
-						turnerNewsPaper.nextPage();
-				}
+//				int x = turnerNewsPaper.leftPageIndex;
+//				if(x==turnerNewsPaper.nrOfPages+1){
+//				}else{
+//						//turnerNewsPaper.nextPage();
+//				}
 			}
 		});
 		f.getContentPane().add(last);
