@@ -26,7 +26,14 @@ public class PlayerLogic implements PlayerInfoService{
 		String basicInfo = g.readPlayerfile(filePath);
 		String[] tempbasic = basicInfo.split("\n");
 		PlayerDataPO temp = new PlayerDataPO();
+		
+		if(tempbasic[0].endsWith("Jr.")){
+			
 		temp.setName(tempbasic[0].replaceAll("\\.", ""));	
+		}
+		else{
+			temp.setName(tempbasic[0]);
+		}
 		temp.setNumber(tempbasic[1]);
 		temp.setPosition(tempbasic[2]);
 		temp.setHeight(tempbasic[3]);
@@ -50,7 +57,7 @@ public class PlayerLogic implements PlayerInfoService{
 		//loop over
 		getAllMatch("./迭代一数据/matches",season);
 		//写入所有数据
-		System.out.print(PlayerList.size());
+		//System.out.print(PlayerList.size());
 		for(int i = 0;i<PlayerList.size();i++){	
 			//System.out.println(PlayerList.get(i).getName());
 		pio.WriteIn(PlayerList.get(i),season);

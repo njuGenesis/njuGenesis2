@@ -73,7 +73,8 @@ public class GetFileData {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 			String data = br.readLine();// 一次读入一行，直到读入null为文件结束
-			String[] temp = data.split(";");
+			
+			String[] temp = data.split(";");		
 			res.setDate(temp[0]);
 			res.setFirstteam(temp[1].split("-")[0]);
 			res.setSecondteam(temp[1].split("-")[1]);
@@ -106,6 +107,7 @@ public class GetFileData {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println(filename);
 		}
 		return res;
 	}

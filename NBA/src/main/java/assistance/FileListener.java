@@ -14,6 +14,7 @@ public class FileListener {
 	PlayerLogic p = new PlayerLogic();
 	public void Listen(String path){
 		 try{
+			 int i = 0;
 		        WatchService watchService=FileSystems.getDefault().newWatchService();  
 		        Paths.get(path).register(watchService,   
 		                StandardWatchEventKinds.ENTRY_CREATE,  
@@ -26,9 +27,11 @@ public class FileListener {
 		            {  
 		            	//String[] temp = event.context().toString().split("_");
 		            	if(event.kind().toString().equals("ENTRY_CREATE")){
+		            		System.out.println(i);
+		            		i++;
 		            		p.initialize("./迭代一数据/players/info", "12-13");
-		            		PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
-		            		System.out.println(res.getName()+";"+res.getFieldGoalPercentage());
+		            		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
+		            		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage()+res.getGP());
 		            	}
 		                 
 		            }  
