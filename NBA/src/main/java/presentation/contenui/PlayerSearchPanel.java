@@ -80,7 +80,7 @@ public class PlayerSearchPanel extends ContentPanel{
 		page.setFont(new Font("微软雅黑",1,12));
 		panel.add(page);
 
-		PagingTableModel model = new PagingTableModel(getPlayerData(logic.getAllInfo())){
+		PagingTableModel model = new PagingTableModel(getPlayerData(logic.getAllInfo("13-14"))){
 			public boolean isCellEditable(int row, int column){
 				if(column==1 || column==2){
 					return true;
@@ -207,7 +207,7 @@ public class PlayerSearchPanel extends ContentPanel{
 			if(bt.isSelected()){
 				bt.setIcon(GRadioButton.getChosenIcon(bt.letter));
 
-				PagingTableModel model = new PagingTableModel(getPlayerData(logic.getAllInfo()));
+				PagingTableModel model = new PagingTableModel(getPlayerData(logic.getAllInfo("13-14")));
 				PagingTableModel tm = new PagingTableModel(TableData.getInitials(model.data, bt.letter, 1));
 
 				table.setModel(tm);
@@ -234,9 +234,9 @@ public class PlayerSearchPanel extends ContentPanel{
 
 			PlayerDataPO[] po;
 			if(name.equals("根据姓名搜索")){
-				po = logic.getAllSearch("", TableUtility.getChPosition(pos), "null");
+				po = logic.getAllSearch("", TableUtility.getChPosition(pos), "null","13-14");
 			}else{
-				po = logic.getAllSearch(name, TableUtility.getChPosition(pos), "null");
+				po = logic.getAllSearch(name, TableUtility.getChPosition(pos), "null","13-14");
 			}
 			PagingTableModel tm = new PagingTableModel(getPlayerData(po)){
 				public boolean isCellEditable(int row, int column){

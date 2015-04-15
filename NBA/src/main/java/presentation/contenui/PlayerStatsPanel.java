@@ -77,7 +77,7 @@ public class PlayerStatsPanel extends ContentPanel{
 
 		
 		
-		PagingTableModel model = new PagingTableModel(getPlayerDataAvg(logic.getAllInfo())){
+		PagingTableModel model = new PagingTableModel(getPlayerDataAvg(logic.getAllInfo("13-14"))){
 			public boolean isCellEditable(int row, int column){
 				if(column==1 || column==2){
 					return true;
@@ -219,7 +219,7 @@ public class PlayerStatsPanel extends ContentPanel{
 			String leag = league.getSelectedItem().toString();
 			String type = dataType.getSelectedItem().toString();
 			
-			PlayerDataPO[] po = logic.getSelect(TableUtility.getChPosition(pos), changeUnStr(leag));
+			PlayerDataPO[] po = logic.getSelect(TableUtility.getChPosition(pos), changeUnStr(leag),"13-14");
 			PagingTableModel tm;
 			if(isAverageData(type)){
 				tm = new PagingTableModel(getPlayerDataAvg(po)){
