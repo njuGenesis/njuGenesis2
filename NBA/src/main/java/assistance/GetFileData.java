@@ -117,11 +117,12 @@ public class GetFileData {
 		Match_PlayerPO player = new Match_PlayerPO();
 		try {
 			File f = filename;
+			res.setSeason(f.getName().split("_")[0]);
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 			String data = br.readLine();// 一次读入一行，直到读入null为文件结束
 			String[] temp = data.split(";");
-			res.setDate(temp[0]);
+			res.setDate(res.getSeason()+"_"+temp[0]);
 			res.setFirstteam(temp[1].split("-")[0]);
 			res.setSecondteam(temp[1].split("-")[1]);
 			res.setPoints(temp[2]);
@@ -258,7 +259,8 @@ public class GetFileData {
 	public ArrayList<TeamDataPO> readTeamfile() {
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		TeamDataPO team = new TeamDataPO();
-
+		TeamDataPO team1 = new TeamDataPO();
+		TeamDataPO team2 = new TeamDataPO();
 		try {
 			File f = new File(Teamfilename);
 			FileReader fr = new FileReader(f);
@@ -267,6 +269,8 @@ public class GetFileData {
 
 			while (data != null) {
 				team = new TeamDataPO();
+				team1 = new TeamDataPO();
+				team2 = new TeamDataPO();
 				while (data.contains("═")) {
 					data = br.readLine();
 				}
@@ -279,7 +283,32 @@ public class GetFileData {
 				team.setArea(teamData[4].trim());
 				team.setMainposition(teamData[5].trim());
 				team.setBuildyear(Integer.parseInt(teamData[6].trim()));
+				team.setSeason("12-13");
+				
+				team1.setName(teamData[0].trim());
+				team1.setShortName(teamData[1].trim());
+				team1.setCity(teamData[2].trim());
+				team1.setEorW(teamData[3].trim());
+				team1.setArea(teamData[4].trim());
+				team1.setMainposition(teamData[5].trim());
+				team1.setBuildyear(Integer.parseInt(teamData[6].trim()));
+				team1.setSeason("13-14");
+				
+				team2.setName(teamData[0].trim());
+				team2.setShortName(teamData[1].trim());
+				team2.setCity(teamData[2].trim());
+				team2.setEorW(teamData[3].trim());
+				team2.setArea(teamData[4].trim());
+				team2.setMainposition(teamData[5].trim());
+				team2.setBuildyear(Integer.parseInt(teamData[6].trim()));
+				team2.setSeason("14-15");
+				
+            
+				
 				teams.add(team);
+				teams.add(team1);
+				teams.add(team2);
+				
 				data = br.readLine();
 				if (data.contains("═")) {
 					break;
@@ -297,4 +326,7 @@ public class GetFileData {
 		File file = new File(MatchFileName);
 		return file.listFiles();
 	}
+	
+	
+	
 }

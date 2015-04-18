@@ -9,8 +9,6 @@ import bslogicService.MatchInfoService;
 import data.match.Matchdata;
 import data.po.MatchDataPO;
 
-/*现在因为初始化team时会初始化match信息，所以就不判断match的信息是否存入数据库*/
-
 public class MatchLogic implements MatchInfoService {
 	Matchdata add = new Matchdata();
 
@@ -18,9 +16,7 @@ public class MatchLogic implements MatchInfoService {
 	 * private boolean isExit(){ return m.judge(); }
 	 */
 
-	// 返回一个包含回合数等信息的match
-	private ArrayList<MatchDataPO> getMatchDetail() {
-		
+	public ArrayList<MatchDataPO> ini() {
 		ArrayList<MatchDataPO> MatchList = new ArrayList<MatchDataPO>();
 		GetFileData MatchReader = new GetFileData();
 		File[] fileList = MatchReader.getAllMathcFielName();
@@ -28,8 +24,19 @@ public class MatchLogic implements MatchInfoService {
 			MatchList.add(calcuRound(MatchReader.detailMatch(fileList[i])));
 		}
 		add.writeIn(MatchList);
-	/*	add.writeIn(MatchList, MatchList.get(0).getSecondteam());*/
 		return MatchList;
+	}
+	
+	public void updateMatchInfo(ArrayList<MatchDataPO> matches){
+		for(int i=0;i<matches.size();i++){
+			calcuRound(matches.get(i));
+		}
+		add.writeIn(matches);
+	}
+	
+	@SuppressWarnings("unused")
+	private void addMatch(MatchDataPO match) {
+		add.writeIn(calcuRound(match));
 	}
 
 	// 计算比赛双方进攻回合数
@@ -50,29 +57,38 @@ public class MatchLogic implements MatchInfoService {
 		return match;
 	}
 
-	public void addMatch(MatchDataPO match) {
-		add.writeIn(calcuRound(match));
-		add.writeIn(calcuRound(match));
-	}
-
+   //获得所有的比赛
 	public ArrayList<MatchDataPO> GetAllInfo() {
-		return getMatchDetail();
+		return add.GetAllMatch();
 	}
-
-	public ArrayList<MatchDataPO> GetInfo(String team1, String team2,
-			String data) {
-		return null;/* m.getInfo(team1, team2, data); */
+	
+	  //获得一个赛季所有的比赛
+		public ArrayList<MatchDataPO> GetAllInfo(String season) {
+			return add.GetPartMatch(season);
+		}
+	
+	//获得一个球队一段时间的所有比赛 ，date的格式为“13-14_01-01”    （赛季+“_”+日期）
+	public ArrayList<MatchDataPO> GetInfo(String startDate, String endDate, String shotrName) {
+		return add.GetPartMatch(startDate, endDate, shotrName);
+	}
+	
+	//获得一个球队一个赛季的所有比赛 ，season的格式为“13-14”
+	public ArrayList<MatchDataPO> GetInfo(String shotrName, String season) {
+		return add.GetPartMatch(shotrName, season);
 	}
 
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		System.out.println(match.GetAllInfo().size());
-		System.out.println(MatchLogic.getTime());
+		//match.ini();
+		System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
+		
+	    System.out.println(MatchLogic.getTime());
 	}
 
 	public static long getTime() {
 		Date d = new Date();
 		return d.getTime();
 	}
+
 }

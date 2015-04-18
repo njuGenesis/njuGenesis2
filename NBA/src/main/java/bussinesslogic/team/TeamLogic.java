@@ -33,36 +33,56 @@ public class TeamLogic implements TeamInfoService {
 
 	// 球队名称，所在地等从teams文件里直接读取的信息
 	public void initTeamData() {
-	
-		GetFileData MatchFileReader = new GetFileData();
-		Teams = MatchFileReader.readTeamfile(); // 球队基本信息初始化
+		GetFileData teamFileReader = new GetFileData();
+		Teams = teamFileReader.readTeamfile();   // 球队基本信息初始化
+		
 		MatchLogic matchLogic = new MatchLogic();
 		ArrayList<MatchDataPO> Matches = matchLogic.GetAllInfo(); // 一个含有全部比赛基本信息的集合
-		
-		
 		
 		for (int i = 0; i < Matches.size(); i++) {
 			if(Matches.get(i).isValid())
 			calcuPoints(Matches.get(i).getPoints(), Matches.get(i)
-					.getFirstteam(), Matches.get(i).getSecondteam());
+					.getFirstteam(), Matches.get(i).getSecondteam(),Matches
+					.get(i).getSeason());
 		}
 		for (int i = 0; i < Matches.size(); i++) {
 			if(Matches.get(i).isValid())
 			calcuRate(Matches.get(i), Matches.get(i).getFirstteam(), Matches
-					.get(i).getSecondteam());
+					.get(i).getSecondteam(),Matches
+					.get(i).getSeason());
 		}
 		PlayerLogic getPlayers = new PlayerLogic();
-		saveTeamPlayer(getPlayers.getAllInfo());
+		saveTeamPlayer(getPlayers.getAllInfo("12-13"));
 		TeamData add = new TeamData();
 		add.WriteIn(Teams);
-		
+	}
+	
+	//根据新添加的比赛更新球队信息
+	public void updateTeamInfo(ArrayList<MatchDataPO> newMatches){
+		Teams=GetAllInfo();      //获得之前的球队数据
+		for (int i = 0; i < newMatches.size(); i++) {
+			if(newMatches.get(i).isValid())
+			calcuPoints(newMatches.get(i).getPoints(), newMatches.get(i)
+					.getFirstteam(), newMatches.get(i).getSecondteam(),newMatches
+					.get(i).getSeason());
+		}
+		for (int i = 0; i < newMatches.size(); i++) {
+			if(newMatches.get(i).isValid())
+			calcuRate(newMatches.get(i), newMatches.get(i).getFirstteam(), newMatches
+					.get(i).getSecondteam(),newMatches
+					.get(i).getSeason());
+		}
+		PlayerLogic getPlayers = new PlayerLogic();
+		saveTeamPlayer(getPlayers.getAllInfo(newMatches.get(0).getSeason()));
+		TeamData add = new TeamData();
+		add.WriteIn(Teams);
 	}
 
 	// 计算球队的比赛场数，总得分和均分
-	private void calcuPoints(String points, String team1, String team2) {
+	private void calcuPoints(String points, String team1, String team2,String season) {
 		String[] point = points.split("-");
 		for (int i = 0; i < Teams.size(); i++) {
-			if (Teams.get(i).getShortName().equals(team1)) {
+			if (Teams.get(i).getShortName().equals(team1)&&Teams.get(i).getSeason().equals(season)) {
 				Teams.get(i).setMatchNumber(Teams.get(i).getMatchNumber() + 1); // 比赛场数+1
 				if (point[0].compareTo(point[1]) >= 0) {
 					Teams.get(i).setWinMatch(Teams.get(i).getWinMatch() + 1);
@@ -83,7 +103,7 @@ public class TeamLogic implements TeamInfoService {
 				Teams.get(i).setLPG(
 						Teams.get(i).getLPS() / Teams.get(i).getMatchNumber());// 均失分
 
-			} else if (Teams.get(i).getShortName().equals(team2)) {
+			} else if (Teams.get(i).getShortName().equals(team2)&&Teams.get(i).getSeason().equals(season)) {
 				Teams.get(i).setMatchNumber(Teams.get(i).getMatchNumber() + 1); // 比赛场数+1
 				if (point[0].compareTo(point[1]) <= 0) {
 					Teams.get(i).setWinMatch(Teams.get(i).getWinMatch() + 1);
@@ -106,10 +126,10 @@ public class TeamLogic implements TeamInfoService {
 	}
 
 	// 计算和回合数相关的rate   以及根据比赛单场信息汇总球队信息
-	private void calcuRate(MatchDataPO match, String team1, String team2) {
+	private void calcuRate(MatchDataPO match, String team1, String team2,String season) {
 		for (int i = 0; i < Teams.size(); i++) {
-			if (Teams.get(i).getShortName().equals(team1)
-					|| Teams.get(i).getShortName().equals(team2)) {
+			if ((Teams.get(i).getShortName().equals(team1)&&Teams.get(i).getSeason().equals(season))
+					|| (Teams.get(i).getShortName().equals(team2)&&Teams.get(i).getSeason().equals(season))) {
 				if (Teams.get(i).getShortName().equals(team1)) {
 					Teams.get(i).setOff(
 							Teams.get(i).getOff() + match.getTeamround1()); // 进攻，防守回合总数
@@ -326,26 +346,39 @@ public class TeamLogic implements TeamInfoService {
 		}
 	}
 
-	
 	public ArrayList<TeamDataPO> GetAllInfo() {
 		TeamData t =new TeamData();
 		return t.GetAllInfo();
 	}
 
-	public TeamDataPO GetInfo(String name) {
+	public TeamDataPO GetInfo(String name,String season) {
 		TeamData t =new TeamData();
-		return t.ReadOut(name);
+		return t.GetInfo(name,season);
+	}
+	
+	public ArrayList<TeamDataPO> GetInfo(String name) {
+		TeamData t =new TeamData();
+		return t.GetInfo(name);
+	}
+	
+	public TeamDataPO GetBySN(String Shortname,String season) {
+		TeamData t =new TeamData();
+		return t.GetInfo(Shortname,season);
+	}
+	
+	public ArrayList<TeamDataPO> GetBySN(String name) {
+		TeamData t =new TeamData();
+		return t.GetInfo(name);
 	}
 
-	public TeamDataPO GetBySN(String Shortname) {
-		TeamData t =new TeamData();
-		return t.ReadOut(Shortname);
-	}
+	
 
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
+
 		TeamLogic team = new TeamLogic();
 		team.initTeamData();
+		
 		System.out.println(MatchLogic.getTime());
 	}
 
