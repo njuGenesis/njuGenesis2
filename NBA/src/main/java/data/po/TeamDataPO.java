@@ -8,6 +8,7 @@ public class TeamDataPO implements Serializable {
 			 * 
 			 */
 	private static final long serialVersionUID = 1L;
+	String Season;//赛季   形式如13-14
 	String Name;// 队名
 	String ShortName; // 缩写
 	String City;// 城市
@@ -721,6 +722,23 @@ public class TeamDataPO implements Serializable {
 	public void setOtherOffBoard(double otherOffBoard) {
 		BigDecimal bg = new BigDecimal(otherOffBoard);
 		OtherOffBoard = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	
+	public String getSeason() {
+		return Season;
+	}
+
+	public void setSeason(String season) {
+		Season = season;
+	}
+
+	public double getDefBackBoradPG() {
+		return DefBackBoradPG;
+	}
+
+	public void setDefBackBoradPG(double defBackBoradPG) {
+		BigDecimal bg = new BigDecimal(defBackBoradPG);
+		DefBackBoradPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 }
