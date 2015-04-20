@@ -502,7 +502,7 @@ public class PlayerLogic implements PlayerInfoService{
 		PlayerDataPO res = pio.WriteOut(name,season);
 		return res;
 	}
-	public void setOrder(final String orderName,boolean isASC,String season,final boolean isAVG) {
+	public PlayerDataPO[] setOrder(final String orderName,boolean isASC,String season,final boolean isAVG) {
 		// TODO Auto-generated method stub
 		//p.setOrder(orderName, isASC);
 		PlayerDataPO[] orgin = getAllInfo(season);
@@ -924,11 +924,18 @@ public class PlayerLogic implements PlayerInfoService{
 		};
 		Collections.sort(PlayerList,comparator);
 		PlayerDataPO[] res = new PlayerDataPO[PlayerList.size()];
+		if(isASC==true){
 		for(int i = 0;i<res.length;i++){
 			res[i] = PlayerList.get(i);
 			System.out.println(res[i].getPTS()+";"+res[i].getName());
 		}
-		
+		}
+		else{
+			for(int i = 0;i<res.length;i++){
+				res[i] = PlayerList.get(res.length-1-i);
+			}
+		}
+		return res;
 	}
 	public PlayerDataPO[] getAllInfo(String season) {
 		// TODO Auto-generated method stub
@@ -946,11 +953,7 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 		return res2 ;
 	}
-	public PlayerDataPO[] getFirstFifty(String orderName) {
-		//PlayerDataPO[] res = p.getFirstFifty(orderName);
-		// TODO Auto-generated method stub
-		return null ;
-	}
+
 	public PlayerDataPO[] getSelect(String position,String Union,String season){//都是英文，如Union可以是“E”或“W”,默认的话不要改就行
 		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
 		PlayerDataPO[] temp = getAllInfo(season);
@@ -1170,5 +1173,30 @@ public class PlayerLogic implements PlayerInfoService{
 		//}
 		analysData(filepath,season);
 		return "ok";
+	}
+	public PlayerDataPO[] getFirstFifty(String orderName, PlayerDataPO[] orgin,boolean isAVG) {
+		// TODO Auto-generated method stub
+		//盖帽，抢断，犯规，失误，分钟，效率，投篮，三分，罚球，两双
+		PlayerList.clear();
+		for(int i = 0;i<orgin.length;i++){
+			PlayerList.add(orgin[i]);
+		}
+		Comparator<PlayerDataPO> comparator = new Comparator<PlayerDataPO>(){
+
+			public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+				// TODO Auto-generated method stub
+				
+			return 0;
+			}
+			
+		};
+//		if(orderName.equals("两双")){
+//			return null;
+//		}
+//		else{
+//			PlayerDataPO[] res = setOrder(orderName,false,season,isAVG);
+//			return res;
+//		}
+		return null;
 	}
 }

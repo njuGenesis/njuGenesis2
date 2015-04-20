@@ -26,6 +26,7 @@ public class TempStart {
 		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
 		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage());
 		p.setOrder("得分", true, "13-14", false);
+		p.getSearch("d", "13-14");
 	}
 	
 }
