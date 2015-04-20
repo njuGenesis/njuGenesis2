@@ -57,7 +57,7 @@ public class TeamShortCellEditor extends DefaultCellEditor{
 				TeamShortCellEditor.this.fireEditingCanceled();  
 
 				TeamLogic l = new TeamLogic();
-				TeamDataPO po = l.GetBySN(TableUtility.getChTeam(TeamShortCellEditor.this.button.getText()));
+				TeamDataPO po = l.GetBySN(TableUtility.getChTeam(TeamShortCellEditor.this.button.getText()),"13-14");
 
 				con.changeToTeamDetails(po);
 			}  

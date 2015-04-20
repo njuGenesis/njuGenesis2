@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import presentation.component.BgPanel;
 import presentation.component.GComboBox;
 import presentation.component.GTable;
 import presentation.component.NameCellEditor;
@@ -24,7 +25,12 @@ import assistance.NewFont;
 import bussinesslogic.player.PlayerLogic;
 import data.po.PlayerDataPO;
 
-public class PlayerStatsPanel extends ContentPanel{
+public class PlayerStatsPanel extends BgPanel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private PlayerLogic logic = new PlayerLogic();
 
@@ -54,15 +60,21 @@ public class PlayerStatsPanel extends ContentPanel{
 
 		super(url);
 
+		this.setSize(1000, 650);
+		this.setLocation(100, 95);
+		this.setLayout(null);
+		this.setOpaque(false);
+		
+		
 		//-----初始化翻页按钮-----
 		left = UIUtil.getLeftButton();
 		left.setBounds(380, 515, 20, 20);
 		left.addActionListener(new ButtonListener());
-		panel.add(left);
+		this.add(left);
 		right = UIUtil.getRightButton();
 		right.setBounds(450, 515, 20, 20);
 		right.addActionListener(new ButtonListener());
-		panel.add(right);
+		this.add(right);
 
 		
 		//-----初始化页数框-----
@@ -73,7 +85,7 @@ public class PlayerStatsPanel extends ContentPanel{
 		page.setHorizontalAlignment(JTextField.CENTER);
 		page.addActionListener(new PageListener());
 		page.setFont(new Font("微软雅黑",1,12));
-		panel.add(page);
+		this.add(page);
 
 		
 		
@@ -105,34 +117,34 @@ public class PlayerStatsPanel extends ContentPanel{
 		jsp.setBounds(25, 144, 830, 370);
 		TableUtility.setTabelPanel(jsp);
 
-		panel.add(jsp);
+		this.add(jsp);
 
 		title = new JLabel("球员数据    【点击表头可进行降序/升序    点击球员或球队可跳转至相关页面】");
 		title.setForeground(Color.white);
 		title.setFont(new Font("微软雅黑",1,13));
 		title.setBounds(40, 25, 500, 20);
-		panel.add(title);
+		this.add(title);
 
 		position = new GComboBox(positionItem);
 		position.setBounds(45, 63, 120, 30);
 		position.setFont(NewFont.ComboBoxFont);
-		panel.add(position);
+		this.add(position);
 
 		league = new GComboBox(leagueItem);
 		league.setBounds(205, 63, 120, 30);
 		league.setBackground(new Color(250,250,250));
 		league.setFont(NewFont.ComboBoxFont);
-		panel.add(league);
+		this.add(league);
 
 		dataType = new GComboBox(dataTypeItem);
 		dataType.setBounds(365, 63, 120, 30);
 		dataType.setFont(NewFont.ComboBoxFont);
-		panel.add(dataType);
+		this.add(dataType);
 
 		submit = UIUtil.getSelectButton();
 		submit.setBounds(720, 100, 120, 30);
 		submit.addMouseListener(new SubmitListener());
-		panel.add(submit);
+		this.add(submit);
 
 
 	}

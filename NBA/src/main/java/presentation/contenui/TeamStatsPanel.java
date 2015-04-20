@@ -19,6 +19,7 @@ import assistance.NewFont;
 import bussinesslogic.team.TeamLogic;
 import data.po.PlayerDataPO;
 import data.po.TeamDataPO;
+import presentation.component.BgPanel;
 import presentation.component.GComboBox;
 import presentation.component.GTable;
 import presentation.component.NameCellEditor;
@@ -30,7 +31,12 @@ import presentation.contenui.PlayerStatsPanel.PageListener;
 import presentation.contenui.PlayerStatsPanel.SubmitListener;
 import presentation.mainui.MainUI;
 
-public class TeamStatsPanel extends ContentPanel{
+public class TeamStatsPanel extends BgPanel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private TeamLogic logic = new TeamLogic();
 
@@ -54,16 +60,23 @@ public class TeamStatsPanel extends ContentPanel{
 	public TeamStatsPanel() {
 
 		super(url);
+		
+
+		this.setSize(1000, 650);
+		this.setLocation(100, 95);
+		this.setLayout(null);
+		this.setOpaque(false);
+		
 
 		//-----初始化翻页按钮-----
 		left = UIUtil.getLeftButton();
 		left.setBounds(380, 515, 20, 20);
 		left.addActionListener(new ButtonListener());
-		panel.add(left);
+		this.add(left);
 		right = UIUtil.getRightButton();
 		right.setBounds(450, 515, 20, 20);
 		right.addActionListener(new ButtonListener());
-		panel.add(right);
+		this.add(right);
 
 		//-----初始化页数框-----
 		page = new JTextField("1");
@@ -73,7 +86,7 @@ public class TeamStatsPanel extends ContentPanel{
 		page.setHorizontalAlignment(JTextField.CENTER);
 		page.addActionListener(new PageListener());
 		page.setFont(new Font("微软雅黑",1,12));
-		panel.add(page);
+		this.add(page);
 
 		
 		
@@ -98,24 +111,24 @@ public class TeamStatsPanel extends ContentPanel{
 		jsp.setBounds(25, 144, 830, 370);
 		TableUtility.setTabelPanel(jsp);
 
-		panel.add(jsp);
+		this.add(jsp);
 
 		title = new JLabel("球队数据    【点击表头可进行降序/升序    点击球队可跳转至相关页面】");
 		title.setForeground(Color.white);
 		title.setFont(new Font("微软雅黑",1,13));
 		title.setBounds(40, 25, 500, 20);
-		panel.add(title);
+		this.add(title);
 
 
 		dataType = new GComboBox(dataTypeItem);
 		dataType.setBounds(45, 63, 120, 30);
 		dataType.setFont(NewFont.ComboBoxFont);
-		panel.add(dataType);
+		this.add(dataType);
 
 		submit = UIUtil.getSelectButton();
 		submit.setBounds(720, 100, 120, 30);
 		submit.addMouseListener(new SubmitListener());
-		panel.add(submit);
+		this.add(submit);
 
 
 	}

@@ -16,7 +16,7 @@ public class UITest {
 	}
 
 	public UITest(){
-		JSVGCanvas s=new JSVGCanvas(); 
+		JSVGCanvas s = new JSVGCanvas(); 
 		JFrame frame = new JFrame( "显示矢量图形 "); 
 		
 		JPanel pane = new JPanel();

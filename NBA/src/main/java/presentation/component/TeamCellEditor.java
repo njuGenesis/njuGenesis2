@@ -61,10 +61,10 @@ public class TeamCellEditor extends DefaultCellEditor{
 				String str = TeamCellEditor.this.button.getText();
 				TeamDataPO po;
 				if(str.contains("Trail")){
-					po = l.GetInfo("Trail Blazers");
+					po = l.GetInfo("Trail Blazers","13-14");
 				}else{
 					int i = str.indexOf(" ");
-					po = l.GetInfo(str.substring(0, i));
+					po = l.GetInfo(str.substring(0, i),"13-14");
 				}
 				
 				
