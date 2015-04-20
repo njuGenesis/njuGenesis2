@@ -19,14 +19,19 @@ public class TempStart {
 //		for(int i = 0;i<res.length;i++){
 //		System.out.println(res[i].getName()+" ; "+res[i].getPosition()+" ; "+res[i].getTeamName());
 //	}
-		//PlayerDataPO[] res  = p.getAllInfo("12-13");
-		//System.out.print(res[0].getPosition()+";"+res[0].getName()+res[0].getBirth());
+//		PlayerDataPO[] res  = p.getAllInfo("12-13");
+//		//System.out.print(res[0].getPosition()+";"+res[0].getName()+res[0].getBirth());
+//		for(int i =0 ;i<res.length;i++){
+//			System.out.println(res[i].getName()+";"+res[i].getPosition()+";"+res[i].getFieldGoalPercentage());
+//		}
+		
 		//FileListener f = new FileListener();
 		//f.Listen("./迭代一数据/matches");
 		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
 		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage());
-		p.setOrder("得分", true, "13-14", false);
-		p.getSearch("d", "13-14");
+		//p.setOrder("得分", false, "13-14", false);
+		//p.getSearch("d", "13-14");
+		p.getFirstFifty("抢断", p.getAllInfo("13-14"), true);
 	}
 	
 }

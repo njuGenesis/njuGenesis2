@@ -933,6 +933,7 @@ public class PlayerLogic implements PlayerInfoService{
 		else{
 			for(int i = 0;i<res.length;i++){
 				res[i] = PlayerList.get(res.length-1-i);
+				System.out.println(res[i].getPTS()+";"+res[i].getName());
 			}
 		}
 		return res;
@@ -1174,7 +1175,7 @@ public class PlayerLogic implements PlayerInfoService{
 		analysData(filepath,season);
 		return "ok";
 	}
-	public PlayerDataPO[] getFirstFifty(String orderName, PlayerDataPO[] orgin,boolean isAVG) {
+	public PlayerDataPO[] getFirstFifty(final String orderName, PlayerDataPO[] orgin,final boolean isAVG) {
 		// TODO Auto-generated method stub
 		//盖帽，抢断，犯规，失误，分钟，效率，投篮，三分，罚球，两双
 		PlayerList.clear();
@@ -1185,11 +1186,195 @@ public class PlayerLogic implements PlayerInfoService{
 
 			public int compare(PlayerDataPO p1, PlayerDataPO p2) {
 				// TODO Auto-generated method stub
+				if(orderName.equals("盖帽")){
+					if(isAVG==true){
+						if(p1.getRPG()-p2.getRPG()>0){
+							return 1;
+							}
+							else if(p1.getRPG()-p2.getRPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						}
+					
+					else{
+					if(p1.getRejection()-p2.getRejection()>0){
+						return 1;
+						}
+						else if(p1.getRejection()-p2.getRejection()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("抢断")){
+					if(isAVG==true){
+						if(p1.getStealPG()-p2.getStealPG()>0){
+							return 1;
+							}
+							else if(p1.getStealPG()-p2.getStealPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						}
+					
+					else{
+					if(p1.getSteal()-p2.getSteal()>0){
+						return 1;
+						}
+						else if(p1.getSteal()-p2.getSteal()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("犯规")){
+					if(isAVG==true){
+						if(p1.getFoulPG()-p2.getFoulPG()>0){
+							return 1;
+							}
+							else if(p1.getFoulPG()-p2.getFoulPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						}
+					
+					else{
+					if(p1.getFoul()-p2.getFoul()>0){
+						return 1;
+						}
+						else if(p1.getFoul()-p2.getFoul()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("失误")){
+					if(isAVG==true){
+						if(p1.getToPG()-p2.getToPG()>0){
+							return 1;
+							}
+							else if(p1.getToPG()-p2.getToPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						}
+					
+					else{
+					if(p1.getTo()-p2.getTo()>0){
+						return 1;
+						}
+						else if(p1.getTo()-p2.getTo()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("分钟")){
+					if(isAVG==true){
+						if(p1.getMPG()-p2.getMPG()>0){
+							return 1;
+							}
+							else if(p1.getMPG()-p2.getMPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						}
+					
+					else{
+					if(p1.getMinutesOnField()-p2.getMinutesOnField()>0){
+						return 1;
+						}
+						else if(p1.getMinutesOnField()-p2.getMinutesOnField()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("效率")){
+					if(p1.getEff()-p2.getEff()>0){
+						return 1;
+						}
+						else if(p1.getEff()-p2.getEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
 				
-			return 0;
+				else if(orderName.equals("投篮")){
+					if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()>0){
+						return 1;
+						}
+						else if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					
+				}
+				else if(orderName.equals("三分")){
+					if(p1.getThreePGPercentage()-p2.getThreePGPercentage()>0){
+						return 1;
+						}
+						else if(p1.getThreePGPercentage()-p2.getThreePGPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+				}
+				else if(orderName.equals("罚球")){
+					if(p1.getFTPercentage()-p2.getFTPercentage()>0){
+						return 1;
+						}
+						else if(p1.getFTPercentage()-p2.getFTPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+				}
+				else if(orderName.equals("两双")){
+					if(p1.getDouble()-p2.getDouble()>0){
+						return 1;
+						}
+						else if(p1.getDouble()-p2.getDouble()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+				}
+				else{
+				return 0;
+				}
 			}
 			
 		};
+		Collections.sort(PlayerList, comparator);
 //		if(orderName.equals("两双")){
 //			return null;
 //		}
@@ -1197,6 +1382,11 @@ public class PlayerLogic implements PlayerInfoService{
 //			PlayerDataPO[] res = setOrder(orderName,false,season,isAVG);
 //			return res;
 //		}
-		return null;
+		PlayerDataPO[] res = new PlayerDataPO[50];
+		for(int i = 0;i<50;i++){
+			res[i] = PlayerList.get(PlayerList.size()-i-1);
+			System.out.println(res[i].getName()+";"+res[i].getStealPG()+";"+i);
+					}
+		return res;
 	}
 }
