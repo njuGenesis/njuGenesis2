@@ -13,7 +13,7 @@ public class TempStart {
 		//p.analysData("Ognjen Kuzmic");
 		//GetFileData g = new GetFileData();
 		//g.readPlayerfile("D:/学习/软工3/CSEIII data/迭代一数据/players/info/Aaron Gray");
-		p.initialize("./迭代一数据/players/info","12-13");
+		//p.initialize("./迭代一数据/players/info","13-14");
 //	PlayerDataPO[] res = p.getAllSearch("Au","G", "Central");
 //	System.out.println(res.length);
 //		for(int i = 0;i<res.length;i++){
@@ -25,6 +25,7 @@ public class TempStart {
 		//f.Listen("./迭代一数据/matches");
 		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
 		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage());
+		p.setOrder("得分", true, "13-14", false);
 	}
 	
 }

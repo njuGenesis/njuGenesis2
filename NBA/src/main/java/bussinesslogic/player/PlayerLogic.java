@@ -2,6 +2,9 @@ package bussinesslogic.player;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import assistance.GetFileData;
 import bslogicService.PlayerInfoService;
@@ -499,9 +502,433 @@ public class PlayerLogic implements PlayerInfoService{
 		PlayerDataPO res = pio.WriteOut(name,season);
 		return res;
 	}
-	public void setOrder(String orderName,boolean isASC) {
+	public void setOrder(final String orderName,boolean isASC,String season,final boolean isAVG) {
 		// TODO Auto-generated method stub
 		//p.setOrder(orderName, isASC);
+		PlayerDataPO[] orgin = getAllInfo(season);
+		PlayerList.clear();
+		for(int i = 0;i<orgin.length;i++){
+			PlayerList.add(orgin[i]);
+		}
+		Comparator<PlayerDataPO> comparator = new Comparator<PlayerDataPO>(){
+
+			public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+				// TODO Auto-generated method stub
+				if(orderName.equals("球员名称")){
+					
+				return p1.getName().compareTo(p2.getName());
+				}
+				else if(orderName.equals("所属球队")){
+					return p1.getTeamName().compareTo(p2.getTeamName());
+				}
+				else if(orderName.equals("参赛场数")){
+					return p1.getGP()-p2.getGP();
+				}
+				else if(orderName.equals("先发场数")){
+					return p1.getGS()-p2.getGS();
+				}
+				else if(orderName.equals("篮板数")){
+					if(isAVG==false){
+					return p1.getBackboard()-p2.getBackboard();
+					}
+					else{
+						if(p1.getBPG()-p2.getBPG()>0){
+						return 1;
+						}
+						else if(p1.getBPG()-p2.getBPG()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					}
+				}
+				else if(orderName.equals("助攻数")){
+					if(isAVG==false){
+					return p1.getAssist()-p2.getAssist();
+					}
+					else{
+						if(p1.getAPG()-p2.getAPG()>0){
+							return 1;
+							}
+							else if(p1.getAPG()-p2.getAPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("在场时间")){
+					if(isAVG==false){
+						if(p1.getMinutesOnField()-p2.getMinutesOnField()>0){
+							return 1;
+							}
+							else if(p1.getMinutesOnField()-p2.getMinutesOnField()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+					else{
+						if(p1.getMPG()-p2.getMPG()>0){
+							return 1;
+							}
+							else if(p1.getMPG()-p2.getMPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("投篮命中率")){
+					if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()>0){
+						return 1;
+						}
+						else if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getFieldGoalPercentage()).compareTo(String.valueOf(p2.getFieldGoalPercentage()));
+				}
+				else if(orderName.equals("三分命中率")){
+					if(p1.getThreePGPercentage()-p2.getThreePGPercentage()>0){
+						return 1;
+						}
+						else if(p1.getThreePGPercentage()-p2.getThreePGPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getThreePGPercentage()).compareTo(String.valueOf(p2.getThreePGPercentage()));
+				}
+				else if(orderName.equals("罚球命中率")){
+					if(p1.getFTPercentage()-p2.getFTPercentage()>0){
+						return 1;
+						}
+						else if(p1.getFTPercentage()-p2.getFTPercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getFTPercentage()).compareTo(String.valueOf(p2.getFTPercentage()));
+				}
+				else if(orderName.equals("进攻数")){
+					if(isAVG==false){
+						if(p1.getOff()-p2.getOff()>0){
+							return 1;
+							}
+							else if(p1.getOff()-p2.getOff()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getOff()).compareTo(String.valueOf(p2.getOff()));
+					}
+					else{
+						if(p1.getOffPG()-p2.getOffPG()>0){
+							return 1;
+							}
+							else if(p1.getOffPG()-p2.getOffPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("防守数")){
+					if(isAVG==false){
+						if(p1.getDef()-p2.getDef()>0){
+							return 1;
+							}
+							else if(p1.getDef()-p2.getDef()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getDef()).compareTo(String.valueOf(p2.getDef()));
+					}
+					else{
+						if(p1.getDefPG()-p2.getDefPG()>0){
+							return 1;
+							}
+							else if(p1.getDefPG()-p2.getDefPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+						//return String.valueOf(p1.getDefPG()).compareTo(String.valueOf(p2.getDefPG()));
+					}
+				}
+				else if(orderName.equals("抢断数")){
+					if(isAVG==false){
+						if(p1.getSteal()-p2.getSteal()>0){
+							return 1;
+							}
+							else if(p1.getSteal()-p2.getSteal()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getSteal()).compareTo(String.valueOf(p2.getSteal()));
+					}
+					else{
+						if(p1.getDefPG()-p2.getDefPG()>0){
+							return 1;
+							}
+							else if(p1.getDefPG()-p2.getDefPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("盖帽数")){
+					if(isAVG==false){
+						if(p1.getRejection()-p2.getRejection()>0){
+							return 1;
+							}
+							else if(p1.getRejection()-p2.getRejection()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getRejection()).compareTo(String.valueOf(p2.getRejection()));
+					}
+					else{
+						if(p1.getRPG()-p2.getRPG()>0){
+							return 1;
+							}
+							else if(p1.getRPG()-p2.getRPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("失误数")){
+					if(isAVG==false){
+						if(p1.getTo()-p2.getTo()>0){
+							return 1;
+							}
+							else if(p1.getTo()-p2.getTo()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getTo()).compareTo(String.valueOf(p2.getTo()));
+					}
+					else{
+						if(p1.getToPG()-p2.getToPG()>0){
+							return 1;
+							}
+							else if(p1.getToPG()-p2.getToPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("得分")){
+					if(isAVG==false){
+						if(p1.getPTS()-p2.getPTS()>0){
+							return 1;
+							}
+							else if(p1.getPTS()-p2.getPTS()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					//return String.valueOf(p1.getPTS()).compareTo(String.valueOf(p2.getPTS()));
+					}
+					else{
+						if(p1.getPPG()-p2.getPPG()>0){
+							return 1;
+							}
+							else if(p1.getPPG()-p2.getPPG()<0){
+								return -1;
+							}
+							else{
+								return 0;
+							}
+					}
+				}
+				else if(orderName.equals("效率")){
+					if(p1.getEff()-p2.getEff()>0){
+						return 1;
+						}
+						else if(p1.getEff()-p2.getEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getEff()).compareTo(String.valueOf(p2.getEff()));
+				}
+				else if(orderName.equals("GmSc")){
+					if(p1.getGmsc()-p2.getGmsc()>0){
+						return 1;
+						}
+						else if(p1.getGmsc()-p2.getGmsc()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getGmsc()).compareTo(String.valueOf(p2.getGmsc()));
+				}
+				
+				else if(orderName.equals("真实命中率")){
+					if(p1.getTruePercentage()-p2.getTruePercentage()>0){
+						return 1;
+						}
+						else if(p1.getTruePercentage()-p2.getTruePercentage()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getTruePercentage()).compareTo(String.valueOf(p2.getTruePercentage()));
+				}
+				else if(orderName.equals("投篮效率")){
+					if(p1.getShootEff()-p2.getShootEff()>0){
+						return 1;
+						}
+						else if(p1.getShootEff()-p2.getShootEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getShootEff()).compareTo(String.valueOf(p2.getShootEff()));
+				}
+				else if(orderName.equals("篮板率")){
+					if(p1.getBackboardEff()-p2.getBackboardEff()>0){
+						return 1;
+						}
+						else if(p1.getBackboardEff()-p2.getBackboardEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getBackboardEff()).compareTo(String.valueOf(p2.getBackboardEff()));
+				}
+				else if(orderName.equals("进攻篮板率")){
+					if(p1.getOffBEff()-p2.getOffBEff()>0){
+						return 1;
+						}
+						else if(p1.getOffBEff()-p2.getOffBEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getOffBEff()).compareTo(String.valueOf(p2.getOffBEff()));
+				}
+				else if(orderName.equals("防守篮板率")){
+					if(p1.getDefBEff()-p2.getDefBEff()>0){
+						return 1;
+						}
+						else if(p1.getDefBEff()-p2.getDefBEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getDefBEff()).compareTo(String.valueOf(p2.getDefBEff()));
+				}
+				else if(orderName.equals("助攻率")){
+					if(p1.getAssitEff()-p2.getAssitEff()>0){
+						return 1;
+						}
+						else if(p1.getAssitEff()-p2.getAssitEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getAssitEff()).compareTo(String.valueOf(p2.getAssitEff()));
+				}
+				else if(orderName.equals("抢断率")){
+					if(p1.getStealEff()-p2.getStealEff()>0){
+						return 1;
+						}
+						else if(p1.getStealEff()-p2.getStealEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getStealEff()).compareTo(String.valueOf(p2.getStealEff()));
+				}
+				else if(orderName.equals("盖帽率")){
+					if(p1.getRejectionEff()-p2.getRejectionEff()>0){
+						return 1;
+						}
+						else if(p1.getRejectionEff()-p2.getRejectionEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getRejectionEff()).compareTo(String.valueOf(p2.getRejectionEff()));
+				}
+				else if(orderName.equals("失误率")){
+					if(p1.getToEff()-p2.getToEff()>0){
+						return 1;
+						}
+						else if(p1.getToEff()-p2.getToEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getToEff()).compareTo(String.valueOf(p2.getToEff()));
+				}
+				else if(orderName.equals("使用率")){
+					if(p1.getUseEff()-p2.getUseEff()>0){
+						return 1;
+						}
+						else if(p1.getUseEff()-p2.getUseEff()<0){
+							return -1;
+						}
+						else{
+							return 0;
+						}
+					//return String.valueOf(p1.getUseEff()).compareTo(String.valueOf(p2.getUseEff()));
+				}
+				
+				else{
+					return 0;
+				}
+			}
+			
+		};
+		Collections.sort(PlayerList,comparator);
+		PlayerDataPO[] res = new PlayerDataPO[PlayerList.size()];
+		for(int i = 0;i<res.length;i++){
+			res[i] = PlayerList.get(i);
+			System.out.println(res[i].getPTS()+";"+res[i].getName());
+		}
+		
 	}
 	public PlayerDataPO[] getAllInfo(String season) {
 		// TODO Auto-generated method stub
