@@ -1389,4 +1389,186 @@ public class PlayerLogic implements PlayerInfoService{
 					}
 		return res;
 	}
+	public PlayerDataPO[] hotPlayerToday(String season,String date,final String key){
+		//得分，篮板，助攻，盖帽，抢断
+		ArrayList<PlayerDataPO> temp = new ArrayList<PlayerDataPO>();
+		String title = season+"_"+date;
+		File root = new File("./迭代一数据/matches");
+				File[] files = root.listFiles();
+				for(File file:files){		
+					if(file.getName().startsWith(title)){
+						MatchDataPO m = g.readMatchfile(file.getAbsolutePath());
+						
+						for(int i = 0;i<m.firstTeamInfo.size();i++){
+							String[] firstTemp = m.firstTeamInfo.get(i).split(";");
+							PlayerDataPO p = new PlayerDataPO();
+							p.setName(firstTemp[0]);
+							p.setPTS(Integer.valueOf(firstTemp[17]));
+							p.setBackboard(Integer.valueOf(firstTemp[11]));
+							p.setAssist(Integer.valueOf(firstTemp[12]));
+							p.setRejection(Integer.valueOf(firstTemp[14]));
+							p.setSteal(Integer.valueOf(firstTemp[13]));
+							temp.add(p);
+						}
+						for(int i = 0;i<m.secondTeamInfo.size();i++){
+							String[] firstTemp = m.secondTeamInfo.get(i).split(";");
+							PlayerDataPO p = new PlayerDataPO();
+							p.setName(firstTemp[0]);
+							p.setPTS(Integer.valueOf(firstTemp[17]));
+							p.setBackboard(Integer.valueOf(firstTemp[11]));
+							p.setAssist(Integer.valueOf(firstTemp[12]));
+							p.setRejection(Integer.valueOf(firstTemp[14]));
+							p.setSteal(Integer.valueOf(firstTemp[13]));
+							temp.add(p);
+						}
+					}
+				}
+				
+						temp.sort(new Comparator<PlayerDataPO>(){
+
+							public int compare(PlayerDataPO p1,
+									PlayerDataPO p2) {
+								// TODO Auto-generated method stub
+								if(key.equals("得分")){
+									return p1.getPTS()-p2.getPTS();
+								}
+								else if(key.equals("篮板")){
+									return p1.getBackboard()-p2.getBackboard();
+								
+								}
+								else if(key.equals("助攻")){
+									return p1.getAssist()-p2.getAssist();
+								}
+								else if(key.equals("盖帽")){
+									return p1.getRejection() - p2.getRejection();
+								}
+								else if(key.equals("抢断")){
+									return p1.getSteal()-p2.getSteal();
+								}
+								else{
+									return 0;
+								}
+							}
+						});
+						
+						PlayerDataPO[] res = new PlayerDataPO[5];
+						for(int i = 0;i<5;i++){
+							res[i] = temp.get(temp.size()-i-1);
+						}
+					
+		return res;
+	}
+	public PlayerDataPO[] hotPlayerSeason(String season,final String key){
+		//场均得分，场均篮板，场均助攻，场均盖帽，场均抢断，三分命中率，投篮命中率，罚球命中率
+		PlayerDataPO[] temp = getAllInfo(season);
+		ArrayList<PlayerDataPO> temparr = new ArrayList<PlayerDataPO>();
+		for(int i = 0;i<temp.length;i++){
+			temparr.add(temp[i]);
+		}
+		temparr.sort(new Comparator<PlayerDataPO>(){
+
+			public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+				// TODO Auto-generated method stub
+				if(key.equals("场均得分")){
+					if(p1.getPPG()-p2.getPPG()>0){
+						return 1;
+					}
+					else if(p1.getPPG()-p2.getPPG()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("场均篮板")){
+					if(p1.getBPG()-p2.getBPG()>0){
+						return 1;
+					}
+					else if(p1.getBPG()-p2.getBPG()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("场均助攻")){
+					if(p1.getAPG()-p2.getAPG()>0){
+						return 1;
+					}
+					else if(p1.getAPG()-p2.getAPG()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("场均盖帽")){
+					if(p1.getRPG()-p2.getRPG()>0){
+						return 1;
+					}
+					else if(p1.getRPG()-p2.getRPG()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("场均抢断")){
+					if(p1.getStealPG()-p2.getStealPG()>0){
+						return 1;
+					}
+					else if(p1.getStealPG()-p2.getStealPG()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("三分命中率")){
+					if(p1.getThreePGPercentage()-p2.getThreePGPercentage()>0){
+						return 1;
+					}
+					else if(p1.getThreePGPercentage()-p2.getThreePGPercentage()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("投篮命中率")){
+					if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()>0){
+						return 1;
+					}
+					else if(p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				else if(key.equals("罚球命中率")){
+					if(p1.getFTPercentage()-p2.getFTPercentage()>0){
+						return 1;
+					}
+					else if(p1.getFTPercentage()-p2.getFTPercentage()<0){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				return 0;
+			}
+			
+		});
+		PlayerDataPO[] res = new PlayerDataPO[5];
+		for(int i = 0;i<5;i++){
+			res[i] = temparr.get(temparr.size()-1-i);
+		}
+		return res;
+	}
+	public PlayerDataPO[] progressPlayer(String season,String key){
+		return null;
+		
+	}
 }
