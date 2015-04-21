@@ -157,6 +157,7 @@ public class GetFileData {
 			data = br.readLine(); // 跳过两行数据
 			while ((data = br.readLine()).contains(";")) {
 				String[] detail = data.split(";");
+				player=new Match_PlayerPO();
 				player.setTeam(res.getFirstteam());
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));

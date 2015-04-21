@@ -6,6 +6,7 @@ import java.util.Date;
 
 import assistance.GetFileData;
 import bslogicService.MatchInfoService;
+import bussinesslogic.team.TeamLogic;
 import data.match.Matchdata;
 import data.po.MatchDataPO;
 
@@ -25,6 +26,16 @@ public class MatchLogic implements MatchInfoService {
 		}
 		add.writeIn(MatchList);
 		return MatchList;
+	}
+	
+	public void update(String filename){
+		GetFileData MatchReader = new GetFileData();
+		File file = new File(filename);
+		ArrayList<MatchDataPO> matches = new ArrayList<MatchDataPO>();
+		matches.add(calcuRound(MatchReader.detailMatch(file)));
+		updateMatchInfo(matches);
+		TeamLogic t = new TeamLogic();
+		t.updateTeamInfo(matches);
 	}
 	
 	public void updateMatchInfo(ArrayList<MatchDataPO> matches){
@@ -76,13 +87,37 @@ public class MatchLogic implements MatchInfoService {
 	public ArrayList<MatchDataPO> GetInfo(String shotrName, String season) {
 		return add.GetPartMatch(shotrName, season);
 	}
+	
+	//根据球员返回比赛
+	public ArrayList<MatchDataPO> GetPlayerInfo(String playername, String season) {
+		ArrayList<MatchDataPO> allinfo = GetAllInfo(season);
+		ArrayList<MatchDataPO> res = new  ArrayList<MatchDataPO>();
+		for(int i=0;i<allinfo.size();i++){
+			for(int k=0;k<allinfo.get(i).getPlayers1().size();k++){
+				if(allinfo.get(i).getPlayers1().get(k).getPlayername().equals(playername)){
+					res.add(allinfo.get(i));
+					break;
+				}
+			}
+			for(int k=0;k<allinfo.get(i).getPlayers2().size();k++){
+				if(allinfo.get(i).getPlayers2().get(k).getPlayername().equals(playername)){
+					res.add(allinfo.get(i));
+					break;
+				}
+			}
+		}
+		return res;
+	}
+	
+	
 
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
 		//match.ini();
-		System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
-		
+		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
+		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
+		System.out.println(match.GetAllInfo().size());
 	    System.out.println(MatchLogic.getTime());
 	}
 

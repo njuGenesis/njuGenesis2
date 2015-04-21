@@ -7,11 +7,12 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
-import data.po.PlayerDataPO;
+import bussinesslogic.match.MatchLogic;
 import bussinesslogic.player.PlayerLogic;
 
 public class FileListener {
 	PlayerLogic p = new PlayerLogic();
+	MatchLogic m = new MatchLogic();
 	public void Listen(String path){
 		 try{
 			 int i = 0;
@@ -25,11 +26,17 @@ public class FileListener {
 		            WatchKey key=watchService.take();  
 		            for(WatchEvent<?> event:key.pollEvents())  
 		            {  
-		            	//String[] temp = event.context().toString().split("_");
+		            	
 		            	if(event.kind().toString().equals("ENTRY_CREATE")){
 		            		System.out.println(i);
 		            		i++;
+		            		String temp = "./迭代一数据/matches/"+event.context().toString();
+		            		System.out.println("start "+MatchLogic.getTime());
 		            		p.initialize("./迭代一数据/players/info", "12-13");
+		            		System.out.println("play  "+MatchLogic.getTime());
+		            		m.update(temp);
+		            		System.out.println("end   "+MatchLogic.getTime());
+		            		
 		            		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
 		            		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage()+res.getGP());
 		            	}
@@ -45,5 +52,11 @@ public class FileListener {
 		        	  e.printStackTrace();
 		          }
 		} 
+	   
+	
+	public static void main(String[] args) {
+		FileListener l = new FileListener();
+		l.Listen("迭代一数据/matches");
 	}
+}
 
