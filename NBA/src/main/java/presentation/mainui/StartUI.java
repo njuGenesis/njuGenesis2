@@ -7,12 +7,15 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+
+import org.apache.batik.transcoder.TranscoderException;
 
 import presentation.component.BgPanel;
 import presentation.component.GFrame;
@@ -101,7 +104,7 @@ public class StartUI extends GFrame implements Runnable{
 		close = new GLabel("img/Framebg/closeBlue.png", new Point(980, 50), new Point(50, 50), this, false, -1);
 		
 		MouseAdapter mouseAdapter = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				GLabel currentMenu = (GLabel)e.getSource();
 				menuNextNumber = currentMenu.getNumber();
 				
@@ -124,9 +127,7 @@ public class StartUI extends GFrame implements Runnable{
 					StartUI.this.remove(currentPanel);
 					currentPanel = nextPanel;
 					StartUI.this.add(currentPanel);
-					for(int i=0;i<background.length;i++){
-						background[i].setVisible(false);
-					}
+					currentPanel.setVisible(true);
 					StartUI.this.repaint();
 				}
 			}
@@ -180,6 +181,9 @@ public class StartUI extends GFrame implements Runnable{
 //			startWord3.setVisible(false);
 			type = typeOfRun.WORK;
 			currentPanel.setVisible(true);
+			for(int i=0;i<background.length;i++){
+				background[i].setVisible(false);
+			}
 			//break;
 		}
 		case WORK:{
@@ -254,7 +258,7 @@ public class StartUI extends GFrame implements Runnable{
 			imgNext = assit.createPanelImage(nextPanel);
 			turnerNewsPaper.setPages(imgCurrent, imgNext, 500, 650);
 			currentPanel.setVisible(false);
-			turnerNewsPaper.setBorderLinesVisible(true);
+			//turnerNewsPaper.setBorderLinesVisible(true);
 			turnerNewsPaper.setVisible(true);
 			if(menuNextNumber>menuCurrentNumber){
 				turnerNewsPaper.nextPage();
@@ -265,9 +269,6 @@ public class StartUI extends GFrame implements Runnable{
 					turnerNewsPaper.setVisible(false);
 				}
 			}
-			currentPanel = nextPanel;
-			currentPanel.setVisible(true);
-			this.add(nextPanel);
 			menuCurrentNumber = menuNextNumber;
 			thread.stop();
 			break;

@@ -12,12 +12,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import data.po.TeamDataPO;
+
 public class GLabel extends JLabel{
 	
 	private ImageIcon image;
 	private BufferedImage bi;
 	private BufferedImage sbi;
 	private int number;
+	public TeamDataPO po = null;
 	/**
 	 * 
 	 */
@@ -25,6 +28,19 @@ public class GLabel extends JLabel{
 	
 	public GLabel(String file, Point location, Point size, Container container, boolean visible){
 		image = new ImageIcon(file);
+		image.setImage(image.getImage().getScaledInstance(size.x, size.y, Image.SCALE_SMOOTH)); 
+		this.setIcon(image);
+		this.setBounds(location.x, location.y, size.x, size.y);
+		this.setVisible(visible);
+		container.add(this);
+	}
+	
+	public GLabel(String file, Point location, Point size, Container container, boolean visible, TeamDataPO po){
+		this(file, location, size, container, visible);
+		this.po = po;
+	}
+	
+	public GLabel(ImageIcon image, Point location, Point size, Container container, boolean visible){
 		image.setImage(image.getImage().getScaledInstance(size.x, size.y, Image.SCALE_SMOOTH)); 
 		this.setIcon(image);
 		this.setBounds(location.x, location.y, size.x, size.y);

@@ -1,12 +1,142 @@
 package presentation.contenui;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+
+import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.transcoder.TranscoderException;
+
+import bussinesslogic.team.TeamLogic;
+import data.po.TeamDataPO;
 import presentation.component.BgPanel;
+import presentation.component.GLabel;
+import presentation.component.GLabel;
+import presentation.component.TeamImageAssist;
 
 public class TeamUI extends BgPanel{
 
-	public TeamUI(String s) {
-		super(s);
-		// TODO Auto-generated constructor stub
+	private static String bg = "img/team/teamAllBg.png";
+	private TeamImageAssist assist;
+	private GLabel label;
+	private GLabel[] team = new GLabel[30];
+
+	public TeamUI(){
+		super(bg);
+		super.setVisible(false);
+		assist = new TeamImageAssist();
+		this.setLayout(null);
+		init();
 	}
 
+	private void init(){
+		ArrayList<TeamDataPO> poList = getTeamDataPOs();
+		ArrayList<ArrayList<TeamDataPO>> teamDataPOArea = setTeamDataPOArea(poList);
+
+		for(int i = 0; i<30; i++){
+			if(i>=0&&i<=4){
+				team[i] = new GLabel(getFileAddress(teamDataPOArea.get(0).get(i)), new Point(52, 63+i*40), new Point(205, 40), this, true, teamDataPOArea.get(0).get(i));//25, 25
+			}else{
+				if(i>=5&&i<=9){
+					team[i] = new GLabel(getFileAddress(teamDataPOArea.get(1).get(i-5)), new Point(255, 63+(i-5)*32), new Point(128, 25), this, true, teamDataPOArea.get(1).get(i-5));
+				}else{
+					if(i>=10&&i<=14){
+						team[i] = new GLabel(getFileAddress(teamDataPOArea.get(2).get(i-10)), new Point(52, 290+(i-10)*32), new Point(128, 25), this, true, teamDataPOArea.get(2).get(i-10));
+					}else{
+						if(i>=15&&i<=19){
+							team[i] = new GLabel(getFileAddress(teamDataPOArea.get(3).get(i-15)), new Point(716, 63+(i-15)*32), new Point(128, 25), this, true, teamDataPOArea.get(3).get(i-15));
+						}else{
+							if(i>=20&&i<=24){
+								team[i] = new GLabel(getFileAddress(teamDataPOArea.get(4).get(i-20)), new Point(502, 290+(i-20)*32), new Point(128, 25), this, true, teamDataPOArea.get(4).get(i-20));
+							}else{
+								if(i>=25&&i<=29){
+									team[i] = new GLabel(getFileAddress(teamDataPOArea.get(5).get(i-25)), new Point(716, 290+(i-25)*32), new Point(128, 25), this, true, teamDataPOArea.get(5).get(i-25));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		MouseAdapter mouseAdapter = new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+			}
+			public void mouseExited(MouseEvent e) {
+			}
+			public void mousePressed(MouseEvent e) {
+				GLabel button = (GLabel)e.getSource();
+				ContentController con = new ContentController();
+				con.changeToTeamDetails(button.po);
+			}
+		};
+
+		for(int i = 0; i<30; i++){
+			team[i].addMouseListener(mouseAdapter);
+		}
+
+	}
+
+	private ArrayList<TeamDataPO> getTeamDataPOs(){
+		TeamLogic t = new TeamLogic();
+		return t.GetInfoBySeason("13-14");
+	}
+
+	private ArrayList<ArrayList<TeamDataPO>> setTeamDataPOArea(ArrayList<TeamDataPO> poList){
+		ArrayList<TeamDataPO> Southeast = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> Central = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> Atlantic = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> Southwest = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> Northwest = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> Pacific = new ArrayList<TeamDataPO>();
+		for(int i = 0; i<30; i++){
+			if(poList.get(i).getArea().equals("Southeast")){
+				Southeast.add(poList.get(i));
+			}else{
+				if(poList.get(i).getArea().equals("Central")){
+					Central.add(poList.get(i));
+				}else{
+					if(poList.get(i).getArea().equals("Atlantic")){
+						Atlantic.add(poList.get(i));
+					}else{
+						if(poList.get(i).getArea().equals("Southwest")){
+							Southwest.add(poList.get(i));
+						}else{
+							if(poList.get(i).getArea().equals("Northwest")){
+								Northwest.add(poList.get(i));
+							}else{
+								if(poList.get(i).getArea().equals("Pacific")){
+									Pacific.add(poList.get(i));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		ArrayList<ArrayList<TeamDataPO>> setAera = new ArrayList<ArrayList<TeamDataPO>>();
+		setAera.add(Southeast);
+		setAera.add(Central);
+		setAera.add(Atlantic);
+		setAera.add(Southwest);
+		setAera.add(Northwest);
+		setAera.add(Pacific);
+		return setAera;
+	}
+
+	/*
+	 * data:
+	 * 球队的所有简称
+	 */
+	private String getFileAddress(TeamDataPO po){
+		String fileAddress = "img/teamName/"+po.getShortName()+".png";
+		return fileAddress;
+	}
 }

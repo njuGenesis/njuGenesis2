@@ -70,7 +70,7 @@ public class BookEffectAssist {
 		int height = nextPanel.getHeight();
 		BufferedImage assitImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);   
 		Graphics2D g2 = assitImg.createGraphics();   
-		nextPanel.paint(g2); 
+		nextPanel.print(g2); 
 		BufferedImage assistImgLeft = new BufferedImage(width/2, height, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage assistImgRight = new BufferedImage(width/2, height, BufferedImage.TYPE_INT_ARGB);
 		assistImgRight.createGraphics().drawImage(assitImg, 0, 0, width/2, height, width/2, 0, width, height, null);
