@@ -200,6 +200,19 @@ public class PlayerLogic implements PlayerInfoService{
 					
 					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
 					
+//					if(PlayerList.get(k).getGP()<=5){
+//						PlayerList.get(k).setRecentBackboard(PlayerList.get(k).getRecentBackboard()+Integer.valueOf(temp[11]));
+//						PlayerList.get(k).setRecentAssist(PlayerList.get(k).getRecentAssist()+Integer.valueOf(temp[12]));
+//						PlayerList.get(k).setRecentPTS(PlayerList.get(k).getRecentPTS()+Integer.valueOf(temp[17]));
+//					}
+//					else{
+//						
+//					}
+					PlayerList.get(k).addBackboard(Integer.valueOf(temp[11]));
+					
+					PlayerList.get(k).addAssist(Integer.valueOf(temp[12]));
+					
+					
 					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
 					
 					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
@@ -211,6 +224,7 @@ public class PlayerLogic implements PlayerInfoService{
 					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
 					try{
 						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
+						PlayerList.get(k).addPTS(Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
 						temp[17] = "0";
@@ -322,6 +336,10 @@ public class PlayerLogic implements PlayerInfoService{
 					
 					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
 					
+					PlayerList.get(k).addBackboard(Integer.valueOf(temp[11]));
+					
+					PlayerList.get(k).addAssist(Integer.valueOf(temp[12]));
+					
 					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
 					
 					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
@@ -333,6 +351,7 @@ public class PlayerLogic implements PlayerInfoService{
 					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
 					try{
 						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
+						PlayerList.get(k).addPTS(Integer.valueOf(temp[17]));
 					}
 					catch(Exception e){
 					   temp[17] = "0";
@@ -397,6 +416,7 @@ public class PlayerLogic implements PlayerInfoService{
 			int OtherTotalFieldGoal =  PlayerList.get(i).getOtherTotalFieldGoal();
 			int AllFT  =  PlayerList.get(i).getAllFT();
 			int AllTo =  PlayerList.get(i).getAllTo();
+			
 		if(PlayerList.get(i).getGP()!=0){
 			PlayerList.get(i).setBPG(backboard/(double)GP);
 			PlayerList.get(i).setAPG(assist/(double)GP);
@@ -490,6 +510,38 @@ public class PlayerLogic implements PlayerInfoService{
 			PlayerList.get(i).setRejectionEff (0);//鐩栧附鐜囷紝		
 			PlayerList.get(i).setToEff (0);//澶辫鐜囷紝		
 			PlayerList.get(i).setUseEff (0);
+		}
+		if(PlayerList.get(i).getGP()>5){
+			ArrayList<Integer> tempb = PlayerList.get(i).getRecentBackboard();
+			ArrayList<Integer> tempa = PlayerList.get(i).getRecentAssist();
+			ArrayList<Integer> tempp = PlayerList.get(i).getRecentPTS();
+			int recentb = 0;
+			int recenta = 0;
+			int recentp = 0;
+			for(int j = tempb.size()-5;j<tempb.size();j++){
+				recentb = recentb + tempb.get(j);
+			}
+			for(int j = tempa.size()-5;j<tempa.size();j++){
+				recenta = recenta + tempa.get(j);
+			}
+			for(int j = tempp.size()-5;j<tempp.size();j++){
+				recentp = recentp + tempp.get(j);
+			}
+			double avgb = recentb/(double)5;
+			double avga = recenta/(double)5;
+			double avgp = recentp/(double)5;
+			double avgB = (backboard-recentb)/(double)(GP-5);
+			double avgA = (assist - recenta)/(double)(GP-5);
+			double avgP = (PTS - recentp)/(double)(GP-5);
+			if(avgB!=0){
+			PlayerList.get(i).setBProgressPecnetage((avgb-avgB)/avgB);
+			}
+			if(avgA!=0){
+			PlayerList.get(i).setAProgressPecentage((avga-avgA)/avgA);
+			}
+			if(avgP!=0){
+			PlayerList.get(i).setPProgressPecentage((avgp-avgP)/avgP);
+			}
 		}
 		}
 			
@@ -1568,7 +1620,74 @@ public class PlayerLogic implements PlayerInfoService{
 		return res;
 	}
 	public PlayerDataPO[] progressPlayer(String season,String key){
-		return null;
+		PlayerDataPO[] temp = getAllInfo(season);
+		ArrayList<PlayerDataPO> temparr = new ArrayList<PlayerDataPO>();
+		for(int i = 0;i<temp.length;i++){
+			temparr.add(temp[i]);
+		}
+		if(key.equals("场均得分")){
+			temparr.sort(new Comparator<PlayerDataPO>(){
+
+
+				public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+					// TODO Auto-generated method stub
+					if(p1.getPProgressPecentage()-p2.getPProgressPecentage()>0){
+						return 1;
+					}
+					else if(p1.getPProgressPecentage()-p2.getPProgressPecentage()<0){
+						return -1;
+					}
+					else{
+					return 0;
+					}
+				}
+				
+			});
+		}
+		else if(key.equals("场均篮板")){
+			temparr.sort(new Comparator<PlayerDataPO>(){
+
+
+				public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+					// TODO Auto-generated method stub
+					if(p1.getBProgressPecentage()-p2.getBProgressPecentage()>0){
+						return 1;
+					}
+					else if(p1.getBProgressPecentage()-p2.getBProgressPecentage()<0){
+						return -1;
+					}
+					else{
+					return 0;
+					}
+				}
+				
+			});
+		}
+		else if(key.equals("场均助攻")){
+			temparr.sort(new Comparator<PlayerDataPO>(){
+
+
+				public int compare(PlayerDataPO p1, PlayerDataPO p2) {
+					// TODO Auto-generated method stub
+					if(p1.getAProgressPecentage()-p2.getAProgressPecentage()>0){
+						return 1;
+					}
+					else if(p1.getAProgressPecentage()-p2.getAProgressPecentage()<0){
+						return -1;
+					}
+					else{
+					return 0;
+					}
+				}
+				
+			});
+		}
+		PlayerDataPO[] res = new PlayerDataPO[5];
+		for(int i = 0;i<5;i++){
+			res[i] = temparr.get(temparr.size()-1-i);
+			System.out.println(res[i].getName()+";"+res[i].getPProgressPecentage());
+		}
+		return res;
 		
 	}
 }

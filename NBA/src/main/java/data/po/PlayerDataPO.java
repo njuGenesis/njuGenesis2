@@ -2,6 +2,7 @@ package data.po;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class PlayerDataPO implements Serializable{
 	/**
@@ -101,8 +102,61 @@ public class PlayerDataPO implements Serializable{
 
 	int Double = 0;//涓ゅ弻
 	
+	ArrayList<Integer> RecentBackboard = new ArrayList<Integer>();
+
+	ArrayList<Integer> RecentAssist = new ArrayList<Integer>();
+	 
+	ArrayList<Integer> RecentPTS = new ArrayList<Integer>();
+	
+	double BProgressPecentage = 0;
 	
 	
+	double AProgressPecentage = 0;
+	
+	double PProgressPecentage = 0;
+	
+	public double getAProgressPecentage() {
+		return AProgressPecentage;
+	}
+	public void setAProgressPecentage(double aProgressPecentage) {
+		BigDecimal bg = new BigDecimal(aProgressPecentage);
+		AProgressPecentage = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	public double getPProgressPecentage() {
+		return PProgressPecentage;
+	}
+	public void setPProgressPecentage(double pProgressPecentage) {
+		BigDecimal bg = new BigDecimal(pProgressPecentage);
+		PProgressPecentage =bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	public ArrayList<Integer> getRecentBackboard(){
+		return RecentBackboard;
+	}
+	public void addBackboard(int e){
+		RecentBackboard.add(e);
+	}
+	
+	public ArrayList<Integer> getRecentAssist(){
+		return RecentAssist;
+	}
+	public void addAssist(int e){
+		RecentAssist.add(e);
+	}
+	
+	public ArrayList<Integer> getRecentPTS(){
+		return RecentPTS;
+	}
+	public void addPTS(int e){
+		RecentPTS.add(e);
+	}
+	
+	public double getBProgressPecentage(){
+		return BProgressPecentage;
+	}
+	public void setBProgressPecnetage(double p){
+		BigDecimal bg = new BigDecimal(p);
+		BProgressPecentage = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
 	public int getTotalb() {
 		return totalb;
 	}
