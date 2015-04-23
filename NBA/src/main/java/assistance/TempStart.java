@@ -22,7 +22,9 @@ public class TempStart {
 		PlayerDataPO[] res  = p.getAllInfo("12-13");
 //		//System.out.print(res[0].getPosition()+";"+res[0].getName()+res[0].getBirth());
 		for(int i =0 ;i<res.length;i++){
-			System.out.println(res[i].getName()+";"+res[i].getMinutesOnField());
+			if(res[i].getMinutesOnField()==0){
+			System.out.println(res[i].getName()+";"+res[i].getGP());
+			}
 	}
 		
 		//FileListener f = new FileListener();
