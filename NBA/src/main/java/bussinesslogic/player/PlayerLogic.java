@@ -1451,8 +1451,9 @@ public class PlayerLogic implements PlayerInfoService{
 					if(file.getName().startsWith(title)){
 						MatchDataPO m = g.readMatchfile(file.getAbsolutePath());
 						
-						for(int i = 0;i<m.firstTeamInfo.size();i++){
+						for(int i = 1;i<m.firstTeamInfo.size();i++){
 							String[] firstTemp = m.firstTeamInfo.get(i).split(";");
+							try{
 							PlayerDataPO p = new PlayerDataPO();
 							p.setName(firstTemp[0]);
 							p.setPTS(Integer.valueOf(firstTemp[17]));
@@ -1461,9 +1462,14 @@ public class PlayerLogic implements PlayerInfoService{
 							p.setRejection(Integer.valueOf(firstTemp[14]));
 							p.setSteal(Integer.valueOf(firstTemp[13]));
 							temp.add(p);
+							}
+							catch(Exception e){
+								System.out.println(file.getAbsolutePath());
+							}
 						}
-						for(int i = 0;i<m.secondTeamInfo.size();i++){
+						for(int i = 1;i<m.secondTeamInfo.size();i++){
 							String[] firstTemp = m.secondTeamInfo.get(i).split(";");
+							try{
 							PlayerDataPO p = new PlayerDataPO();
 							p.setName(firstTemp[0]);
 							p.setPTS(Integer.valueOf(firstTemp[17]));
@@ -1472,6 +1478,10 @@ public class PlayerLogic implements PlayerInfoService{
 							p.setRejection(Integer.valueOf(firstTemp[14]));
 							p.setSteal(Integer.valueOf(firstTemp[13]));
 							temp.add(p);
+							}
+							catch(Exception e){
+								System.out.println(file.getAbsolutePath());
+							}
 						}
 					}
 				}
@@ -1504,9 +1514,16 @@ public class PlayerLogic implements PlayerInfoService{
 						});
 						
 						PlayerDataPO[] res = new PlayerDataPO[5];
+						
 						for(int i = 0;i<5;i++){
+							if(temp.size()!=0){
 							res[i] = temp.get(temp.size()-i-1);
+							}
+							else{
+								res[i] = new PlayerDataPO();
+							}
 						}
+						
 					
 		return res;
 	}

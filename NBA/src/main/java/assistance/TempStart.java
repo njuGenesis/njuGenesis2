@@ -19,13 +19,13 @@ public class TempStart {
 //		for(int i = 0;i<res.length;i++){
 //		System.out.println(res[i].getName()+" ; "+res[i].getPosition()+" ; "+res[i].getTeamName());
 //	}
-		PlayerDataPO[] res  = p.getAllInfo("12-13");
+		//PlayerDataPO[] res  = p.getAllInfo("12-13");
 //		//System.out.print(res[0].getPosition()+";"+res[0].getName()+res[0].getBirth());
-		for(int i =0 ;i<res.length;i++){
-			if(res[i].getMinutesOnField()==0){
-			System.out.println(res[i].getName()+";"+res[i].getGP());
-			}
-	}
+		//for(int i =0 ;i<res.length;i++){
+			//if(res[i].getMinutesOnField()==0){
+		//	System.out.println(res[i].getName()+";"+res[i].getGP());
+		//	}
+	//}
 		
 		//FileListener f = new FileListener();
 		//f.Listen("./迭代一数据/matches");
@@ -35,6 +35,12 @@ public class TempStart {
 		//p.getSearch("d", "13-14");
 		//p.getFirstFifty("抢断", p.getAllInfo("13-14"), true);
 		//p.progressPlayer("13-14", "场均得分");
+		PlayerDataPO[] res = p.hotPlayerToday("13-14", "04-11", "得分");
+		for(int i =0 ;i<res.length;i++){
+		
+		System.out.println(res[i].getName()+";"+res[i].getPTS());
+	
+}
 	}
 	
 }
