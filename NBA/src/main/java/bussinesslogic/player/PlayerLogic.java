@@ -551,7 +551,11 @@ public class PlayerLogic implements PlayerInfoService{
 	
 	public PlayerDataPO getInfo(String name,String season) {
 		// TODO Auto-generated method stub
-		PlayerDataPO res = pio.WriteOut(name,season);
+		String temp = name;
+		if(name.endsWith("Jr.")){
+			temp = name.replaceAll("\\.", "");
+		}
+		PlayerDataPO res = pio.WriteOut(temp,season);
 		return res;
 	}
 	public PlayerDataPO[] setOrder(final String orderName,boolean isASC,String season,final boolean isAVG) {
@@ -1456,6 +1460,17 @@ public class PlayerLogic implements PlayerInfoService{
 							try{
 							PlayerDataPO p = new PlayerDataPO();
 							p.setName(firstTemp[0]);
+							p.setTeamName(m.firstTeamInfo.get(0));
+							
+							try{
+							PlayerDataPO tempp = getInfo(firstTemp[0],season);
+							p.setPosition(tempp.getPosition());
+							p.setNumber(tempp.getNumber());
+							}catch(Exception e){
+							p.setPosition("unknown");
+							p.setNumber("unknown");
+							}
+							
 							p.setPTS(Integer.valueOf(firstTemp[17]));
 							p.setBackboard(Integer.valueOf(firstTemp[11]));
 							p.setAssist(Integer.valueOf(firstTemp[12]));
@@ -1471,7 +1486,18 @@ public class PlayerLogic implements PlayerInfoService{
 							String[] firstTemp = m.secondTeamInfo.get(i).split(";");
 							try{
 							PlayerDataPO p = new PlayerDataPO();
+							
 							p.setName(firstTemp[0]);
+							p.setTeamName(m.secondTeamInfo.get(0));
+							
+							try{
+							PlayerDataPO tempp = getInfo(firstTemp[0],season);
+							p.setPosition(tempp.getPosition());
+							p.setNumber(tempp.getNumber());
+							}catch(Exception e){
+							p.setPosition("unknown");
+							p.setNumber("unknown");
+							}
 							p.setPTS(Integer.valueOf(firstTemp[17]));
 							p.setBackboard(Integer.valueOf(firstTemp[11]));
 							p.setAssist(Integer.valueOf(firstTemp[12]));

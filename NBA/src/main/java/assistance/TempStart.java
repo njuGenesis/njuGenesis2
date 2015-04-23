@@ -35,10 +35,10 @@ public class TempStart {
 		//p.getSearch("d", "13-14");
 		//p.getFirstFifty("抢断", p.getAllInfo("13-14"), true);
 		//p.progressPlayer("13-14", "场均得分");
-		PlayerDataPO[] res = p.hotPlayerToday("13-14", "04-11", "得分");
+		PlayerDataPO[] res = p.hotPlayerToday("13-14", "04-11", "助攻");
 		for(int i =0 ;i<res.length;i++){
 		
-		System.out.println(res[i].getName()+";"+res[i].getPTS());
+		System.out.println(res[i].getName()+";"+res[i].getAssist()+";"+res[i].getTeamName()+";"+res[i].getPosition()+";"+res[i].getNumber());
 	
 }
 	}

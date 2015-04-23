@@ -29,7 +29,8 @@ public class PlayerDataInAndOut {
 			return res;
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("找不到"+name);
 			return null;
 		}
 	}
