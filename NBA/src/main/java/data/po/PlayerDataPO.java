@@ -21,99 +21,99 @@ public class PlayerDataPO implements Serializable{
 	String TeamName;//队伍
 	
 	
-	int GP = 0;//姣旇禌鍦烘暟
-	int GS = 0;//鍏堝彂鍦烘暟
+	int GP = 0;//上场的场数
+	int GS = 0;//先发场数
 	
-	int totalb = 0;//鐞冮槦鎬荤鏉�
-	int totalbother = 0;//瀵规柟鐞冮槦鎬荤鏉�
-	int Offb = 0;//杩涙敾绡澘
-	int Defb = 0;
-	int backboard = 0;//鎬荤鏉�
-	double BPG;//鍦哄潎绡澘
+	int totalb = 0;//自己球队的总篮板
+	int totalbother = 0;//对手的总篮板
+	int Offb = 0;//进攻篮板
+	int Defb = 0;//防守篮板
+	int backboard = 0;//赛季总篮板
+	double BPG;//赛季平均篮板
 	
-	int assist = 0;//鍔╂敾鏁�
-	double APG;// 鍦哄潎鍔╂敾
+	int assist = 0;//赛季总助攻数
+	double APG;// 平均助攻数
 	
-	double totalminute = 0;//鐞冮槦鎬讳笂鍦烘椂闂�
-	double MinutesOnField = 0;//鍦ㄥ満鏃堕棿
-	double MPG = 0;//鍦哄潎鏃堕棿
+	double totalminute = 0;//球队总时间
+	double MinutesOnField = 0;//上场总时间
+	double MPG = 0;//平均上场时间
 	
-	int OtherTotalFieldGoal = 0;//瀵归潰鐞冮槦鍑烘墜娆℃暟
-	int TotalGoal = 0;//鐞冮槦鎬诲嚭鎵�
-	int FieldGoal = 0;//鎶曠鍛戒腑
-	int TotalFieldGoal = 0;//鎶曠鎬绘暟
-	double FieldGoalPercentage ;//鎶曠鍛戒腑鐜�
+	int OtherTotalFieldGoal = 0;//对手的总投篮数
+	int TotalGoal = 0;//球队总投篮数
+	int FieldGoal = 0;//投篮命中数
+	int TotalFieldGoal = 0;//总投篮数
+	double FieldGoalPercentage ;//投篮命中率
 	
-	int ThreeGoal = 0;//涓夊垎鍛戒腑涓暟
-	int TotalThreeGoal = 0;//涓夊垎鎬诲嚭鎵�
-	double ThreePGPercentage ;//涓夊垎鍛戒腑鐜�
+	int ThreeGoal = 0;//三分命中数
+	int TotalThreeGoal = 0;//总三分出手数
+	double ThreePGPercentage ;//三分命中率
 	
-	int AllFT = 0;//鐞冮槦缃氱悆娆℃暟
-	int FT = 0;//缃氱悆鍛戒腑
-	int TotalFT = 0;
-	double FTPercentage ;//缃氱悆鍛戒腑鐜囷紝Free Throw
+	int AllFT = 0;//球队总罚篮数
+	int FT = 0;//罚篮命中数
+	int TotalFT = 0;//罚篮出手数
+	double FTPercentage ;//罚篮命中率
 	
-	int TotalOffb = 0;//瀵规墜杩涙敾娆℃暟
-	int Off = 0;//杩涙敾鏁�
-	double OffPG = 0;//鍦哄潎
+	int TotalOffb = 0;//球队总进攻篮板
+	int Off = 0;//进攻数
+	double OffPG = 0;//平均进攻数
 	
-	int Def = 0;//闃插畧鏁�
-	double DefPG = 0;//鍦哄潎
+	int Def = 0;//防守数
+	double DefPG = 0;//平均防守数
 	
-	int Steal = 0;//鎶㈡柇鏁�
-	double StealPG = 0;//鍦哄潎鎶㈡柇
+	int Steal = 0;//抢断数
+	double StealPG = 0;//平均抢断数
 	
-	int Rejection = 0;//鐩栧附鏁�
-	double RPG = 0;//鍦哄潎鐩栧附
+	int Rejection = 0;//盖帽数
+	double RPG = 0;//平均盖帽数
 	
-	int AllTo = 0;//鐞冮槦鎬诲け璇�
-	int To = 0;//澶辫
-	double ToPG = 0;//鍦哄潎澶辫
+	int AllTo = 0;//球队总失误数
+	int To = 0;//失误数
+	double ToPG = 0;//平均失误数
 	
-	int foul = 0;//鐘
-	double foulPG = 0;//鍦哄潎鐘
+	int foul = 0;//犯规数
+	double foulPG = 0;//平均犯规数
 	
-	int PTS = 0;//寰楀垎
-	double PPG = 0;//鍦哄潎寰楀垎
+	int PTS = 0;//总得分
+	double PPG = 0;//平均得分
 	
-	double Eff;//鏁堢巼
+	double Eff;//效率
 	
-	double Gmsc;//GMSC鏁堢巼
+	double Gmsc;//GMSC效率值
 	
-	double TruePercentage;//鐪熷疄鍛戒腑鐜�
+	double TruePercentage;//真实命中率
 	
-	double ShootEff;//鎶曠鏁堢巼锛�
+	double ShootEff;//投篮效率
 	
-	double BackboardEff;//绡澘鐜囷紝
+	double BackboardEff;//篮板效率
 	
-	double OffBEff;//杩涙敾绡澘鐜囷紝
+	double OffBEff;//进攻篮板效率
 	
-	double DefBEff;//闃插畧绡澘鐜囷紝
+	double DefBEff;//防守篮板效率
 	
-	double AssitEff;//鍔╂敾鐜囷紝
+	double AssitEff;//助攻效率
 	
-	double StealEff;//鎶㈡柇鐜囷紝
+	double StealEff;//抢断效率
 	
-	double RejectionEff;//鐩栧附鐜囷紝
+	double RejectionEff;//盖帽效率
 	
-	double ToEff;//澶辫鐜囷紝
+	double ToEff;//失误效率
 	
-	double UseEff;//浣跨敤鐜�
+	double UseEff;//使用率
 
-	int Double = 0;//涓ゅ弻
+	int Double = 0;//两双次数
 	
-	ArrayList<Integer> RecentBackboard = new ArrayList<Integer>();
+	ArrayList<Integer> RecentBackboard = new ArrayList<Integer>();//存储每一场的篮板
 
-	ArrayList<Integer> RecentAssist = new ArrayList<Integer>();
+	ArrayList<Integer> RecentAssist = new ArrayList<Integer>();//存储每一场的助攻
 	 
-	ArrayList<Integer> RecentPTS = new ArrayList<Integer>();
+	ArrayList<Integer> RecentPTS = new ArrayList<Integer>();//存储每一场的得分
 	
-	double BProgressPecentage = 0;
+	double BProgressPecentage = 0;//篮板近五场的提升率
 	
 	
-	double AProgressPecentage = 0;
+	double AProgressPecentage = 0;//助攻近五场的提升率
 	
-	double PProgressPecentage = 0;
+	double PProgressPecentage = 0;//得分近五场的提升率
 	
 	public double getAProgressPecentage() {
 		return AProgressPecentage;
