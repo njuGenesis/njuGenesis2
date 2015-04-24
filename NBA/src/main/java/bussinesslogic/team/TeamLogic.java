@@ -19,7 +19,7 @@ public class TeamLogic implements TeamInfoService {
 		for (int i = 0; i < players.length; i++) {
 			for (int k = 0; k < Teams.size(); k++) {
 				if (players[i].getTeamName()
-						.equals(Teams.get(k).getShortName())) {
+						.equals(Teams.get(k).getShortName())&&(Teams.get(k).getSeason().equals("13-14"))) {
 					if (Teams.get(k).getPlayers() == null) {
 						Teams.get(k).setPlayers("");
 					}
@@ -530,14 +530,19 @@ public class TeamLogic implements TeamInfoService {
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
+		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
+		teams=team.GetAllInfo();
 		team.initTeamData();
 	    /*ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		teams=team.GetBySN("DEN");
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getSeason()+"  "+teams.get(i).getShortName());
 		}
-		System.out.println(teams.get(0).getAssitNumber());
-		System.out.println(team.GetAllInfo().size());*/
+		System.out.println(teams.get(0).getAssitNumber());*/
+		for(int i=0;i<teams.size();i++){
+			System.out.println(teams.get(i).getPlayers()+teams.get(i).getShortName()+teams.get(i).getSeason());
+		}
+		System.out.println(team.GetAllInfo().size());
 		System.out.println(MatchLogic.getTime());
 	}
 

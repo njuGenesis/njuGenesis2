@@ -29,10 +29,6 @@ public class TeamData {
 		try {			
 			File teamFile = new File("teamInfo/"
 					+"teamInfo.ser"  );
-			/*if (!teamFile.exists()) {
-				ArrayList<TeamDataPO> Null = new ArrayList<TeamDataPO>();
-				return Null;
-			}*/
 			FileInputStream fos = new FileInputStream(teamFile);
 			ObjectInputStream oos = new ObjectInputStream(fos);
 			@SuppressWarnings("unchecked")
