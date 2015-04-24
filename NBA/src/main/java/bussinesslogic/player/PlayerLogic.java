@@ -533,6 +533,9 @@ public class PlayerLogic implements PlayerInfoService{
 			double avgB = (backboard-recentb)/(double)(GP-5);
 			double avgA = (assist - recenta)/(double)(GP-5);
 			double avgP = (PTS - recentp)/(double)(GP-5);
+			PlayerList.get(i).setRecentAvgA(avga);
+			PlayerList.get(i).setRecentAvgB(avgb);
+			PlayerList.get(i).setRecentAvgP(avgp);
 			if(avgB!=0){
 			PlayerList.get(i).setBProgressPecnetage((avgb-avgB)/avgB);
 			}
@@ -1728,7 +1731,7 @@ public class PlayerLogic implements PlayerInfoService{
 		PlayerDataPO[] res = new PlayerDataPO[5];
 		for(int i = 0;i<5;i++){
 			res[i] = temparr.get(temparr.size()-1-i);
-			System.out.println(res[i].getName()+";"+res[i].getPProgressPecentage());
+			//System.out.println(res[i].getName()+";"+res[i].getPProgressPecentage());
 		}
 		return res;
 		

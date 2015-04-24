@@ -108,12 +108,38 @@ public class PlayerDataPO implements Serializable{
 	 
 	ArrayList<Integer> RecentPTS = new ArrayList<Integer>();//存储每一场的得分
 	
+	double RecentAvgB = 0;//最近五常平均篮板
+	
+	double RecentAvgA = 0;//最近五场平均助攻
+	
+	double RecentAvgP = 0;//最近五场平均得分
+	
 	double BProgressPecentage = 0;//篮板近五场的提升率
 	
 	
 	double AProgressPecentage = 0;//助攻近五场的提升率
 	
 	double PProgressPecentage = 0;//得分近五场的提升率
+	
+	public double getRecentAvgB() {
+		return RecentAvgB;
+	}
+	public void setRecentAvgB(double recentAvgB) {
+		RecentAvgB = recentAvgB;
+	}
+	public double getRecentAvgA() {
+		return RecentAvgA;
+	}
+	public void setRecentAvgA(double recentAvgA) {
+		RecentAvgA = recentAvgA;
+	}
+	public double getRecentAvgP() {
+		return RecentAvgP;
+	}
+	public void setRecentAvgP(double recentAvgP) {
+		RecentAvgP = recentAvgP;
+	}
+
 	
 	public double getAProgressPecentage() {
 		return AProgressPecentage;
