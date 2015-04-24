@@ -1,6 +1,5 @@
 package presentation.hotspot;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,22 +9,21 @@ import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import data.po.PlayerDataPO;
+import bussinesslogic.player.PlayerLogic;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.contenui.UIUtil;
-import bussinesslogic.player.PlayerLogic;
-import data.po.PlayerDataPO;
+import presentation.hotspot.HotPlayerSeasonPanel.MenuListener;
 
-public class HotPlayerSeasonPanel extends BgPanel{
-	
-	
+public class HotTeamSeasonPanel extends BgPanel{
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private static String bg = "";
-	
+
 	GLabel title;
 
 	SelectLabel score;  //场均得分
@@ -44,17 +42,17 @@ public class HotPlayerSeasonPanel extends BgPanel{
 
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
-	
-	GLabel date;
-	
-	public HotPlayerSeasonPanel() {
+
+	public HotTeamSeasonPanel() {
 		super(bg);
-		
+
+
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);
 		this.setOpaque(false);
 
-		title = new GLabel("   赛季热点球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
+
+		title = new GLabel("   赛季热点球队",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
 		title.setForeground(UIUtil.bgWhite);
@@ -130,20 +128,18 @@ public class HotPlayerSeasonPanel extends BgPanel{
 	}
 	
 	public void getRankingPanel(String type){
-		Date dateNow = new Date();  
+		Date dateNow = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM-dd");  
 		String dateNowStr = dateFormat.format(dateNow);  
 
-//		System.out.println(dateNowStr);
-		PlayerDataPO[] players = logic.hotPlayerSeason("13-14", type);
-		
-		JPanel p = factory.getPlayerSeason(players,type);
+		System.out.println(dateNowStr);
+		PlayerDataPO[] players = logic.hotPlayerToday("13-14", "01-01", type);
+		JPanel p = factory.getPlayerToday(players,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
 	}
-	
-	
+
 	class MenuListener implements MouseListener{
 
 		public void mouseClicked(MouseEvent e) {
@@ -155,11 +151,11 @@ public class HotPlayerSeasonPanel extends BgPanel{
 			sl.setSelected(true);
 
 			if(rankingPanel!=null){
-				HotPlayerSeasonPanel.this.remove(rankingPanel);
+				HotTeamSeasonPanel.this.remove(rankingPanel);
 			}
 
 			String type = sl.getText();
-			HotPlayerSeasonPanel.this.getRankingPanel(type);
+			HotTeamSeasonPanel.this.getRankingPanel(type);
 		}
 
 		public void mousePressed(MouseEvent e) {

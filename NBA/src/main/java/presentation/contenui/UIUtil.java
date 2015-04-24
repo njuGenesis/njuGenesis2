@@ -19,6 +19,7 @@ public class UIUtil {
 	public static Color nbaRed = new Color(228,42,81);
 	public static Color bgWhite = new Color(251,251,251);
 	public static Color bgGrey = new Color(83,83,83);
+	public static Color darkBlue = new Color(0,82,138);
 	
 	public static JButton getSelectButton(){
 		JButton bt = new JButton("筛选");

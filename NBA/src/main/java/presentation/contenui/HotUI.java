@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.hotspot.HotPlayerProgressPanel;
 import presentation.hotspot.HotPlayerSeasonPanel;
 import presentation.hotspot.HotPlayerTodayPanel;
 import presentation.hotspot.HotspotUtil;
@@ -134,7 +135,10 @@ public class HotUI extends BgPanel implements Runnable{
 					Thread.sleep(1);
 				}catch(Exception ex){}
 			}
+			hotPanel = new HotPlayerProgressPanel();
+			this.add(hotPanel);
 			rightBt.setVisible(true);
+			this.repaint();
 			break;
 
 		case playerseason:
@@ -154,6 +158,7 @@ public class HotUI extends BgPanel implements Runnable{
 			hotPanel = new HotPlayerSeasonPanel();
 			this.add(hotPanel);
 			rightBt.setVisible(true);
+			this.repaint();
 			break;
 
 		case playertoday:

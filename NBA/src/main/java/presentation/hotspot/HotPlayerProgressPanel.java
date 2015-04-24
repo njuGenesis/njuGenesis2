@@ -9,22 +9,20 @@ import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import data.po.PlayerDataPO;
+import bussinesslogic.player.PlayerLogic;
 import presentation.component.BgPanel;
-import presentation.component.DateLabel;
 import presentation.component.GLabel;
 import presentation.contenui.UIUtil;
-import bussinesslogic.player.PlayerLogic;
-import data.po.PlayerDataPO;
 
-public class HotPlayerTodayPanel extends BgPanel{
+public class HotPlayerProgressPanel extends BgPanel{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private static String bg = "";
-
-
+	
 	GLabel title;
 
 	SelectLabel score;  //得分
@@ -32,9 +30,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 	SelectLabel assis;  //助攻
 	SelectLabel block;  //盖帽
 	SelectLabel steal;  //抢断
-	SelectLabel[] menuItem = new SelectLabel[5];
-	
-	DateLabel date;
+	SelectLabel[] menuItem = new SelectLabel[3];
 
 	PlayerLogic logic = new PlayerLogic();
 
@@ -42,30 +38,21 @@ public class HotPlayerTodayPanel extends BgPanel{
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
 
-	public HotPlayerTodayPanel() {
+	public HotPlayerProgressPanel() {
 		super(bg);
-
+		
+		
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);
 		this.setOpaque(false);
-		
-		date = new DateLabel(new Point(800-this.getX(),42),this);
-//		Date dateNow = new Date();  
-//		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");  
-//		String dateNowStr = dateFormat.format(dateNow);  
-//		date = new GLabel(dateNowStr,new Point(800-this.getX(),42),new Point(130,30),this,true,1,13);
-//		date.setOpaque(true);
-//		date.setBackground(UIUtil.darkBlue);
-//		date.setForeground(UIUtil.bgWhite);
-//		date.setIcon(HotspotUtil.dateIcon);
 
 
-		title = new GLabel("   当天热点球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
+		title = new GLabel("   进步最快球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
 		title.setForeground(UIUtil.bgWhite);
 
-		score = new SelectLabel("得分",new Point(80-this.getX(),83),new Point(177,35),this,true,0,16);
+		score = new SelectLabel("场均得分",new Point(80-this.getX(),83),new Point(296,35),this,true,0,16);
 		score.setOpaque(true);
 		score.setBackground(UIUtil.bgGrey);
 		score.setForeground(UIUtil.bgWhite);
@@ -74,9 +61,9 @@ public class HotPlayerTodayPanel extends BgPanel{
 		score.addMouseListener(new MenuListener());
 		menuItem[0] = score;
 
-		getRankingPanel("得分");
+		getRankingPanel("场均得分");
 
-		backboard = new SelectLabel("篮板",new Point(258-this.getX(),83),new Point(177,35),this,true,0,16);
+		backboard = new SelectLabel("场均篮板",new Point(377-this.getX(),83),new Point(296,35),this,true,0,16);
 		backboard.setOpaque(true);
 		backboard.setBackground(UIUtil.bgGrey);
 		backboard.setForeground(UIUtil.bgWhite);
@@ -84,7 +71,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 		backboard.addMouseListener(new MenuListener());
 		menuItem[1] = backboard;
 
-		assis = new SelectLabel("助攻",new Point(436-this.getX(),83),new Point(177,35),this,true,0,16);
+		assis = new SelectLabel("场均助攻",new Point(674-this.getX(),83),new Point(296,35),this,true,0,16);
 		assis.setOpaque(true);
 		assis.setBackground(UIUtil.bgGrey);
 		assis.setForeground(UIUtil.bgWhite);
@@ -92,25 +79,8 @@ public class HotPlayerTodayPanel extends BgPanel{
 		assis.addMouseListener(new MenuListener());
 		menuItem[2] = assis;
 
-		block = new SelectLabel("盖帽",new Point(614-this.getX(),83),new Point(177,35),this,true,0,16);
-		block.setOpaque(true);
-		block.setBackground(UIUtil.bgGrey);
-		block.setForeground(UIUtil.bgWhite);
-		block.setHorizontalAlignment(JLabel.CENTER);
-		block.addMouseListener(new MenuListener());
-		menuItem[3] = block;
-
-		steal = new SelectLabel("抢断",new Point(792-this.getX(),83),new Point(178,35),this,true,0,16);
-		steal.setOpaque(true);
-		steal.setBackground(UIUtil.bgGrey);
-		steal.setForeground(UIUtil.bgWhite);
-		steal.setHorizontalAlignment(JLabel.CENTER);
-		steal.addMouseListener(new MenuListener());
-		menuItem[4] = steal;
-
 		this.repaint();
 	}
-
 
 	public void getRankingPanel(String type){
 		Date dateNow = new Date();  
@@ -118,8 +88,8 @@ public class HotPlayerTodayPanel extends BgPanel{
 		String dateNowStr = dateFormat.format(dateNow);  
 
 //		System.out.println(dateNowStr);
-		PlayerDataPO[] players = logic.hotPlayerToday("13-14", "01-01", type);
-		JPanel p = factory.getPlayerToday(players,type);
+		PlayerDataPO[] players = logic.progressPlayer("13-14", type);
+		JPanel p = factory.getPlayerProgress(players,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
@@ -136,11 +106,11 @@ public class HotPlayerTodayPanel extends BgPanel{
 			sl.setSelected(true);
 
 			if(rankingPanel!=null){
-				HotPlayerTodayPanel.this.remove(rankingPanel);
+				HotPlayerProgressPanel.this.remove(rankingPanel);
 			}
 
 			String type = sl.getText();
-			HotPlayerTodayPanel.this.getRankingPanel(type);
+			HotPlayerProgressPanel.this.getRankingPanel(type);
 		}
 
 		public void mousePressed(MouseEvent e) {
@@ -164,7 +134,5 @@ public class HotPlayerTodayPanel extends BgPanel{
 		}
 
 	}
-
-
-
+	
 }

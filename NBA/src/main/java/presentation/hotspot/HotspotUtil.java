@@ -27,4 +27,6 @@ public class HotspotUtil {
 	public static ImageIcon ranking_3 = new ImageIcon("img/hotspot/rankingthree.png");
 	public static ImageIcon ranking_4 = new ImageIcon("img/hotspot/rankingfour.png");
 	public static ImageIcon ranking_5 = new ImageIcon("img/hotspot/rankingfive.png");
+	
+	public static ImageIcon dateIcon = new ImageIcon("img/hotspot/dateIcon.png");
 }
