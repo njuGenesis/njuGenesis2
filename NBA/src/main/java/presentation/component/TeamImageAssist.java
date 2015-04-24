@@ -58,7 +58,7 @@ public class TeamImageAssist extends ImageTranscoder{
 		return this.getBufferedImage();
 	}
 	
-	public ImageIcon loadImage2(String svgFile, float width, float height){
+	public ImageIcon loadImageIcon(String svgFile, float width, float height){
 		//BufferedImageTranscoder imageTranscoder = new BufferedImageTranscoder();
 
 		FileInputStream fileSvg = null;

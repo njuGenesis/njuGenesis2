@@ -1,5 +1,6 @@
 package presentation.contenui;
 
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
@@ -7,11 +8,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import presentation.component.BgPanel;
+import presentation.component.GLabel;
 
 public class StatsUI extends BgPanel implements Runnable{
 
@@ -20,15 +20,10 @@ public class StatsUI extends BgPanel implements Runnable{
 	
 	private static String bgStr = "img/hotspot/whitebg.jpg";
 
-	private JPanel bluePanel;
-
-	private JButton playerToday;
-	private JButton playerSeason;
-	private JButton teamSeason;
-	private JButton playerFast;
+	private BgPanel bluePanel;
 
 	private JLabel titleLabel;
-	private JButton rightBt;
+	private GLabel rightBt;
 	
 	private BgPanel statsPanel;
 	
@@ -54,7 +49,7 @@ public class StatsUI extends BgPanel implements Runnable{
 		this.setLayout(null);
 		this.setOpaque(false);
 		
-		bluePanel = new JPanel();
+		bluePanel = new BgPanel("");
 		bluePanel.setSize(650, 650);
 		bluePanel.setLocation(0,0);
 		bluePanel.setOpaque(true);
@@ -69,48 +64,13 @@ public class StatsUI extends BgPanel implements Runnable{
 		titleLabel.addMouseListener(new StatsListener());
 		bluePanel.add(titleLabel);
 		
-		rightBt = new JButton();
-		rightBt.setBounds(633-15, 310, 16, 30);
-		rightBt.setIcon(StatsUtil.rightIcon);
-		rightBt.setContentAreaFilled(false);
-		rightBt.setBorder(null);
-		rightBt.setVisible(false);
-		bluePanel.add(rightBt);
+		rightBt = new GLabel(StatsUtil.rightIcon, new Point(633-15, 310), new Point(16, 30), bluePanel, false);
+		rightBt.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		rightBt.addMouseListener(new BackListener());
 		
 //		PlayerStatsPanel psp = new PlayerStatsPanel();
 //		this.add(psp);
 		
-//		playerToday = new JButton();
-//		playerToday.setBounds(75, 398, 145, 180);
-//		playerToday.setContentAreaFilled(false);
-//		playerToday.setBorder(null);
-//		playerToday.setIcon(HotspotUtil.playerTodayIcon);
-//		playerToday.addMouseListener(new PlayerTodayListener());
-//		this.add(playerToday);
-//		
-//		playerSeason = new JButton();
-//		playerSeason.setBounds(310, 398, 145, 180);
-//		playerSeason.setContentAreaFilled(false);
-//		playerSeason.setBorder(null);
-//		playerSeason.setIcon(HotspotUtil.playerSeasonIcon);
-//		playerSeason.addMouseListener(new PlayerSeasonListener());
-//		this.add(playerSeason);
-//		
-//		teamSeason = new JButton();
-//		teamSeason.setBounds(545, 398, 145, 180);
-//		teamSeason.setContentAreaFilled(false);
-//		teamSeason.setBorder(null);
-//		teamSeason.setIcon(HotspotUtil.teamSeasonIcon);
-//		teamSeason.addMouseListener(new TeamSeasonListener());
-//		this.add(teamSeason);
-//		
-//		playerFast = new JButton();
-//		playerFast.setBounds(780, 398, 145, 180);
-//		playerFast.setContentAreaFilled(false);
-//		playerFast.setBorder(null);
-//		playerFast.setIcon(HotspotUtil.playerFastIcon);
-//		playerFast.addMouseListener(new PlayerFastListener());
-//		this.add(playerFast);
 	}
 	
 	
@@ -137,7 +97,7 @@ public class StatsUI extends BgPanel implements Runnable{
 	public void run(){
 		switch(runType){
 		case player:
-			rightBt.setVisible(true);
+			
 			
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -151,13 +111,18 @@ public class StatsUI extends BgPanel implements Runnable{
 				}catch(Exception ex){}
 			}
 			
-			PlayerStatsPanel psp = new PlayerStatsPanel();
-			StatsUI.this.add(psp);
+			if(statsPanel != null){
+				this.remove(statsPanel);
+			}
+//			PlayerStatsPanel psp = new PlayerStatsPanel();
+			statsPanel = new PlayerStatsPanel();
+			StatsUI.this.add(statsPanel);
+			rightBt.setVisible(true);
 			StatsUI.this.repaint();
 			break;
 			
 		case team:
-			rightBt.setVisible(true);
+			
 			
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -171,12 +136,34 @@ public class StatsUI extends BgPanel implements Runnable{
 				}catch(Exception ex){}
 			}
 			
-			TeamStatsPanel tsp = new TeamStatsPanel();
-			StatsUI.this.add(tsp);
+			if(statsPanel != null){
+				this.remove(statsPanel);
+			}
+			statsPanel = new TeamStatsPanel();
+			StatsUI.this.add(statsPanel);
+			rightBt.setVisible(true);
 			StatsUI.this.repaint();
 			break;
 			
 		case back:
+			if(statsPanel != null){
+				this.remove(statsPanel);
+			}
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x++;
+				bluePanel.setLocation(x, bluePanel.getY());
+				
+				StatsUI.this.repaint();
+				
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+			
+			rightBt.setVisible(false);
+			StatsUI.this.repaint();
+			break;
 		
 		}
 		
@@ -216,8 +203,8 @@ public class StatsUI extends BgPanel implements Runnable{
 		}
 
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			titleLabel.setIcon(StatsUtil.title);
+			titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 
 		public void mouseDragged(MouseEvent e) {
@@ -229,11 +216,44 @@ public class StatsUI extends BgPanel implements Runnable{
 			Point p = e.getPoint();
 			if(StatsUI.this.checkWithJdkPolygon(p, polygonPlayer)){
 				titleLabel.setIcon(StatsUtil.title_player);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}else if(StatsUI.this.checkWithJdkPolygon(p, polygonTeam)){
 				titleLabel.setIcon(StatsUtil.title_team);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}else{
 				titleLabel.setIcon(StatsUtil.title);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
+		}
+		
+	}
+	
+	class BackListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			runType = RunType.back;
+			Thread thread = new Thread(StatsUI.this);
+			thread.start();
+		}
+
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

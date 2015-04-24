@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+@SuppressWarnings("rawtypes")
 public class GComboBoxRenderer implements ListCellRenderer{
 
 	private DefaultListCellRenderer defaultCellRenderer = new DefaultListCellRenderer();

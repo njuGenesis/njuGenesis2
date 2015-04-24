@@ -1,16 +1,23 @@
 package presentation.contenui;
 
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import presentation.component.BgPanel;
+import presentation.component.GLabel;
+import presentation.hotspot.HotPlayerSeasonPanel;
+import presentation.hotspot.HotPlayerTodayPanel;
 import presentation.hotspot.HotspotUtil;
 
-public class HotUI extends BgPanel{
+public class HotUI extends BgPanel implements Runnable{
 
 	/**
 	 * 
@@ -19,15 +26,27 @@ public class HotUI extends BgPanel{
 
 	private static String bgStr = "img/hotspot/whitebg.jpg";
 
-	private JPanel bluePanel;
-
-	private JButton playerToday;
-	private JButton playerSeason;
-	private JButton teamSeason;
-	private JButton playerFast;
+	private BgPanel bluePanel;
 
 	private JLabel titleLabel;
-	private JButton downBt;
+	private GLabel rightBt;
+
+	private Point2D[] polygonPlayerToday = {new Point(254-78-15,79-79),new Point(325-78-15,149-79),new Point(254-78-15,220-79),new Point(184-78-15,149-79)};
+	private Point2D[] polygonTeamSeason = {new Point(148-78-15,325-79),new Point(219-78-15,395-79),new Point(148-78-15,466-79),new Point(78-78-15,395-79)};
+	private Point2D[] polygonPlayerSeason = {new Point(500-78-15,185-79),new Point(571-78-15,255-79),new Point(500-78-15,326-79),new Point(430-78-15,255-79)};
+	private Point2D[] polygonPlayerFast = {new Point(394-78-15,432-79),new Point(465-78-15,502-79),new Point(394-78-15,573-79),new Point(324-78-15,502-79)};
+
+	private JPanel hotPanel;
+	
+	private RunType runType;
+
+	enum RunType{
+		teamseason,
+		playertoday,
+		playerfast,
+		playerseason,
+		back,
+	}
 
 	public HotUI(String s) {
 		super(bgStr);
@@ -36,186 +55,255 @@ public class HotUI extends BgPanel{
 		this.setLocation(15, 50);
 		this.setLayout(null);
 		this.setOpaque(false);
-		
-		titleLabel = new JLabel();
-		titleLabel.setBounds(290, 276, 410, 60);
-		titleLabel.setIcon(HotspotUtil.titleIcon);
-		this.add(titleLabel);
-		
-		downBt = new JButton();
-		downBt.setBounds(475, 300, 30, 16);
-		downBt.setIcon(HotspotUtil.titleBt);
-		downBt.setContentAreaFilled(false);
-		downBt.setBorder(null);
-		downBt.setVisible(false);
-		
-		bluePanel = new JPanel();
-		bluePanel.setSize(1000, 325);
+
+		bluePanel = new BgPanel("");
+		bluePanel.setSize(650, 650);
 		bluePanel.setLocation(0,0);
 		bluePanel.setOpaque(true);
 		bluePanel.setBackground(UIUtil.nbaBlue);
 		bluePanel.setLayout(null);
-		bluePanel.add(downBt);
 		this.add(bluePanel);
-		
-		playerToday = new JButton();
-		playerToday.setBounds(75, 398, 145, 180);
-		playerToday.setContentAreaFilled(false);
-		playerToday.setBorder(null);
-		playerToday.setIcon(HotspotUtil.playerTodayIcon);
-		playerToday.addMouseListener(new PlayerTodayListener());
-		this.add(playerToday);
-		
-		playerSeason = new JButton();
-		playerSeason.setBounds(310, 398, 145, 180);
-		playerSeason.setContentAreaFilled(false);
-		playerSeason.setBorder(null);
-		playerSeason.setIcon(HotspotUtil.playerSeasonIcon);
-		playerSeason.addMouseListener(new PlayerSeasonListener());
-		this.add(playerSeason);
-		
-		teamSeason = new JButton();
-		teamSeason.setBounds(545, 398, 145, 180);
-		teamSeason.setContentAreaFilled(false);
-		teamSeason.setBorder(null);
-		teamSeason.setIcon(HotspotUtil.teamSeasonIcon);
-		teamSeason.addMouseListener(new TeamSeasonListener());
-		this.add(teamSeason);
-		
-		playerFast = new JButton();
-		playerFast.setBounds(780, 398, 145, 180);
-		playerFast.setContentAreaFilled(false);
-		playerFast.setBorder(null);
-		playerFast.setIcon(HotspotUtil.playerFastIcon);
-		playerFast.addMouseListener(new PlayerFastListener());
-		this.add(playerFast);
+
+		titleLabel = new JLabel();
+		titleLabel.setBounds(78, 79, 494, 494);
+		titleLabel.setIcon(HotspotUtil.titleIcon);
+		titleLabel.addMouseMotionListener(new StatsListener());
+		titleLabel.addMouseListener(new StatsListener());
+		bluePanel.add(titleLabel);
+
+		rightBt = new GLabel(HotspotUtil.titleBt, new Point(633-15, 310), new Point(16, 30), bluePanel, false);
+		rightBt.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		rightBt.addMouseListener(new BackListener());
+
 	}
 
-	
-	class PlayerTodayListener implements MouseListener{
+	/**
+	 * @param point 要判断的点
+	 * @param polygon 多边形顶点集合
+	 * @return 点是否在多边形范围内
+	 */
+	public boolean checkWithJdkPolygon(Point2D point, Point2D[] polygon) {
+		java.awt.Polygon p = new Polygon();
+		// java.awt.geom.GeneralPath
+		final int TIMES = 1000;
+		for (Point2D d : polygon) {
+			int x = (int) d.getX() * TIMES;
+			int y = (int) d.getY() * TIMES;
+			p.addPoint(x, y);
+		}
+		int x = (int) point.getX() * TIMES;
+		int y = (int) point.getY() * TIMES;
+		return p.contains(x, y);
+	}
+
+	public void run(){
+		switch(runType){
+		case back:
+			
+			if(hotPanel != null){
+				this.remove(hotPanel);
+			}
+			
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x++;
+				bluePanel.setLocation(x, bluePanel.getY());
+
+				this.repaint();
+
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+
+			rightBt.setVisible(false);
+			this.repaint();
+			break;
+
+		case playerfast:
+			
+
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x--;
+				bluePanel.setLocation(x, bluePanel.getY());
+
+				this.repaint();
+
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+			rightBt.setVisible(true);
+			break;
+
+		case playerseason:
+			
+
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x--;
+				bluePanel.setLocation(x, bluePanel.getY());
+
+				this.repaint();
+
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+			hotPanel = new HotPlayerSeasonPanel();
+			this.add(hotPanel);
+			rightBt.setVisible(true);
+			break;
+
+		case playertoday:
+			
+
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x--;
+				bluePanel.setLocation(x, bluePanel.getY());
+
+				this.repaint();
+
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+			
+			hotPanel = new HotPlayerTodayPanel();
+			this.add(hotPanel);
+			rightBt.setVisible(true);
+			this.repaint();
+			
+			break;
+
+		case teamseason:
+			
+
+			for(int i=0;i<600;i++){
+				int x = bluePanel.getX();
+				x--;
+				bluePanel.setLocation(x, bluePanel.getY());
+
+				this.repaint();
+
+				try{
+					Thread.sleep(1);
+				}catch(Exception ex){}
+			}
+			rightBt.setVisible(true);
+			break;
+		}
+
+	}
+
+
+
+	//---------------选项监听---------------
+	//判断鼠标移动、点击位置是否在对应选项的多边形范围内
+	class StatsListener implements MouseListener,MouseMotionListener{
 
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			Point p = e.getPoint();
+			if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerToday)){
+				runType = RunType.playertoday;
+				Thread thread = new Thread(HotUI.this);
+				thread.start();
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonTeamSeason)){
+				runType = RunType.teamseason;
+				Thread thread = new Thread(HotUI.this);
+				thread.start();
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerSeason)){
+				runType = RunType.playerseason;
+				Thread thread = new Thread(HotUI.this);
+				thread.start();
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerFast)){
+				runType = RunType.playerfast;
+				Thread thread = new Thread(HotUI.this);
+				thread.start();
+			}
 		}
 
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void mouseEntered(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerTodayIconChosen);
+			// TODO Auto-generated method stub
+
 		}
 
 		public void mouseExited(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerTodayIcon);
+			titleLabel.setIcon(HotspotUtil.titleIcon);
+			titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 
-	
-		
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void mouseMoved(MouseEvent e) {
+			Point p = e.getPoint();
+			if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerToday)){
+				titleLabel.setIcon(HotspotUtil.title_playertoday);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonTeamSeason)){
+				titleLabel.setIcon(HotspotUtil.title_teamseason);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerSeason)){
+				titleLabel.setIcon(HotspotUtil.title_playerseason);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerFast)){
+				titleLabel.setIcon(HotspotUtil.title_playerfast);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}else{
+				titleLabel.setIcon(HotspotUtil.titleIcon);
+				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
+		}
+
 	}
-	
-	class PlayerSeasonListener implements MouseListener{
+
+	//---------------右拉按钮监听---------------
+	class BackListener implements MouseListener{
 
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			runType = RunType.back;
+			Thread thread = new Thread(HotUI.this);
+			thread.start();
 		}
 
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void mouseEntered(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerSeasonIconChosen);
+			// TODO Auto-generated method stub
+
 		}
 
 		public void mouseExited(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerSeasonIcon);
+			// TODO Auto-generated method stub
+
 		}
 
-		
-		
 	}
-	
-	class TeamSeasonListener implements MouseListener{
 
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 
-		public void mouseEntered(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.teamSeasonIconChosen);
-		}
-
-		public void mouseExited(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.teamSeasonIcon);
-		}
-
-		
-	}
-	
-	class PlayerFastListener implements MouseListener{
-
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void mouseEntered(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerFastIconChosen);
-		}
-
-		public void mouseExited(MouseEvent e) {
-			JButton bt = (JButton)e.getSource();
-			bt.setIcon(HotspotUtil.playerFastIcon);
-		}
-
-		
-		
-	}
-	
-	
-	
-	
 }
