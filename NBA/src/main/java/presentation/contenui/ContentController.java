@@ -38,11 +38,11 @@ public class ContentController {
 	}
 
 	public void changeToTeamDetails(TeamDataPO po){
-		ContentPanel cp = new TeamDetials(po);
-		if(MainUI.getBg().getComponentAt(220, 95)!=null){
-			MainUI.getBg().remove(MainUI.getBg().getComponentAt(220, 95));
-		}
-		MainUI.addCom(cp.getContentPanel());
+//		ContentPanel cp = new TeamDetials(po);
+//		if(MainUI.getBg().getComponentAt(220, 95)!=null){
+//			MainUI.getBg().remove(MainUI.getBg().getComponentAt(220, 95));
+//		}
+//		MainUI.addCom(cp.getContentPanel());
 	}
 	
 	public void changeToPlayerBasic(String key){

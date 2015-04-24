@@ -3,35 +3,24 @@ package presentation.contenui;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
-import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.transcoder.TranscoderException;
-
 import bussinesslogic.team.TeamLogic;
 import data.po.TeamDataPO;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
-import presentation.component.GLabel;
-import presentation.component.TeamImageAssist;
 
 public class TeamUI extends BgPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String bg = "img/team/teamAllBg.png";
-	private TeamImageAssist assist;
-	private GLabel label;
 	private GLabel[] team = new GLabel[30];
 
 	public TeamUI(){
 		super(bg);
 		super.setVisible(false);
-		assist = new TeamImageAssist();
 		this.setLayout(null);
 		init();
 	}
@@ -42,22 +31,22 @@ public class TeamUI extends BgPanel{
 
 		for(int i = 0; i<30; i++){
 			if(i>=0&&i<=4){
-				team[i] = new GLabel(getFileAddress(teamDataPOArea.get(0).get(i)), new Point(52, 63+i*40), new Point(205, 40), this, true, teamDataPOArea.get(0).get(i));//25, 25
+				team[i] = new GLabel(getFileAddress(teamDataPOArea.get(0).get(i)), new Point(52, 71+i*41), new Point(147, 28), this, true, teamDataPOArea.get(0).get(i));//25, 25
 			}else{
 				if(i>=5&&i<=9){
-					team[i] = new GLabel(getFileAddress(teamDataPOArea.get(1).get(i-5)), new Point(255, 63+(i-5)*32), new Point(128, 25), this, true, teamDataPOArea.get(1).get(i-5));
+					team[i] = new GLabel(getFileAddress(teamDataPOArea.get(1).get(i-5)), new Point(303, 71+(i-5)*41), new Point(147, 28), this, true, teamDataPOArea.get(1).get(i-5));
 				}else{
 					if(i>=10&&i<=14){
-						team[i] = new GLabel(getFileAddress(teamDataPOArea.get(2).get(i-10)), new Point(52, 290+(i-10)*32), new Point(128, 25), this, true, teamDataPOArea.get(2).get(i-10));
+						team[i] = new GLabel(getFileAddress(teamDataPOArea.get(2).get(i-10)), new Point(52, 377+(i-10)*41), new Point(147, 28), this, true, teamDataPOArea.get(2).get(i-10));
 					}else{
 						if(i>=15&&i<=19){
-							team[i] = new GLabel(getFileAddress(teamDataPOArea.get(3).get(i-15)), new Point(716, 63+(i-15)*32), new Point(128, 25), this, true, teamDataPOArea.get(3).get(i-15));
+							team[i] = new GLabel(getFileAddress(teamDataPOArea.get(3).get(i-15)), new Point(783, 71+(i-15)*41), new Point(147, 28), this, true, teamDataPOArea.get(3).get(i-15));
 						}else{
 							if(i>=20&&i<=24){
-								team[i] = new GLabel(getFileAddress(teamDataPOArea.get(4).get(i-20)), new Point(502, 290+(i-20)*32), new Point(128, 25), this, true, teamDataPOArea.get(4).get(i-20));
+								team[i] = new GLabel(getFileAddress(teamDataPOArea.get(4).get(i-20)), new Point(532, 377+(i-20)*41), new Point(147, 28), this, true, teamDataPOArea.get(4).get(i-20));
 							}else{
 								if(i>=25&&i<=29){
-									team[i] = new GLabel(getFileAddress(teamDataPOArea.get(5).get(i-25)), new Point(716, 290+(i-25)*32), new Point(128, 25), this, true, teamDataPOArea.get(5).get(i-25));
+									team[i] = new GLabel(getFileAddress(teamDataPOArea.get(5).get(i-25)), new Point(783, 377+(i-25)*41), new Point(147, 28), this, true, teamDataPOArea.get(5).get(i-25));
 								}
 							}
 						}
@@ -73,8 +62,14 @@ public class TeamUI extends BgPanel{
 			}
 			public void mousePressed(MouseEvent e) {
 				GLabel button = (GLabel)e.getSource();
-				ContentController con = new ContentController();
-				con.changeToTeamDetails(button.po);
+//				ContentController con = new ContentController();
+//				con.changeToTeamDetails(button.po);
+				TeamDetials td = new TeamDetials();
+				TeamUI.this.add(td);
+				for(int i = 0;i<team.length;i++){
+					team[i].setVisible(false);
+				}
+				repaint();
 			}
 		};
 

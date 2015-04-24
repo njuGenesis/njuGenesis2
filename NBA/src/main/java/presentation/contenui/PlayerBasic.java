@@ -108,8 +108,8 @@ public class PlayerBasic extends ContentPanel{
 			public void mouseClicked(MouseEvent arg0) {
 				ContentController con = new ContentController();
 				TeamLogic l = new TeamLogic();
-				TeamDataPO po = l.GetBySN(data[0]);
-				con.changeToTeamDetails(po);
+				//TeamDataPO po = l.GetBySN(data[0]);
+				//con.changeToTeamDetails(po);
 			}
 		});
 	}
@@ -117,10 +117,10 @@ public class PlayerBasic extends ContentPanel{
 	
 	private String[] getData(String palyerName){
 		PlayerLogic l = new PlayerLogic();
-		PlayerDataPO po = l.getInfo(palyerName);
-		String[] data = {po.getTeamName(), po.getName(), po.getName(), po.getNumber(), po.getPosition(), po.getHeight(), 
-				String.valueOf(po.getWeight()), po.getBirth(), String.valueOf(po.getAge()), String.valueOf(po.getExp()), po.getSchool()};
- 		return data;
+		//PlayerDataPO po = l.getInfo(palyerName);
+//		String[] data = {po.getTeamName(), po.getName(), po.getName(), po.getNumber(), po.getPosition(), po.getHeight(), 
+//				String.valueOf(po.getWeight()), po.getBirth(), String.valueOf(po.getAge()), String.valueOf(po.getExp()), po.getSchool()};
+ 		return null;
 	}
 
 }
