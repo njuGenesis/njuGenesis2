@@ -19,7 +19,8 @@ public class TeamLogic implements TeamInfoService {
 		for (int i = 0; i < players.length; i++) {
 			for (int k = 0; k < Teams.size(); k++) {
 				if (players[i].getTeamName()
-						.equals(Teams.get(k).getShortName())&&(Teams.get(k).getSeason().equals("13-14"))) {
+						.equals(Teams.get(k).getShortName())
+						&& (Teams.get(k).getSeason().equals("13-14"))) {
 					if (Teams.get(k).getPlayers() == null) {
 						Teams.get(k).setPlayers("");
 					}
@@ -36,47 +37,82 @@ public class TeamLogic implements TeamInfoService {
 	}
 
 	private void upteamPlayer(MatchDataPO match, String season) {
-		for (int i = 0; i < Teams.size(); i++) {  //遍历所有球队
-			if(Teams.get(i).getPlayers()==null){
+		for (int i = 0; i < Teams.size(); i++) { // 遍历所有球队
+			if (Teams.get(i).getPlayers() == null) {
 				Teams.get(i).setPlayers("");
 				continue;
 			}
-			if (Teams.get(i).getShortName().equals(match.getFirstteam())&&(Teams.get(i).getSeason().equals(season))) {
-				for(int k=0;k<match.getPlayers1().size();k++){  //遍历参加比赛的球
-					if(Teams.get(i).getPlayers().contains(match.getPlayers1().get(k).getPlayername())){
-						Teams.get(i).setPlayers(Teams.get(i).getPlayers().replaceAll(match.getPlayers1().get(k).getPlayername()+";", ""));
+			if (Teams.get(i).getShortName().equals(match.getFirstteam())
+					&& (Teams.get(i).getSeason().equals(season))) {
+				for (int k = 0; k < match.getPlayers1().size(); k++) { // 遍历参加比赛的球
+					if (Teams
+							.get(i)
+							.getPlayers()
+							.contains(
+									match.getPlayers1().get(k).getPlayername())) {
+						Teams.get(i).setPlayers(
+								Teams.get(i)
+										.getPlayers()
+										.replaceAll(
+												match.getPlayers1().get(k)
+														.getPlayername()
+														+ ";", ""));
 					}
 				}
-			}
-			else if(Teams.get(i).getShortName().equals(match.getSecondteam())&&(Teams.get(i).getSeason().equals(season))){
-				for(int k=0;k<match.getPlayers2().size();k++){
-					if(Teams.get(i).getPlayers().contains(match.getPlayers2().get(k).getPlayername())){
-						Teams.get(i).setPlayers(Teams.get(i).getPlayers().replaceAll(match.getPlayers2().get(k).getPlayername()+";", ""));
+			} else if (Teams.get(i).getShortName()
+					.equals(match.getSecondteam())
+					&& (Teams.get(i).getSeason().equals(season))) {
+				for (int k = 0; k < match.getPlayers2().size(); k++) {
+					if (Teams
+							.get(i)
+							.getPlayers()
+							.contains(
+									match.getPlayers2().get(k).getPlayername())) {
+						Teams.get(i).setPlayers(
+								Teams.get(i)
+										.getPlayers()
+										.replaceAll(
+												match.getPlayers2().get(k)
+														.getPlayername()
+														+ ";", ""));
 					}
 				}
 			}
 		}
-		
-		for (int i = 0; i < Teams.size(); i++) {  //遍历所有球队
-			if (Teams.get(i).getShortName().equals(match.getFirstteam())&&(Teams.get(i).getSeason().equals(season))) {
-				for(int k=0;k<match.getPlayers1().size();k++){  //遍历参加比赛的球员
-					if(!Teams.get(i).getPlayers().contains(match.getPlayers1().get(k).getPlayername())){
-						Teams.get(i).setPlayers(Teams.get(i).getPlayers()+match.getPlayers1().get(k).getPlayername()+";");
-						
-					}
-				}
-			}
-			else if(Teams.get(i).getShortName().equals(match.getSecondteam())&&(Teams.get(i).getSeason().equals(season))){
-				for(int k=0;k<match.getPlayers2().size();k++){
-					if(!Teams.get(i).getPlayers().contains(match.getPlayers2().get(k).getPlayername())){
-						Teams.get(i).setPlayers(Teams.get(i).getPlayers()+match.getPlayers2().get(k).getPlayername()+";");
-					}
-				}
-			}
-		}
-		
-		
 
+		for (int i = 0; i < Teams.size(); i++) { // 遍历所有球队
+			if (Teams.get(i).getShortName().equals(match.getFirstteam())
+					&& (Teams.get(i).getSeason().equals(season))) {
+				for (int k = 0; k < match.getPlayers1().size(); k++) { // 遍历参加比赛的球员
+					if (!Teams
+							.get(i)
+							.getPlayers()
+							.contains(
+									match.getPlayers1().get(k).getPlayername())) {
+						Teams.get(i).setPlayers(
+								Teams.get(i).getPlayers()
+										+ match.getPlayers1().get(k)
+												.getPlayername() + ";");
+
+					}
+				}
+			} else if (Teams.get(i).getShortName()
+					.equals(match.getSecondteam())
+					&& (Teams.get(i).getSeason().equals(season))) {
+				for (int k = 0; k < match.getPlayers2().size(); k++) {
+					if (!Teams
+							.get(i)
+							.getPlayers()
+							.contains(
+									match.getPlayers2().get(k).getPlayername())) {
+						Teams.get(i).setPlayers(
+								Teams.get(i).getPlayers()
+										+ match.getPlayers2().get(k)
+												.getPlayername() + ";");
+					}
+				}
+			}
+		}
 
 	}
 
@@ -100,8 +136,10 @@ public class TeamLogic implements TeamInfoService {
 		}
 		PlayerLogic getPlayers = new PlayerLogic();
 		saveTeamPlayer(getPlayers.getAllInfo("13-14"));
-		/*saveTeamPlayer(getPlayers.getAllInfo("13-14"));
-		saveTeamPlayer(getPlayers.getAllInfo("14-15"));*/
+		/*
+		 * saveTeamPlayer(getPlayers.getAllInfo("13-14"));
+		 * saveTeamPlayer(getPlayers.getAllInfo("14-15"));
+		 */
 		TeamData add = new TeamData();
 		add.WriteIn(Teams);
 	}
@@ -511,7 +549,7 @@ public class TeamLogic implements TeamInfoService {
 		TeamData t = new TeamData();
 		return t.GetInfo(name);
 	}
-	
+
 	public ArrayList<TeamDataPO> GetInfoBySeason(String season) {
 		TeamData t = new TeamData();
 		return t.GetInfoBySeason(season);
@@ -527,23 +565,35 @@ public class TeamLogic implements TeamInfoService {
 		return t.GetInfo(name);
 	}
 
+	public ArrayList<TeamDataPO> hotTeamSeason(String season, String property) {
+		ArrayList<TeamDataPO> res = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> origin = GetInfoBySeason(season);
+		TeamSortLogic.sortByDouble(origin, property);
+		for (int i = 0; i < 5; i++) {
+			res.add(origin.get(i));
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
-		teams=team.GetAllInfo();
-		team.initTeamData();
-	    /*ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
-		teams=team.GetBySN("DEN");
-		for(int i=0;i<teams.size();i++){
-			System.out.println(teams.get(i).getSeason()+"  "+teams.get(i).getShortName());
+		teams = team.GetAllInfo();
+		//team.initTeamData();
+		
+			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(0)
+					.getBuildyear());
+			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(1)
+					.getBuildyear());
+			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(2)
+					.getBuildyear());
+			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(3)
+					.getBuildyear());
+			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(4)
+					.getBuildyear());
+			System.out.println(MatchLogic.getTime());
 		}
-		System.out.println(teams.get(0).getAssitNumber());*/
-		for(int i=0;i<teams.size();i++){
-			System.out.println(teams.get(i).getPlayers()+teams.get(i).getShortName()+teams.get(i).getSeason());
-		}
-		System.out.println(team.GetAllInfo().size());
-		System.out.println(MatchLogic.getTime());
-	}
+	
 
 }
