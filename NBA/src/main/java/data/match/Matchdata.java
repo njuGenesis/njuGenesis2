@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import bussinesslogic.match.MatchLogic;
 import data.po.MatchDataPO;
 
 public class Matchdata implements Serializable {
@@ -74,7 +73,6 @@ public class Matchdata implements Serializable {
 					.readObject();
 			fos.close();
 			oos.close();
-			
 			return matches;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -145,9 +143,7 @@ public class Matchdata implements Serializable {
 
 	// 返回所有的比赛信息
 	public ArrayList<MatchDataPO> GetAllMatch() {
-
 		ArrayList<MatchDataPO> result = readOut();
-
 		return result;
 	}
 
