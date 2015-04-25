@@ -117,7 +117,7 @@ public class MatchLogic implements MatchInfoService {
 		//match.ini();
 		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
 		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
-		System.out.println(match.GetInfo("HOU", "13-14").size());
+		//System.out.println(match.GetInfo("HOU", "13-14").size());
 		System.out.println(match.GetAllInfo().size());
 	    System.out.println(MatchLogic.getTime());
 	}

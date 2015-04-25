@@ -527,22 +527,36 @@ public class TeamLogic implements TeamInfoService {
 		return t.GetInfo(name);
 	}
 
+	public ArrayList<TeamDataPO> hotTeamSeason(String season,String property){
+		ArrayList<TeamDataPO> res = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> origin = GetInfoBySeason(season);
+		TeamSortLogic.sortByDouble(origin, property);
+		for(int i=0;i<5;i++){
+			res.add(origin.get(i));
+		}
+		return res;
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
-		teams=team.GetAllInfo();
-		team.initTeamData();
-	    /*ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
+		//teams=team.GetAllInfo();
+		  /*team.initTeamData();
+	  ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		teams=team.GetBySN("DEN");
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getSeason()+"  "+teams.get(i).getShortName());
 		}
 		System.out.println(teams.get(0).getAssitNumber());*/
-		for(int i=0;i<teams.size();i++){
+		/*for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getPlayers()+teams.get(i).getShortName()+teams.get(i).getSeason());
-		}
-		System.out.println(team.GetAllInfo().size());
+		}*/
+		System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(0).getBuildyear());
+		System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(1).getBuildyear());
+		System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(2).getBuildyear());
+		System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(3).getBuildyear());
+		System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(4).getBuildyear());
 		System.out.println(MatchLogic.getTime());
 	}
 
