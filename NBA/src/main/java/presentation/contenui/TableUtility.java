@@ -267,6 +267,74 @@ public class TableUtility {
 		return ch;
 	}
 	
+	public static String getShortChTeam(String en){
+		String ch = "";
+		if(en.equals("SAS")){
+			ch = "马刺";
+		}else if(en.equals("MEM")){
+			ch = "灰熊";
+		}else if(en.equals("HOU")){
+			ch = "火箭";
+		}else if(en.equals("DAL")){
+			ch = "小牛";
+		}else if(en.equals("NOP")){
+			ch = "鹈鹕";
+		}else if(en.equals("SAC")){
+			ch = "国王";
+		}else if(en.equals("PHX")){
+			ch = "太阳";
+		}else if(en.equals("GSW")){
+			ch = "勇士";
+		}else if(en.equals("LAC")){
+			ch = "快船";
+		}else if(en.equals("LAL")){
+			ch = "湖人";
+		}else if(en.equals("MIN")){
+			ch = "森林狼";
+		}else if(en.equals("UTA")){
+			ch = "爵士";
+		}else if(en.equals("POR")){
+			ch = "开拓者";
+		}else if(en.equals("OKC")){
+			ch = "雷霆";
+		}else if(en.equals("DEN")){
+			ch = "掘金";
+		}else if(en.equals("MIA")){
+			ch = "热火";
+		}else if(en.equals("ORL")){
+			ch = "魔术";
+		}else if(en.equals("ATL")){
+			ch = "老鹰";
+		}else if(en.equals("WAS")){
+			ch = "奇才";
+		}else if(en.equals("CHA")){
+			ch = "黄蜂";
+		}else if(en.equals("DET")){
+			ch = "活塞";
+		}else if(en.equals("IND")){
+			ch = "步行者";
+		}else if(en.equals("CLE")){
+			ch = "骑士";
+		}else if(en.equals("CHI")){
+			ch = "公牛";
+		}else if(en.equals("MIL")){
+			ch = "雄鹿";
+		}else if(en.equals("NYK")){
+			ch = "尼克斯";
+		}else if(en.equals("PHI")){
+			ch = "76人";
+		}else if(en.equals("BOS")){
+			ch = "凯尔特人";
+		}else if(en.equals("BKN")){
+			ch = "篮网";
+		}else if(en.equals("TOR")){
+			ch = "猛龙";
+		}else if(en.equals("null")){
+			ch = "无";
+		}
+		return ch;
+	}
+	
 
 	
 	

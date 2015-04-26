@@ -34,6 +34,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import presentation.contenui.UIUtil;
+
 public class Chooser extends JPanel{
 
     private static final long serialVersionUID = -5384012731547358720L;
@@ -55,8 +57,9 @@ public class Chooser extends JPanel{
     private static final String[] showTEXT = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
     private static WeekLabel[] weekLabels = new WeekLabel[7];
     private static int defaultStartDAY = 0;//0 is from Sun, 1 is from Mon, 2 is from Tue
-    private static Color hoverColor = Color.BLUE; // hover color
+    private static Color hoverColor = UIUtil.nbaBlue; // hover color
     
+    private Color fontColor = UIUtil.bgWhite;
 
     private Chooser(java.util.Date date, String format, int startDAY){
         if(startDAY > -1 && startDAY < 7) defaultStartDAY = startDAY;
@@ -84,6 +87,16 @@ public class Chooser extends JPanel{
     }
     public static Chooser getInstance(){
         return getInstance(new java.util.Date(), DEFAULTFORMAT);
+    }
+    
+    public static Chooser getInstance(Color fontColor){
+    	Chooser c =  getInstance(new java.util.Date(), DEFAULTFORMAT);
+    	c.setColor(fontColor);
+    	return c;
+    }
+    
+    private void setColor(Color c){
+    	this.fontColor = c;
     }
     
     private void initCalendarPanel(){
@@ -121,7 +134,7 @@ public class Chooser extends JPanel{
             public void mouseExited(MouseEvent me) {
                 if (showComponent.isEnabled()) {
                     showComponent.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    showComponent.setForeground(Color.BLACK);
+                    showComponent.setForeground(UIUtil.bgWhite);
                 }
             }
             public void mousePressed(MouseEvent me) {
@@ -136,7 +149,7 @@ public class Chooser extends JPanel{
             }
             public void mouseReleased(MouseEvent me) {
                 if (showComponent.isEnabled()) {
-                    showComponent.setForeground(Color.BLACK);
+                    showComponent.setForeground(UIUtil.bgWhite);
                 }
             }
         });
@@ -248,15 +261,15 @@ public class Chooser extends JPanel{
             }
             public void mouseExited(java.awt.event.MouseEvent me) {
                 label.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                label.setForeground(java.awt.Color.BLACK);
+                label.setForeground(fontColor);
             }
             public void mousePressed(java.awt.event.MouseEvent me) {
                 calendar.add(type, value);
-                label.setForeground(java.awt.Color.WHITE);
+                label.setForeground(hoverColor);
                 refresh();
             }
             public void mouseReleased(java.awt.event.MouseEvent me) {
-                label.setForeground(java.awt.Color.BLACK);
+                label.setForeground(fontColor);
             }
         }
     }
