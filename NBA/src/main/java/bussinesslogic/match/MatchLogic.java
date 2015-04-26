@@ -92,6 +92,11 @@ public class MatchLogic implements MatchInfoService {
 		return add.GetPartMatch(startDate, endDate, shotrName);
 	}
 	
+	//获得一段时间的所有比赛 ，date的格式为“13-14_01-01”    （赛季+“_”+日期）
+		public ArrayList<MatchDataPO> GetDateMatch(String startDate, String endDate) {
+			return add.GetDateMatch(startDate, endDate);
+		}
+	
 	//获得一个球队一个赛季的所有比赛 ，season的格式为“13-14”
 	public ArrayList<MatchDataPO> GetInfo(String shotrName, String season) {
 		return add.GetPartMatch(shotrName, season);
@@ -123,10 +128,10 @@ public class MatchLogic implements MatchInfoService {
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		match.ini();
+		//match.ini();
 		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
 		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
-		System.out.println(match.GetInfo("HOU", "13-14").get(0).getTPShootEff1());
+		System.out.println(match.GetDateMatch("13-14_01-01", "13-14_01-01").size());
 		System.out.println(match.GetAllInfo().size());
 	    System.out.println(MatchLogic.getTime());
 	}

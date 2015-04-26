@@ -141,6 +141,21 @@ public class Matchdata implements Serializable {
 		return res;
 	}
 
+	private ArrayList<MatchDataPO> getMatchByDate(String startDate, String endDate
+			) {
+		ArrayList<MatchDataPO> matches = readOut();
+		ArrayList<MatchDataPO> res = new ArrayList<MatchDataPO>();
+		for (int i = 0; i < matches.size(); i++) {
+			if ((matches.get(i).getDate().compareTo(startDate) >= 0)
+					&& (matches.get(i).getDate().compareTo(endDate) <= 0)
+				) {
+				res.add(matches.get(i));
+			}
+		}
+		return res;
+	}
+	
+	
 	// 返回所有的比赛信息
 	public ArrayList<MatchDataPO> GetAllMatch() {
 		ArrayList<MatchDataPO> result = readOut();
@@ -153,6 +168,14 @@ public class Matchdata implements Serializable {
 		return result;
 	}
 
+	// 返回某个时间段内的比赛（包括startDate和endDate）
+		public ArrayList<MatchDataPO> GetDateMatch(String startDate,
+				String endDate) {
+			ArrayList<MatchDataPO> result = getMatchByDate(startDate, endDate);
+			return result;
+		}
+	
+	
 	// 返回一个队伍某个时间段内的比赛（包括startDate和endDate）
 	public ArrayList<MatchDataPO> GetPartMatch(String startDate,
 			String endDate, String shotrName) {
