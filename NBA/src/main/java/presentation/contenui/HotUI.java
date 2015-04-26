@@ -16,6 +16,7 @@ import presentation.component.GLabel;
 import presentation.hotspot.HotPlayerProgressPanel;
 import presentation.hotspot.HotPlayerSeasonPanel;
 import presentation.hotspot.HotPlayerTodayPanel;
+import presentation.hotspot.HotTeamSeasonPanel;
 import presentation.hotspot.HotspotUtil;
 
 public class HotUI extends BgPanel implements Runnable{
@@ -197,7 +198,12 @@ public class HotUI extends BgPanel implements Runnable{
 					Thread.sleep(1);
 				}catch(Exception ex){}
 			}
+
+			hotPanel = new HotTeamSeasonPanel();
+			this.add(hotPanel);
 			rightBt.setVisible(true);
+			this.repaint();
+			
 			break;
 		}
 

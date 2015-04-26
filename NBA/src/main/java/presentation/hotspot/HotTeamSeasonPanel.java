@@ -4,17 +4,17 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import data.po.PlayerDataPO;
-import bussinesslogic.player.PlayerLogic;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.contenui.UIUtil;
-import presentation.hotspot.HotPlayerSeasonPanel.MenuListener;
+import bussinesslogic.team.TeamLogic;
+import data.po.TeamDataPO;
 
 public class HotTeamSeasonPanel extends BgPanel{
 
@@ -37,7 +37,7 @@ public class HotTeamSeasonPanel extends BgPanel{
 	
 	SelectLabel[] menuItem = new SelectLabel[8];
 
-	PlayerLogic logic = new PlayerLogic();
+	TeamLogic logic = new TeamLogic();
 
 
 	RankingFactory factory = new RankingFactory();
@@ -132,12 +132,33 @@ public class HotTeamSeasonPanel extends BgPanel{
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM-dd");  
 		String dateNowStr = dateFormat.format(dateNow);  
 
-		System.out.println(dateNowStr);
-		PlayerDataPO[] players = logic.hotPlayerToday("13-14", "01-01", type);
-		JPanel p = factory.getPlayerToday(players,type);
+		ArrayList<TeamDataPO> teams  = logic.hotTeamSeason("13-14", transType(type));
+		JPanel p = factory.getTeamSeason(teams,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
+	}
+	
+	private String transType(String ch){
+		String res = "";
+		if(ch.equals("场均得分")){
+			res = "PPG"; 
+		}else if(ch.equals("场均篮板")){
+			res = "BackBoardPG"; 
+		}else if(ch.equals("场均助攻")){
+			res = "AssitNumberPG"; 
+		}else if(ch.equals("场均盖帽")){
+			res = "RejectionPG"; 
+		}else if(ch.equals("场均抢断")){
+			res = "StealNumberPG"; 
+		}else if(ch.equals("三分命中率")){
+			res = "TPEff"; 
+		}else if(ch.equals("投篮命中率")){
+			res = "ShootEff"; 
+		}else if(ch.equals("罚球命中率")){
+			res = "FTEff"; 
+		}
+		return res;
 	}
 
 	class MenuListener implements MouseListener{

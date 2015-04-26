@@ -257,6 +257,16 @@ public class TableUtility {
 		return ch;
 	}
 	
+	public static String getChUnion(String en){
+		String ch = "";
+		if(en.equals("E")){
+			ch = "东部联盟";
+		}else{
+			ch = "西部联盟";
+		}
+		return ch;
+	}
+	
 
 	
 	
