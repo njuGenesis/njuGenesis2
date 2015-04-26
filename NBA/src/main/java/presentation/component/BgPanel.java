@@ -16,7 +16,6 @@ public class BgPanel extends JPanel{
 	private ImageIcon im;
 
 	public BgPanel(String s){
-		this.setBounds(15, 50, 1000, 650);
 		im = new ImageIcon(s);  
 		
 	}

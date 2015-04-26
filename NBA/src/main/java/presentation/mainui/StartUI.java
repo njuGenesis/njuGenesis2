@@ -1,5 +1,6 @@
 package presentation.mainui;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
@@ -99,9 +100,11 @@ public class StartUI extends GFrame implements Runnable{
 			}else{
 				menu[i] = new GLabel("img/Framebg/menu"+i+"Blue.png", new Point(980, 50), new Point(50, 116), this, false, i);
 			}
+			menu[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 		
 		close = new GLabel("img/Framebg/closeBlue.png", new Point(980, 50), new Point(50, 50), this, false, -1);
+		close.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		MouseAdapter mouseAdapter = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

@@ -1,9 +1,11 @@
 package presentation.contenui;
 
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 import bussinesslogic.team.TeamLogic;
 import data.po.TeamDataPO;
 import presentation.component.BgPanel;
@@ -53,6 +55,7 @@ public class TeamUI extends BgPanel{
 					}
 				}
 			}
+			team[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
 		MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -62,9 +65,7 @@ public class TeamUI extends BgPanel{
 			}
 			public void mousePressed(MouseEvent e) {
 				GLabel button = (GLabel)e.getSource();
-//				ContentController con = new ContentController();
-//				con.changeToTeamDetails(button.po);
-				TeamDetials td = new TeamDetials();
+				TeamDetials td = new TeamDetials(button.po);
 				TeamUI.this.add(td);
 				for(int i = 0;i<team.length;i++){
 					team[i].setVisible(false);

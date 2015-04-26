@@ -1,7 +1,5 @@
 package presentation.contenui;
 
-import java.io.FileNotFoundException;
-import org.apache.batik.transcoder.TranscoderException;
 import presentation.component.BgPanel;
 
 public class TurnController {
@@ -19,6 +17,7 @@ public class TurnController {
 		case MATCH:newPanel = new MatchUI("img/Framebg/Match.png");break;
 		case STATS:newPanel = new StatsUI("img/Framebg/Stats.png");break;
 		}
+		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
 		return newPanel;
 	}

@@ -32,7 +32,9 @@ public class GLabel extends JLabel{
 		this.setIcon(image);
 		this.setBounds(location.x, location.y, size.x, size.y);
 		this.setVisible(visible);
-		container.add(this);
+		if(container != null){
+			container.add(this);
+		}
 	}
 	
 	public GLabel(String file, Point location, Point size, Container container, boolean visible, TeamDataPO po){
@@ -45,7 +47,9 @@ public class GLabel extends JLabel{
 		this.setIcon(image);
 		this.setBounds(location.x, location.y, size.x, size.y);
 		this.setVisible(visible);
-		container.add(this);
+		if(container != null){
+			container.add(this);
+		}
 	}
 	
 	public GLabel(String file, Point location, Point size, Container container, boolean visible, int number){
@@ -55,7 +59,9 @@ public class GLabel extends JLabel{
 		this.setIcon(image);
 		this.setBounds(location.x, location.y, size.x, size.y);
 		this.setVisible(visible);
-		container.add(this);
+		if(container != null){
+			container.add(this);
+		}
 	}
 	
 	public GLabel(String file, Point location, Point size, int x, int y, int width, int height, Container container, boolean visible, int s){
@@ -71,7 +77,9 @@ public class GLabel extends JLabel{
 		this.setIcon(image);
 		this.setBounds(location.x, location.y, size.x, size.y);
 		this.setVisible(visible);
-		container.add(this);
+		if(container != null){
+			container.add(this);
+		}
 	}
 
 	public GLabel(String message, Point location, Point size, Container container, boolean visible, int bord, int wordSize){
@@ -79,7 +87,9 @@ public class GLabel extends JLabel{
 		this.setBounds(location.x, location.y, size.x, size.y);
 		this.setVisible(visible);
 		this.setFont(new java.awt.Font("微软雅黑", bord, wordSize));
-		container.add(this);
+		if(container != null){
+			container.add(this);
+		}
 	}
 	
 	public void paint(int x, int y, int w, int h){
