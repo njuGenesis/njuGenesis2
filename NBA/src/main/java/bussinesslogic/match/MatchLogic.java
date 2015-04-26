@@ -18,14 +18,23 @@ public class MatchLogic implements MatchInfoService {
 	 */
 
 	public ArrayList<MatchDataPO> ini() {
-		ArrayList<MatchDataPO> MatchList = new ArrayList<MatchDataPO>();
+		ArrayList<MatchDataPO> MatchList12 = new ArrayList<MatchDataPO>();
+		ArrayList<MatchDataPO> MatchList13 = new ArrayList<MatchDataPO>();
 		GetFileData MatchReader = new GetFileData();
 		File[] fileList = MatchReader.getAllMathcFielName();
 		for (int i = 0; i < fileList.length; i++) {
-			MatchList.add(calcuRound(MatchReader.detailMatch(fileList[i])));
+			if(MatchReader.detailMatch(fileList[i]).getSeason().equals("12-13")){
+			MatchList12.add(calcuRound(MatchReader.detailMatch(fileList[i])));
+			}
+			if(MatchReader.detailMatch(fileList[i]).getSeason().equals("13-14")){
+				MatchList13.add(calcuRound(MatchReader.detailMatch(fileList[i])));
+				}
+			
 		}
-		add.writeIn(MatchList);
-		return MatchList;
+		add.writeIn(MatchList12);
+		add.writeIn(MatchList13);
+
+		return null;
 	}
 	
 	public void update(String filename){
@@ -114,10 +123,10 @@ public class MatchLogic implements MatchInfoService {
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		//match.ini();
+		match.ini();
 		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
 		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
-		System.out.println(match.GetInfo("HOU", "13-14").size());
+		System.out.println(match.GetInfo("HOU", "13-14").get(0).getTPShootEff1());
 		System.out.println(match.GetAllInfo().size());
 	    System.out.println(MatchLogic.getTime());
 	}

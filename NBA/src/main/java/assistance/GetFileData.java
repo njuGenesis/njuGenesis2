@@ -162,25 +162,31 @@ public class GetFileData {
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));
 				player.setTime((detail[2]));
-				player.setShootEff(Integer.parseInt(detail[3]));
-				res.setShootEff1(res.getShootEff1()
+				player.setShootEffNumber(Integer.parseInt(detail[3]));
+				res.setShootEffNumber1(res.getShootEffNumber1()
 						+ Integer.parseInt(detail[3]));
 				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot1(res.getShoot1() + Integer.parseInt(detail[4]));
+				player.setShootEff(player.getShootEffNumber()/player.getShoot());   //
+				res.setShootEff1(res.getShootEffNumber1()/res.getShoot1());
 				player.setLostSH(Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
 				res.setLostSH1(res.getLostSH1() + Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
-				player.setTPShootEff(Integer.parseInt(detail[5]));
-				res.setTPShootEff1(res.getTPShootEff1()
+				player.setTPShootEffNumber(Integer.parseInt(detail[5]));
+				res.setTPShootEffNumber1(res.getTPShootEffNumber1()
 						+ Integer.parseInt(detail[5]));
 				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot1(res.getTPShoot1() + Integer.parseInt(detail[6]));
-				player.setFTShootEff(Integer.parseInt(detail[7]));
-				res.setFTShootEff1(res.getFTShootEff1()
+				player.setTPShootEff(player.getTPShootEffNumber()/player.getTPShoot());		//
+				res.setTPShootEff1(res.getTPShootEffNumber1()/res.getTPShoot1());
+				player.setFTShootEffNumber(Integer.parseInt(detail[7]));
+				res.setFTShootEffNumber1(res.getFTShootEffNumber1()
 						+ Integer.parseInt(detail[7]));
 				player.setFT(Integer.parseInt(detail[8]));
 				res.setFT1(res.getFT1() + Integer.parseInt(detail[8]));
+				player.setFTShootEff(player.getFTShootEffNumber()/player.getFT());   //
+				res.setFTShootEff1(res.getFTShootEffNumber1()/res.getFT1());
 				player.setBankOff(Integer.parseInt(detail[9]));
 				res.setTeam1Off(res.getTeam1Off() + Integer.parseInt(detail[9]));
 				player.setBankDef(Integer.parseInt(detail[10]));
@@ -209,25 +215,31 @@ public class GetFileData {
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));
 				player.setTime((detail[2]));
-				player.setShootEff(Integer.parseInt(detail[3]));
-				res.setShootEff2(res.getShootEff2()
+				player.setShootEffNumber(Integer.parseInt(detail[3]));
+				res.setShootEffNumber2(res.getShootEffNumber2()
 						+ Integer.parseInt(detail[3]));
 				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot2(res.getShoot2() + Integer.parseInt(detail[4]));
+				player.setShootEff(player.getShootEffNumber()/player.getShoot());   //
+				res.setShootEff2(res.getShootEffNumber2()/res.getShoot2());
 				player.setLostSH(Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
 				res.setLostSH2(res.getLostSH2() + Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
-				player.setTPShootEff(Integer.parseInt(detail[5]));
-				res.setTPShootEff2(res.getTPShootEff2()
+				player.setTPShootEffNumber(Integer.parseInt(detail[5]));
+				res.setTPShootEffNumber2(res.getTPShootEffNumber2()
 						+ Integer.parseInt(detail[5]));
 				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot2(res.getTPShoot2() + Integer.parseInt(detail[6]));
-				player.setFTShootEff(Integer.parseInt(detail[7]));
-				res.setFTShootEff2(res.getFTShootEff2()
+				player.setTPShootEff(player.getTPShootEffNumber()/player.getTPShoot());		//
+				res.setTPShootEff2(res.getTPShootEffNumber2()/res.getTPShoot2());
+				player.setFTShootEffNumber(Integer.parseInt(detail[7]));
+				res.setFTShootEffNumber2(res.getFTShootEffNumber2()
 						+ Integer.parseInt(detail[7]));
 				player.setFT(Integer.parseInt(detail[8]));
 				res.setFT2(res.getFT2() + Integer.parseInt(detail[8]));
+				player.setFTShootEff(player.getFTShootEffNumber()/player.getFT());   //
+				res.setFTShootEff2(res.getFTShootEffNumber2()/res.getFT2());
 				player.setBankOff(Integer.parseInt(detail[9]));
 				res.setTeam2Off(res.getTeam2Off() + Integer.parseInt(detail[9]));
 				player.setBankDef(Integer.parseInt(detail[10]));

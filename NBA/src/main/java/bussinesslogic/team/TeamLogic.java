@@ -261,7 +261,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setShootEffNumber(
 							Teams.get(i).getShootEffNumber()
-									+ match.getShootEff1()); // 投篮命中总数，场均数
+									+ match.getShootEffNumber1()); // 投篮命中总数，场均数
 					Teams.get(i).setShootEffNumberPG(
 							Teams.get(i).getShootEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -282,7 +282,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setTPEffNumber(
 							Teams.get(i).getTPEffNumber()
-									+ match.getTPShootEff1());// 总三分命中书，场均数
+									+ match.getTPShootEffNumber1());// 总三分命中书，场均数
 					Teams.get(i).setTPEffNumberPG(
 							Teams.get(i).getTPEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -304,7 +304,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setFTEffNumber(
 							Teams.get(i).getFTEffNumber()
-									+ match.getFTShootEff1());// 总罚球命中书，场均数
+									+ match.getFTShootEffNumber1());// 总罚球命中书，场均数
 					Teams.get(i).setFTEffNumberPG(
 							Teams.get(i).getFTEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -399,7 +399,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setShootEffNumber(
 							Teams.get(i).getShootEffNumber()
-									+ match.getShootEff2()); // 投篮命中总数，场均数
+									+ match.getShootEffNumber2()); // 投篮命中总数，场均数
 					Teams.get(i).setShootEffNumberPG(
 							Teams.get(i).getShootEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -420,7 +420,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setTPEffNumber(
 							Teams.get(i).getTPEffNumber()
-									+ match.getTPShootEff2());// 总三分命中书，场均数
+									+ match.getTPShootEffNumber2());// 总三分命中书，场均数
 					Teams.get(i).setTPEffNumberPG(
 							Teams.get(i).getTPEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -442,7 +442,7 @@ public class TeamLogic implements TeamInfoService {
 
 					Teams.get(i).setFTEffNumber(
 							Teams.get(i).getFTEffNumber()
-									+ match.getFTShootEff2());// 总罚球命中书，场均数
+									+ match.getFTShootEffNumber2());// 总罚球命中书，场均数
 					Teams.get(i).setFTEffNumberPG(
 							Teams.get(i).getFTEffNumber()
 									/ Teams.get(i).getMatchNumber());
@@ -580,7 +580,7 @@ public class TeamLogic implements TeamInfoService {
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		teams = team.GetAllInfo();
-		//team.initTeamData();
+		team.initTeamData();
 		
 			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(0)
 					.getBuildyear());

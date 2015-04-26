@@ -20,10 +20,15 @@ public class Match_PlayerPO implements Serializable{
 	double FT;   //罚球数
 	double To;   //失误
 	double Bank;    //篮板
-	double ShootEff; //投篮命中数
+	double ShootEffNumber; //投篮命中数
+	double ShootEff;//投篮命中率
+	double TPShootEff;//三分命中率
+	double FTShootEff;//罚球命中率
+	
+	
 	double TPShoot; //三分投篮数
-	double TPShootEff; //三分命数
-	double FTShootEff; //罚篮命中数
+	double TPShootEffNumber; //三分命数
+	double FTShootEffNumber; //罚篮命中数
 	double Ass; //助攻数
 	double Steal;//抢断数
 	double Rejection;//盖帽数
@@ -126,20 +131,16 @@ public class Match_PlayerPO implements Serializable{
 		Bank = bank;
 	}
 
+	public double getShootEffNumber() {
+		return ShootEffNumber;
+	}
+
 	public double getShootEff() {
 		return ShootEff;
 	}
 
 	public void setShootEff(double shootEff) {
 		ShootEff = shootEff;
-	}
-
-	public double getTPShoot() {
-		return TPShoot;
-	}
-
-	public void setTPShoot(double tPShoot) {
-		TPShoot = tPShoot;
 	}
 
 	public double getTPShootEff() {
@@ -156,6 +157,34 @@ public class Match_PlayerPO implements Serializable{
 
 	public void setFTShootEff(double fTShootEff) {
 		FTShootEff = fTShootEff;
+	}
+
+	public void setShootEffNumber(double shootEffNumber) {
+		ShootEffNumber = shootEffNumber;
+	}
+
+	public double getTPShoot() {
+		return TPShoot;
+	}
+
+	public void setTPShoot(double tPShoot) {
+		TPShoot = tPShoot;
+	}
+
+	public double getTPShootEffNumber() {
+		return TPShootEffNumber;
+	}
+
+	public void setTPShootEffNumber(double tPShootEffNumber) {
+		TPShootEffNumber = tPShootEffNumber;
+	}
+
+	public double getFTShootEffNumber() {
+		return FTShootEffNumber;
+	}
+
+	public void setFTShootEffNumber(double fTShootEffNumber) {
+		FTShootEffNumber = fTShootEffNumber;
 	}
 
 	public double getAss() {

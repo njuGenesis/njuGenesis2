@@ -42,7 +42,7 @@ public class Matchdata implements Serializable {
 			originMatch.add(matches);
 			FileOutputStream fos = new FileOutputStream(matchFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(matches);
+			oos.writeObject(originMatch);
 			fos.close();
 			oos.close();
 		} catch (Exception ex) {

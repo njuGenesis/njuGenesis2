@@ -68,17 +68,25 @@ public class MatchDataPO implements Serializable {
 	double team1bank; // 1队篮板
 	double team2bank;
 
-	double ShootEff1; // 1队偷懒命中数
-	double ShootEff2;
+	double ShootEffNumber1; // 1队投篮命中数
+	double ShootEff1; // 1队投篮命中率
+	double ShootEffNumber2;// 2队投篮命中数
+	double ShootEff2; // 2队投篮命中率
 
 	double TPShoot1; // 1队三分投篮数
 	double TPShoot2;
 
-	double TPShootEff1; // 1队三分命中
+	double TPShootEffNumber1; // 1队三分命中数
+	double TPShootEff1; // 1队三分命中率
+	
+	double TPShootEffNumber2;
 	double TPShootEff2;
 
-	double FTShootEff1; // 1队罚篮命中数
-	double FTShootEff2;
+	double FTShootEffNumber1; // 1队罚篮命中数
+	double FTShootEff1; // 1队罚篮命中率
+	
+	double FTShootEffNumber2;// 2队罚篮命中数
+	double FTShootEff2; // 2队罚篮命中率
 
 	double Ass1; // 1队助攻数
 	double Ass2;
@@ -91,6 +99,55 @@ public class MatchDataPO implements Serializable {
 
 	double Foul1;// 1队犯规数
 	double Foul2;
+	
+	public double getShootEff1() {
+		return ShootEff1;
+	}
+
+	public void setShootEff1(double shootEff1) {
+		ShootEff1 = shootEff1;
+	}
+
+	public double getShootEff2() {
+		return ShootEff2;
+	}
+
+	public void setShootEff2(double shootEff2) {
+		ShootEff2 = shootEff2;
+	}
+
+	public double getTPShootEff1() {
+		return TPShootEff1;
+	}
+
+	public void setTPShootEff1(double tPShootEff1) {
+		TPShootEff1 = tPShootEff1;
+	}
+
+	public double getTPShootEff2() {
+		return TPShootEff2;
+	}
+
+	public void setTPShootEff2(double tPShootEff2) {
+		TPShootEff2 = tPShootEff2;
+	}
+
+	public double getFTShootEff1() {
+		return FTShootEff1;
+	}
+
+	public void setFTShootEff1(double fTShootEff1) {
+		FTShootEff1 = fTShootEff1;
+	}
+
+	public double getFTShootEff2() {
+		return FTShootEff2;
+	}
+
+	public void setFTShootEff2(double fTShootEff2) {
+		FTShootEff2 = fTShootEff2;
+	}
+	
 
 	public ArrayList<Match_PlayerPO> getPlayers1() {
 		return players1;
@@ -148,20 +205,20 @@ public class MatchDataPO implements Serializable {
 		this.team2bank = team2bank;
 	}
 
-	public double getShootEff1() {
-		return ShootEff1;
+	public double getShootEffNumber1() {
+		return ShootEffNumber1;
 	}
 
-	public void setShootEff1(double shootEff1) {
-		ShootEff1 = shootEff1;
+	public void setShootEffNumber1(double shootEffNumber1) {
+		ShootEffNumber1 = shootEffNumber1;
 	}
 
-	public double getShootEff2() {
-		return ShootEff2;
+	public double getShootEffNumber2() {
+		return ShootEffNumber2;
 	}
 
-	public void setShootEff2(double shootEff2) {
-		ShootEff2 = shootEff2;
+	public void setShootEffNumber2(double shootEffNumber2) {
+		ShootEffNumber2 = shootEffNumber2;
 	}
 
 	public double getTPShoot1() {
@@ -180,36 +237,36 @@ public class MatchDataPO implements Serializable {
 		TPShoot2 = tPShoot2;
 	}
 
-	public double getTPShootEff1() {
-		return TPShootEff1;
+	public double getTPShootEffNumber1() {
+		return TPShootEffNumber1;
 	}
 
-	public void setTPShootEff1(double tPShootEff1) {
-		TPShootEff1 = tPShootEff1;
+	public void setTPShootEffNumber1(double tPShootEffNumber1) {
+		TPShootEffNumber1 = tPShootEffNumber1;
 	}
 
-	public double getTPShootEff2() {
-		return TPShootEff2;
+	public double getTPShootEffNumber2() {
+		return TPShootEffNumber2;
 	}
 
-	public void setTPShootEff2(double tPShootEff2) {
-		TPShootEff2 = tPShootEff2;
+	public void setTPShootEffNumber2(double tPShootEffNumber2) {
+		TPShootEffNumber2 = tPShootEffNumber2;
 	}
 
-	public double getFTShootEff1() {
-		return FTShootEff1;
+	public double getFTShootEffNumber1() {
+		return FTShootEffNumber1;
 	}
 
-	public void setFTShootEff1(double fTShootEff1) {
-		FTShootEff1 = fTShootEff1;
+	public void setFTShootEffNumber1(double fTShootEffNumber1) {
+		FTShootEffNumber1 = fTShootEffNumber1;
 	}
 
-	public double getFTShootEff2() {
-		return FTShootEff2;
+	public double getFTShootEffNumber2() {
+		return FTShootEffNumber2;
 	}
 
-	public void setFTShootEff2(double fTShootEff2) {
-		FTShootEff2 = fTShootEff2;
+	public void setFTShootEffNumber2(double fTShootEffNumber2) {
+		FTShootEffNumber2 = fTShootEffNumber2;
 	}
 
 	public double getAss1() {
