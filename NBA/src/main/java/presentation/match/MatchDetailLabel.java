@@ -1,6 +1,7 @@
 package presentation.match;
 
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 import presentation.component.GLabel;
+import presentation.contenui.MatchUI;
 import data.po.MatchDataPO;
 
 public class MatchDetailLabel extends GLabel{
@@ -19,11 +21,18 @@ public class MatchDetailLabel extends GLabel{
 
 	public MatchDataPO po;
 	private static ImageIcon icon = new ImageIcon("img/match/greyrightButton.png");
+	
+	private static Point commonLocation = new Point(880,50);
+	private static Point moveLocation = new Point(878,48);
+	private MatchUI big;
 
-	public MatchDetailLabel(Container container,MatchDataPO po){
-		super(icon,new Point(880,50),new Point(16,30),container,true);
+	public MatchDetailLabel(Container big,Container container,MatchDataPO po){
+		super(icon,commonLocation,new Point(16,30),container,true);
 		this.po = po;
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.addMouseListener(new BtListener());
+		
+		this.big = (MatchUI) big;
 	}
 
 
@@ -35,8 +44,10 @@ public class MatchDetailLabel extends GLabel{
 		}
 
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			big.removeAll();
+			
+			big.add(new MatchDetailPanel(po));
+			big.repaint();
 		}
 
 		public void mouseReleased(MouseEvent e) {
@@ -45,13 +56,11 @@ public class MatchDetailLabel extends GLabel{
 		}
 
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			MatchDetailLabel.this.setLocation(moveLocation);
 		}
 
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			MatchDetailLabel.this.setLocation(commonLocation);
 		}
 	}
 }

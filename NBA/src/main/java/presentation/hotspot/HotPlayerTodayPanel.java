@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import presentation.component.BgPanel;
-import presentation.component.DateLabel;
+import presentation.component.DatePanel;
 import presentation.component.GLabel;
 import presentation.contenui.UIUtil;
 import bussinesslogic.player.PlayerLogic;
@@ -34,7 +34,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 	SelectLabel steal;  //抢断
 	SelectLabel[] menuItem = new SelectLabel[5];
 	
-	DateLabel date;
+	DatePanel date;
 
 	PlayerLogic logic = new PlayerLogic();
 
@@ -49,15 +49,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 		
-		date = new DateLabel(new Point(800-this.getX(),42),this);
-//		Date dateNow = new Date();  
-//		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");  
-//		String dateNowStr = dateFormat.format(dateNow);  
-//		date = new GLabel(dateNowStr,new Point(800-this.getX(),42),new Point(130,30),this,true,1,13);
-//		date.setOpaque(true);
-//		date.setBackground(UIUtil.darkBlue);
-//		date.setForeground(UIUtil.bgWhite);
-//		date.setIcon(HotspotUtil.dateIcon);
+		date = new DatePanel(new Point(800-this.getX(),42),this);
 
 
 		title = new GLabel("   当天热点球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
