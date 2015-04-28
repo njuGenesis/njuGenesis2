@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import bussinesslogic.match.MatchLogic;
 import data.po.MatchDataPO;
 
 public class Matchdata implements Serializable {
@@ -96,6 +97,7 @@ public class Matchdata implements Serializable {
 			@SuppressWarnings("unchecked")
 			ArrayList<MatchDataPO> matches = (ArrayList<MatchDataPO>) oos
 					.readObject();
+			
 			fos.close();
 			oos.close();
 			return matches;
@@ -128,7 +130,7 @@ public class Matchdata implements Serializable {
 	// 读取一个队伍某个时间段内的比赛（包括startDate和endDate）
 	private ArrayList<MatchDataPO> getMatch(String startDate, String endDate,
 			String shotrName) {
-		ArrayList<MatchDataPO> matches = readOut();
+		ArrayList<MatchDataPO> matches = readOut(startDate.split("_")[0]);
 		ArrayList<MatchDataPO> res = new ArrayList<MatchDataPO>();
 		for (int i = 0; i < matches.size(); i++) {
 			if ((matches.get(i).getDate().compareTo(startDate) >= 0)
@@ -143,7 +145,7 @@ public class Matchdata implements Serializable {
 
 	private ArrayList<MatchDataPO> getMatchByDate(String startDate, String endDate
 			) {
-		ArrayList<MatchDataPO> matches = readOut();
+		ArrayList<MatchDataPO> matches = readOut(startDate.split("_")[0]);
 		ArrayList<MatchDataPO> res = new ArrayList<MatchDataPO>();
 		for (int i = 0; i < matches.size(); i++) {
 			if ((matches.get(i).getDate().compareTo(startDate) >= 0)

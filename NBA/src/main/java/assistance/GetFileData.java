@@ -167,8 +167,14 @@ public class GetFileData {
 						+ Integer.parseInt(detail[3]));
 				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot1(res.getShoot1() + Integer.parseInt(detail[4]));
-				player.setShootEff(player.getShootEffNumber()/player.getShoot());   //
-				res.setShootEff1(res.getShootEffNumber1()/res.getShoot1());
+				if(player.getShoot()!=0){
+					player.setShootEff(player.getShootEffNumber()/player.getShoot());   //
+					res.setShootEff1(res.getShootEffNumber1()/res.getShoot1());
+				}
+				else{
+					player.setShootEff(0);
+				}
+
 				player.setLostSH(Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
 				res.setLostSH1(res.getLostSH1() + Integer.parseInt(detail[4])
@@ -178,15 +184,25 @@ public class GetFileData {
 						+ Integer.parseInt(detail[5]));
 				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot1(res.getTPShoot1() + Integer.parseInt(detail[6]));
+				if(player.getTPShoot()!=0){
 				player.setTPShootEff(player.getTPShootEffNumber()/player.getTPShoot());		//
 				res.setTPShootEff1(res.getTPShootEffNumber1()/res.getTPShoot1());
+				}
+				else{
+					player.setTPShootEff(0);
+				}
 				player.setFTShootEffNumber(Integer.parseInt(detail[7]));
 				res.setFTShootEffNumber1(res.getFTShootEffNumber1()
 						+ Integer.parseInt(detail[7]));
 				player.setFT(Integer.parseInt(detail[8]));
 				res.setFT1(res.getFT1() + Integer.parseInt(detail[8]));
+				if(player.getFT()!=0){
 				player.setFTShootEff(player.getFTShootEffNumber()/player.getFT());   //
 				res.setFTShootEff1(res.getFTShootEffNumber1()/res.getFT1());
+				}
+				else{
+					player.setFTShootEff(0);
+				}
 				player.setBankOff(Integer.parseInt(detail[9]));
 				res.setTeam1Off(res.getTeam1Off() + Integer.parseInt(detail[9]));
 				player.setBankDef(Integer.parseInt(detail[10]));
@@ -211,6 +227,7 @@ public class GetFileData {
 			data = br.readLine();
 			while (data != null) {
 				String[] detail = data.split(";");
+				player=new Match_PlayerPO();
 				player.setTeam(res.getSecondteam());
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));
@@ -220,8 +237,13 @@ public class GetFileData {
 						+ Integer.parseInt(detail[3]));
 				player.setShoot(Integer.parseInt(detail[4]));
 				res.setShoot2(res.getShoot2() + Integer.parseInt(detail[4]));
+				if(player.getShoot()!=0){
 				player.setShootEff(player.getShootEffNumber()/player.getShoot());   //
 				res.setShootEff2(res.getShootEffNumber2()/res.getShoot2());
+				}
+				else{
+					player.setShootEff(0);
+				}
 				player.setLostSH(Integer.parseInt(detail[4])
 						- Integer.parseInt(detail[3]));
 				res.setLostSH2(res.getLostSH2() + Integer.parseInt(detail[4])
@@ -231,15 +253,25 @@ public class GetFileData {
 						+ Integer.parseInt(detail[5]));
 				player.setTPShoot(Integer.parseInt(detail[6]));
 				res.setTPShoot2(res.getTPShoot2() + Integer.parseInt(detail[6]));
+				if(player.getTPShoot()!=0){
 				player.setTPShootEff(player.getTPShootEffNumber()/player.getTPShoot());		//
 				res.setTPShootEff2(res.getTPShootEffNumber2()/res.getTPShoot2());
+				}
+				else{
+					player.setTPShootEff(0);
+				}
 				player.setFTShootEffNumber(Integer.parseInt(detail[7]));
 				res.setFTShootEffNumber2(res.getFTShootEffNumber2()
 						+ Integer.parseInt(detail[7]));
 				player.setFT(Integer.parseInt(detail[8]));
 				res.setFT2(res.getFT2() + Integer.parseInt(detail[8]));
+				if(player.getFT()!=0){
 				player.setFTShootEff(player.getFTShootEffNumber()/player.getFT());   //
 				res.setFTShootEff2(res.getFTShootEffNumber2()/res.getFT2());
+				}
+				else{
+					player.setFTShootEff(0);
+				}
 				player.setBankOff(Integer.parseInt(detail[9]));
 				res.setTeam2Off(res.getTeam2Off() + Integer.parseInt(detail[9]));
 				player.setBankDef(Integer.parseInt(detail[10]));
@@ -277,6 +309,7 @@ public class GetFileData {
 		try {
 			File f = new File(Teamfilename);
 			FileReader fr = new FileReader(f);
+			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(fr);
 			String data = br.readLine();// 一次读入一行，直到读入null为文件结束
 
