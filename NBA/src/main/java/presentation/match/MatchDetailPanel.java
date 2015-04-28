@@ -55,21 +55,21 @@ public class MatchDetailPanel extends BgPanel{
 
 		info = new SelectLabel("基本信息",new Point(30,83),new Point(labelWeight,35),this,true,0,16);
 		info.setSelected(true);
-//		info.addMouseListener(new MenuListener());
+		info.addMouseListener(new MenuListener());
 		menuItem[0] = info;
 
 		getDetailPanel(0);
 
 		team1 = new SelectLabel(TableUtility.getShortChTeam(po.getFirstteam())+" 技术统计",new Point(30+labelWeight+1,83),new Point(labelWeight,35),this,true,0,16);
-//		team1.addMouseListener(new MenuListener());
+		team1.addMouseListener(new MenuListener());
 		menuItem[1] = team1;
 
 		team2 = new SelectLabel(TableUtility.getShortChTeam(po.getSecondteam())+" 技术统计",new Point(30+2*labelWeight+2,83),new Point(labelWeight,35),this,true,0,16);
-//		team2.addMouseListener(new MenuListener());
+		team2.addMouseListener(new MenuListener());
 		menuItem[2] = team2;
 
 		compare = new SelectLabel("球队对比",new Point(30+3*labelWeight+3,83),new Point(labelWeight,35),this,true,0,16);
-//		compare.addMouseListener(new MenuListener());
+		compare.addMouseListener(new MenuListener());
 		menuItem[3] = compare;
 		
 		
@@ -84,7 +84,7 @@ public class MatchDetailPanel extends BgPanel{
 		case 2:
 			detailPanel = factory.getInfoPanel(po);break;
 		case 3:
-			detailPanel = factory.getInfoPanel(po);break;
+			detailPanel = factory.getComparePanel(po);break;
 		}
 
 		this.add(detailPanel);

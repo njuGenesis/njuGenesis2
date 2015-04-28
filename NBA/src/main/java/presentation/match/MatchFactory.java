@@ -3,6 +3,7 @@ package presentation.match;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -11,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import presentation.component.GLabel;
+import presentation.component.HoriDynamicBarLeft;
+import presentation.component.HoriDynamicBarRight;
 import presentation.component.TeamImageAssist;
 import presentation.contenui.TableUtility;
 import presentation.contenui.UIUtil;
@@ -71,6 +74,50 @@ public class MatchFactory {
 		jp.setBounds(30, 120, 940, 500);
 		jp.setLayout(null);
 		jp.setOpaque(false);
+		
+		GLabel team1 = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getFirstteam()+".svg", 180, 140),new Point(88,20),new Point(180,140),jp,true);
+		GLabel team2 = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getSecondteam()+".svg", 180, 140),new Point(688,20),new Point(180,140),jp,true);
+
+		GLabel pointall_1 = new GLabel(getPoint1(po.getPoints()),new Point(285,85),new Point(150,40),jp,true,0,30);
+		pointall_1.setHorizontalAlignment(JLabel.CENTER);
+		GLabel pointall_2 = new GLabel(getPoint2(po.getPoints()),new Point(515,85),new Point(150,40),jp,true,0,30);
+		pointall_2.setHorizontalAlignment(JLabel.CENTER);
+		changeLabelColor(pointall_1,pointall_2);
+		GLabel vs = new GLabel("VS",new Point(450,90),new Point(85,30),jp,true,0,24);
+
+		GLabel name_1 = new GLabel(TableUtility.getChTeam(po.getFirstteam()),new Point(60,170),new Point(230,40),jp,true,0,26);
+		name_1.setHorizontalAlignment(JLabel.CENTER);
+		GLabel name_2 = new GLabel(TableUtility.getChTeam(po.getSecondteam()),new Point(660,170),new Point(230,40),jp,true,0,26);
+		name_2.setHorizontalAlignment(JLabel.CENTER);
+		
+		String[] item = {"投篮%","三分%","罚球%","篮板","助攻"};
+		double[] data1 = getData(1,po);
+		double[] data2 = getData(2,po);
+		
+		for(int i=0;i<5;i++){
+			GLabel l = new GLabel(item[i],new Point(430,232+51*i),new Point(80,40),jp,true,0,15);
+			l.setHorizontalAlignment(JLabel.CENTER);
+			
+			HoriDynamicBarLeft left = new HoriDynamicBarLeft(data1[i],new Dimension(300,40));
+			left.setLocation(45, 232+51*i);
+			jp.add(left);
+			
+			HoriDynamicBarRight right = new HoriDynamicBarRight(data2[i],new Dimension(300,40));
+			right.setLocation(545, 232+51*i);
+			jp.add(right);
+			
+			changeBarColor(left,right);
+			
+			left.showOut();
+			right.showOut();
+		}
+		
+		JPanel grey = new JPanel();
+		grey.setBounds(395, 212, 150, 280);
+		grey.setBackground(UIUtil.tableGrey);
+		grey.setOpaque(true);
+		grey.setLayout(null);
+		jp.add(grey);
 		
 		return jp;
 	}
@@ -268,5 +315,31 @@ public class MatchFactory {
 		return season[0]+"赛季  "+date[0]+"月"+date[1]+"日";
 	}
 
+	private double[] getData(int team,MatchDataPO po){
+		DecimalFormat df = new DecimalFormat(".00");
+		double[] res = new double[5];
+		if(team==1){
+			res[0] = Double.parseDouble(df.format(po.getShootEff1()*100));
+			res[1] = Double.parseDouble(df.format(po.getTPShootEff1()*100));
+			res[2] = Double.parseDouble(df.format(po.getFTShootEff1()*100));
+			res[3] = po.getTeam1bank();
+			res[4] = po.getAss1();
+		}else{
+			res[0] = Double.parseDouble(df.format(po.getShootEff2()*100));
+			res[1] = Double.parseDouble(df.format(po.getTPShootEff2()*100));
+			res[2] = Double.parseDouble(df.format(po.getFTShootEff2()*100));
+			res[3] = po.getTeam2bank();
+			res[4] = po.getAss2();
+		}
+		return res;
+	}
+	
+	private void changeBarColor(HoriDynamicBarLeft left,HoriDynamicBarRight right){
+		if(left.getValue()>right.getValue()){
+			right.setColor(UIUtil.bgGrey);
+		}else{
+			left.setColor(UIUtil.bgGrey);
+		}
+	}
 
 }
