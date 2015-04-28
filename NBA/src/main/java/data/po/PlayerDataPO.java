@@ -121,6 +121,14 @@ public class PlayerDataPO implements Serializable{
 	
 	double PProgressPecentage = 0;//得分近五场的提升率
 	
+	String season = "";//赛季信息
+	
+	public String getSeason(){
+		return season;
+	}
+	public void setSeason(String s){
+		season = s;
+	}
 	public double getRecentAvgB() {
 		return RecentAvgB;
 	}

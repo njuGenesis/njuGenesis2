@@ -41,10 +41,10 @@ public class TempStart {
 		//System.out.println(res[i].getName()+";"+res[i].getFieldGoalPercentage()+";"+res[i].getFTPercentage());
 	
 //}
-		PlayerDataPO[] res = p.getAllInfo("13-14");
-		res = p.sort("得分", false, res, true);
+		
+		PlayerDataPO[] res = p.getAllSeasonInfo("Aaron Brooks");
 		for(int i = 0;i<res.length;i++){
-			System.out.println(res[i].getName()+";"+res[i].getPPG());
+			System.out.println(res[i].getName()+";"+res[i].getSeason()+res[i].getPPG());
 		}
 	}
 	

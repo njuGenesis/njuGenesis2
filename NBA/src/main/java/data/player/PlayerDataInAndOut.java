@@ -34,4 +34,17 @@ public class PlayerDataInAndOut {
 			return null;
 		}
 	}
+	public PlayerDataPO WriteOutAllSeason(String filename){
+		try{
+			FileInputStream fs = new FileInputStream("./playerInfo/"+filename);
+			ObjectInputStream os = new ObjectInputStream(fs);
+			Object temp = os.readObject();
+			PlayerDataPO res = (PlayerDataPO)temp;
+			os.close();
+			return res;
+		}catch(Exception e){
+			System.out.println("找不到"+filename);
+			return null;
+		}
+	}
 }

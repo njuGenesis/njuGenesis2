@@ -23,6 +23,7 @@ public class PlayerLogic implements PlayerInfoService{
 	ArrayList<PlayerDataPO> PlayerList = new ArrayList<PlayerDataPO>();
 	//PlayerRmi p = new PlayerRmi();
 	PlayerDataInAndOut pio = new PlayerDataInAndOut();
+	//界面层接口方法
 	public void analysData(String filepath,String season) {
 		// TODO Auto-generated method stub
 		PlayerList.clear();
@@ -58,7 +59,7 @@ public class PlayerLogic implements PlayerInfoService{
 		temp.setSchool(tempbasic[8]);
 		temp.setTeamName("null");
 		//System.out.println(AllInfo.getName());
-		
+		temp.setSeason(season);
 		PlayerList.add(temp);
 		
 		}
@@ -1741,8 +1742,28 @@ public class PlayerLogic implements PlayerInfoService{
 		return res;
 		
 	}
+    public PlayerDataPO[] getAllSeasonInfo(String name){
+    	ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
+		File root = new File("./playerInfo");//从ser文件中读取所有数据
+		File[] files = root.listFiles();
+		for(File file:files){
+			if(file.getName().contains(name)){
+			PlayerDataPO temp = pio.WriteOutAllSeason(file.getName());
+			res.add(temp);
+		}
+		}
+		
+		PlayerDataPO[] res2 = new PlayerDataPO[res.size()];
+		for(int i =0;i<res2.length;i++){
+			res2[i] = res.get(i);
+		}
+		return res2 ;
+    
+    }
 
-
+	
+	
+	//自动测试需要的方法
 	public PlayerDataPO[] sort(final String orderName,boolean isASC,PlayerDataPO[] orgin,final boolean isAVG) {
 		// TODO Auto-generated method stub
 		//p.setOrder(orderName, isASC);
