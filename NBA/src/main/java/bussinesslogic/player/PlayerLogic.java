@@ -7,6 +7,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import test.data.PlayerHighInfo;
+import test.data.PlayerHotInfo;
+import test.data.PlayerKingInfo;
+import test.data.PlayerNormalInfo;
 import assistance.GetFileData;
 import bslogicService.PlayerInfoService;
 import data.player.PlayerDataInAndOut;
@@ -987,13 +991,13 @@ public class PlayerLogic implements PlayerInfoService{
 		if(isASC==true){
 		for(int i = 0;i<res.length;i++){
 			res[i] = PlayerList.get(i);
-			System.out.println(res[i].getPTS()+";"+res[i].getName());
+			//System.out.println(res[i].getPTS()+";"+res[i].getName());
 		}
 		}
 		else{
 			for(int i = 0;i<res.length;i++){
 				res[i] = PlayerList.get(res.length-1-i);
-				System.out.println(res[i].getPTS()+";"+res[i].getName());
+				//System.out.println(res[i].getPTS()+";"+res[i].getName());
 			}
 		}
 		return res;
@@ -1743,8 +1747,10 @@ public class PlayerLogic implements PlayerInfoService{
 		// TODO Auto-generated method stub
 		//p.setOrder(orderName, isASC);
 		PlayerList.clear();
+		
 		for(int i = 0;i<orgin.length;i++){
 			PlayerList.add(orgin[i]);
+			//System.out.println(orgin[i].getName());
 		}
 		Comparator<PlayerDataPO> comparator = new Comparator<PlayerDataPO>(){
 
@@ -1998,6 +2004,7 @@ public class PlayerLogic implements PlayerInfoService{
 					//return String.valueOf(p1.getPTS()).compareTo(String.valueOf(p2.getPTS()));
 					}
 					else{
+						
 						if(p1.getPPG()-p2.getPPG()>0){
 							return 1;
 							}
@@ -2166,13 +2173,13 @@ public class PlayerLogic implements PlayerInfoService{
 		if(isASC==true){
 		for(int i = 0;i<res.length;i++){
 			res[i] = PlayerList.get(i);
-			System.out.println(res[i].getPTS()+";"+res[i].getName());
+			//System.out.println(res[i].getPPG()+";"+res[i].getName());
 		}
 		}
 		else{
 			for(int i = 0;i<res.length;i++){
 				res[i] = PlayerList.get(res.length-1-i);
-				System.out.println(res[i].getPTS()+";"+res[i].getName());
+				//System.out.println(res[i].getPPG()+";"+res[i].getName());
 			}
 		}
 		return res;
@@ -2198,6 +2205,7 @@ public class PlayerLogic implements PlayerInfoService{
 					else{
 						x = p1.getPTS() - p2.getPTS();
 					}
+					break;
 				case "rebound":	    
 					if(isAvg==true){
 						x = p1.getBPG()-p2.getBPG();	
@@ -2205,6 +2213,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getBackboard() - p2.getBackboard();
 						}
+					break;
 				case "assist": 	
 					if(isAvg==true){
 						x = p1.getAPG()-p2.getAPG();	
@@ -2212,6 +2221,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getAssist() - p2.getAssist();
 						}
+					break;
 				case "blockShot":   
 					if(isAvg==true){
 						x = p1.getRPG()-p2.getRPG();	
@@ -2219,6 +2229,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getRejection() - p2.getRejection();
 						}
+					break;
 				case "steal": 	
 					if(isAvg==true){
 						x = p1.getStealPG()-p2.getStealPG();	
@@ -2226,6 +2237,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getSteal() - p2.getSteal();
 						}
+					break;
 				case "foul":	
 					if(isAvg==true){
 						x = p1.getFoulPG()-p2.getFoulPG();	
@@ -2233,6 +2245,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getFoul() - p2.getFoul();
 						}
+					break;
 				case "fault":	
 					if(isAvg==true){
 						x = p1.getToPG()-p2.getToPG();	
@@ -2240,6 +2253,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getTo() - p2.getTo();
 						}
+					break;
 				case "minute":	
 					if(isAvg==true){
 						x = p1.getMPG()-p2.getMPG();	
@@ -2247,38 +2261,39 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							x = p1.getMinutesOnField() - p2.getMinutesOnField();
 						}
+					break;
 				case "efficient":	
-					x = p1.getEff()-p2.getEff();
+					x = p1.getEff()-p2.getEff();break;
 				case "shot":
-					x = p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage();
+					x = p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage();break;
 				case "three":
-					x = p1.getThreePGPercentage()  - p2.getThreePGPercentage();
+					x = p1.getThreePGPercentage()  - p2.getThreePGPercentage();break;
 				case "penalty":
-					x = p1.getFTPercentage() - p2.getFTPercentage();
+					x = p1.getFTPercentage() - p2.getFTPercentage();break;
 				case "doubleTwo":
-					x = p1.getDouble() - p2.getDouble();
+					x = p1.getDouble() - p2.getDouble();break;
 				case "realShot":
-					x = p1.getTruePercentage()   - p2.getTruePercentage();
+					x = p1.getTruePercentage()   - p2.getTruePercentage();break;
 				case "GmSc":
-					x = p1.getGmsc() - p2.getGmsc();
+					x = p1.getGmsc() - p2.getGmsc();break;
 				case "shotEfficient":
-					x  = p1.getShootEff() - p2.getShootEff();
+					x  = p1.getShootEff() - p2.getShootEff();break;
 				case "reboundEfficient":
-					x = p1.getBackboardEff() - p2.getBackboardEff();
+					x = p1.getBackboardEff() - p2.getBackboardEff();break;
 				case "offendReboundEfficient":
-					x = p1.getOffBEff() - p2.getOffBEff();
+					x = p1.getOffBEff() - p2.getOffBEff();break;
 				case "defendReboundEfficient":
-					x = p1.getDefBEff() - p2.getDefBEff();
+					x = p1.getDefBEff() - p2.getDefBEff();break;
 				case "assistEfficient":
-					x = p1.getAssitEff() - p2.getAssitEff();
+					x = p1.getAssitEff() - p2.getAssitEff();break;
 				case "stealEfficient":
-					x = p1.getStealEff() - p2.getStealEff();
+					x = p1.getStealEff() - p2.getStealEff();break;
 				case "blockShotEfficient":
-					x = p1.getRejectionEff() - p2.getRejectionEff();
+					x = p1.getRejectionEff() - p2.getRejectionEff();break;
 				case "faultEfficient":
-					x = p1.getToEff() - p2.getToEff();
+					x = p1.getToEff() - p2.getToEff();break;
 				case "frequency":
-					x = p1.getUseEff() - p2.getUseEff();
+					x = p1.getUseEff() - p2.getUseEff();break;
 				
 			}
 				switch(order){
@@ -2289,6 +2304,7 @@ public class PlayerLogic implements PlayerInfoService{
 					else{
 						y = p1.getPTS() - p2.getPTS();
 					}
+					break;
 				case "rebound":	    
 					if(isAvg==true){
 						y = p1.getBPG()-p2.getBPG();	
@@ -2296,6 +2312,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getBackboard() - p2.getBackboard();
 						}
+					break;
 				case "assist": 	
 					if(isAvg==true){
 						y = p1.getAPG()-p2.getAPG();	
@@ -2303,6 +2320,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getAssist() - p2.getAssist();
 						}
+					break;
 				case "blockShot":   
 					if(isAvg==true){
 						y = p1.getRPG()-p2.getRPG();	
@@ -2310,6 +2328,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getRejection() - p2.getRejection();
 						}
+					break;
 				case "steal": 	
 					if(isAvg==true){
 						y = p1.getStealPG()-p2.getStealPG();	
@@ -2317,6 +2336,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getSteal() - p2.getSteal();
 						}
+					break;
 				case "foul":	
 					if(isAvg==true){
 						y = p1.getFoulPG()-p2.getFoulPG();	
@@ -2324,6 +2344,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getFoul() - p2.getFoul();
 						}
+					break;
 				case "fault":	
 					if(isAvg==true){
 						y = p1.getToPG()-p2.getToPG();	
@@ -2331,6 +2352,7 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getTo() - p2.getTo();
 						}
+					break;
 				case "minute":	
 					if(isAvg==true){
 						y = p1.getMPG()-p2.getMPG();	
@@ -2338,38 +2360,39 @@ public class PlayerLogic implements PlayerInfoService{
 						else{
 							y = p1.getMinutesOnField() - p2.getMinutesOnField();
 						}
+					break;
 				case "efficient":	
-					y = p1.getEff()-p2.getEff();
+					y = p1.getEff()-p2.getEff();break;
 				case "shot":
-					y = p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage();
+					y = p1.getFieldGoalPercentage()-p2.getFieldGoalPercentage();break;
 				case "three":
-					y = p1.getThreePGPercentage()  - p2.getThreePGPercentage();
+					y = p1.getThreePGPercentage()  - p2.getThreePGPercentage();break;
 				case "penalty":
-					y = p1.getFTPercentage() - p2.getFTPercentage();
+					y = p1.getFTPercentage() - p2.getFTPercentage();break;
 				case "doubleTwo":
-					y = p1.getDouble() - p2.getDouble();
+					y = p1.getDouble() - p2.getDouble();break;
 				case "realShot":
-					y = p1.getTruePercentage()   - p2.getTruePercentage();
+					y = p1.getTruePercentage()   - p2.getTruePercentage();break;
 				case "GmSc":
-					y = p1.getGmsc() - p2.getGmsc();
+					y = p1.getGmsc() - p2.getGmsc();break;
 				case "shotEfficient":
-					y  = p1.getShootEff() - p2.getShootEff();
+					y  = p1.getShootEff() - p2.getShootEff();break;
 				case "reboundEfficient":
-					y = p1.getBackboardEff() - p2.getBackboardEff();
+					y = p1.getBackboardEff() - p2.getBackboardEff();break;
 				case "offendReboundEfficient":
-					y = p1.getOffBEff() - p2.getOffBEff();
+					y = p1.getOffBEff() - p2.getOffBEff();break;
 				case "defendReboundEfficient":
-					y = p1.getDefBEff() - p2.getDefBEff();
+					y = p1.getDefBEff() - p2.getDefBEff();break;
 				case "assistEfficient":
-					y = p1.getAssitEff() - p2.getAssitEff();
+					y = p1.getAssitEff() - p2.getAssitEff();break;
 				case "stealEfficient":
-					y = p1.getStealEff() - p2.getStealEff();
+					y = p1.getStealEff() - p2.getStealEff();break;
 				case "blockShotEfficient":
-					y = p1.getRejectionEff() - p2.getRejectionEff();
+					y = p1.getRejectionEff() - p2.getRejectionEff();break;
 				case "faultEfficient":
-					y = p1.getToEff() - p2.getToEff();
+					y = p1.getToEff() - p2.getToEff();break;
 				case "frequency":
-					y = p1.getUseEff() - p2.getUseEff();
+					y = p1.getUseEff() - p2.getUseEff();break;
 				
 			}
 				if(x==0){
@@ -2533,6 +2556,31 @@ public class PlayerLogic implements PlayerInfoService{
 			else {
 				res = progressPlayer(season,"场均助攻");
 			}
+			//System.out.println("write hot player");
+			//out输出流写入进步球员数据
+			for(int i = 0;i<res.length;i++){
+				PlayerHotInfo reshot = new PlayerHotInfo();
+				reshot.setName(res[i].getName());
+				reshot.setPosition(res[i].getPosition());
+				reshot.setTeamName(res[i].getTeamName());
+				
+				if(AllOrHotOrKing.contains("score")){
+				reshot.setField("score");
+				reshot.setUpgradeRate(res[i].getPProgressPecentage());
+				reshot.setValue(res[i].getRecentAvgP());
+				}
+				else if(AllOrHotOrKing.contains("rebound")){
+					reshot.setField("rebound");
+					reshot.setUpgradeRate(res[i].getBProgressPecentage());
+					reshot.setValue(res[i].getRecentAvgB());
+				}
+				else {
+					reshot.setField("assist");
+					reshot.setUpgradeRate(res[i].getAProgressPecentage());
+					reshot.setValue(res[i].getRecentAvgA());
+				}
+				out.print(reshot);
+			}
 		}
 		else if(AllOrHotOrKing.startsWith("king")){
 			if(AllOrHotOrKing.contains("season")){
@@ -2545,6 +2593,27 @@ public class PlayerLogic implements PlayerInfoService{
 				else {
 					res = hotPlayerSeason(season,"场均助攻");
 				}
+				//System.out.println("write king season");
+				//向输出流写入热点球员数据
+				for(int i = 0;i<res.length;i++){
+					PlayerKingInfo resking = new PlayerKingInfo();
+					resking.setName(res[i].getName());
+					resking.setPosition(res[i].getPosition());
+					resking.setTeamName(res[i].getTeamName());
+					if(AllOrHotOrKing.contains("score")){
+					resking.setField("score");
+					resking.setValue(res[i].getPPG());
+					}
+					else if(AllOrHotOrKing.contains("rebound")){
+						resking.setField("rebound");
+						resking.setValue(res[i].getBPG());
+					}
+					else {
+						resking.setField("assist");
+						resking.setValue(res[i].getAPG());
+					}
+					out.print(resking);
+				}
 			}
 			else if(AllOrHotOrKing.contains("daily")){//需要找一次球员信息
 				if(AllOrHotOrKing.contains("score")){
@@ -2556,7 +2625,29 @@ public class PlayerLogic implements PlayerInfoService{
 				else {
 					res = hotPlayerToday(season,date,"助攻");
 				}
+				//向输出流写入热点球员数据
+				//System.out.println("write king daily");
+				for(int i = 0;i<res.length;i++){
+					PlayerKingInfo resking = new PlayerKingInfo();
+					resking.setName(res[i].getName());
+					resking.setPosition(res[i].getPosition());
+					resking.setTeamName(res[i].getTeamName());
+					if(AllOrHotOrKing.contains("score")){
+					resking.setField("score");
+					resking.setValue(res[i].getPTS());
+					}
+					else if(AllOrHotOrKing.contains("rebound")){
+						resking.setField("rebound");
+						resking.setValue(res[i].getBackboard());
+					}
+					else {
+						resking.setField("assist");
+						resking.setValue(res[i].getAssist());
+					}
+					out.print(resking);
+				}
 			}
+			
 		}
 		else if(AllOrHotOrKing.startsWith("all")){
 			res = getAllInfo(season);
@@ -2565,13 +2656,13 @@ public class PlayerLogic implements PlayerInfoService{
 			String[] sorttemp = sortCondition.split(",");
 			for(int i = 0;i<temp.length;i++){
 				if(temp[i].startsWith("position")){
-					res = filter(temp[i].split(".")[1],"null",season,res);
+					res = filter(temp[i].split("\\.")[1],"null",season,res);
 				}
 				else if(temp[i].startsWith("league")){
-					res = filter("null",temp[i].split(".")[1],season,res);
+					res = filter("null",temp[i].split("\\.")[1],season,res);
 				}
 				else if(temp[i].startsWith("age")){
-					String[] temp2 = temp[i].split(".");
+					String[] temp2 = temp[i].split("\\.");
 					ArrayList<PlayerDataPO> templist = new ArrayList<PlayerDataPO>();
 					
 					if(temp2[1].equals("<=22")){
@@ -2628,72 +2719,77 @@ public class PlayerLogic implements PlayerInfoService{
 				}
 			}
 			
-			String[] st1 = sorttemp[0].split(".");
+			String[] st1 = sorttemp[0].split("\\.");
 			String orderwords = "";
 			boolean isAsc = true;
 			if(st1[1].equals("desc")){
 				isAsc = false;
+				
 			}
 			else {
 				isAsc = true;
+				
 			}
+			
 			switch(st1[0]){
 			case "point":	
-				orderwords = "得分";
+				orderwords = "得分";break;
 			case "rebound":	    
-				orderwords = "篮板数";
+				orderwords = "篮板数";break;
 			case "assist": 	
-				orderwords = "助攻数";
+				orderwords = "助攻数";break;
 			case "blockShot":   
-				orderwords = "盖帽数";
+				orderwords = "盖帽数";break;
 			case "steal": 	
-				orderwords = "抢断数";
+				orderwords = "抢断数";break;
 			case "foul":	
-				orderwords = "犯规数";
+				orderwords = "犯规数";break;
 			case "fault":	
-				orderwords = "失误数";
+				orderwords = "失误数";break;
 			case "minute":	
-				orderwords = "在场时间";
+				orderwords = "在场时间";break;
 			case "efficient":	
-				orderwords = "效率";
+				orderwords = "效率";break;
 			case "shot":
-				orderwords = "投篮命中率";
+				orderwords = "投篮命中率";break;
 			case "three":
-				orderwords = "三分命中率";
+				orderwords = "三分命中率";break;
 			case "penalty":
-				orderwords = "罚球命中率";
+				orderwords = "罚球命中率";break;
 			case "doubleTwo":
-				orderwords = "两双";
+				orderwords = "两双";break;
 			case "realShot":
-				orderwords = "真实命中率";
+				orderwords = "真实命中率";break;
 			case "GmSc":
-				orderwords = "Gmsc";
+				orderwords = "Gmsc";break;
 			case "shotEfficient":
-				orderwords = "投篮效率";
+				orderwords = "投篮效率";break;
 			case "reboundEfficient":
-				orderwords = "篮板率";
+				orderwords = "篮板率";break;
 			case "offendReboundEfficient":
-				orderwords = "进攻篮板率";
+				orderwords = "进攻篮板率";break;
 			case "defendReboundEfficient":
-				orderwords = "防守篮板率";
+				orderwords = "防守篮板率";break;
 			case "assistEfficient":
-				orderwords = "助攻率";
+				orderwords = "助攻率";break;
 			case "stealEfficient":
-				orderwords = "抢断率";
+				orderwords = "抢断率";break;
 			case "blockShotEfficient":
-				orderwords = "盖帽率";
+				orderwords = "盖帽率";break;
 			case "faultEfficient":
-				orderwords = "失误率";
+				orderwords = "失误率";break;
 			case "frequency":
-				orderwords = "使用率";
+				orderwords = "使用率";break;
 			
 			}
+			
 			res = sort(orderwords,isAsc,res,isAvg);
+			
 			String suborder = st1[0];
 			for(int i = 1;i<sorttemp.length;i++){
 				
 				
-				String[] st = sorttemp[i].split(".");
+				String[] st = sorttemp[i].split("\\.");
 				if(st[1].equals("desc")){
 					isAsc = false;
 				}
@@ -2704,21 +2800,110 @@ public class PlayerLogic implements PlayerInfoService{
 				suborder = st[0];
 			}
 			
+			PlayerDataPO[] trueres = new PlayerDataPO[size];
+			//System.out.println(res.length+";res length");
+			if(size>res.length){
+				//return res;
+				trueres = res;
+			}
+			else{
+				for(int i = 0;i<size;i++){
+					trueres[i] = res[i];
+				}
+				//return trueres;
+			}
+			
+			//System.out.println(trueres.length+";true length");
+			//输出对象到输出流
+			if(isHigh){
+				for(int i = 0;i<trueres.length;i++){
+					PlayerHighInfo reshigh = new PlayerHighInfo();
+					reshigh.setName(trueres[i].getName());
+					reshigh.setPosition(trueres[i].getPosition());
+					reshigh.setAssistEfficient(trueres[i].getAssitEff());
+					reshigh.setBlockShotEfficient(trueres[i].getRejectionEff());
+					reshigh.setDefendReboundEfficient(trueres[i].getDefBEff());
+					reshigh.setFaultEfficient(trueres[i].getToEff());
+					reshigh.setFrequency(trueres[i].getUseEff());
+					reshigh.setGmSc(trueres[i].getGmsc());
+					reshigh.setOffendReboundEfficient(trueres[i].getOffBEff());
+					reshigh.setRealShot(trueres[i].getTruePercentage());
+					reshigh.setReboundEfficient(trueres[i].getBackboardEff());
+					reshigh.setShotEfficient(trueres[i].getShootEff());
+					reshigh.setStealEfficient(trueres[i].getStealEff());
+					reshigh.setTeamName(trueres[i].getTeamName());
+					reshigh.setLeague("West");
+					if((reshigh.getTeamName().equals("ATL"))
+							||(reshigh.getTeamName().equals("CHA"))
+							||(reshigh.getTeamName().equals("MIA"))
+							||(reshigh.getTeamName().equals("ORL"))
+							||(reshigh.getTeamName().equals("WAS"))
+							||(reshigh.getTeamName().equals("BKN"))
+							||(reshigh.getTeamName().equals("CHI"))
+							||(reshigh.getTeamName().equals("DET"))
+							||(reshigh.getTeamName().equals("IND"))
+							||(reshigh.getTeamName().equals("MIL"))
+							||(reshigh.getTeamName().equals("NYK"))
+							||(reshigh.getTeamName().equals("PHI"))
+							||(reshigh.getTeamName().equals("TOR"))
+							||(reshigh.getTeamName().equals("CLE"))){
+						reshigh.setLeague("East");
+					}
+					
+					out.print(reshigh);
+				}
+			}
+			else {
+				
+				for(int i = 0;i<trueres.length;i++){
+					
+					PlayerNormalInfo resnormal = new PlayerNormalInfo();
+					if(isAvg){
+						
+					resnormal.setAssist(trueres[i].getAPG());
+					resnormal.setBlockShot(trueres[i].getRPG());
+					resnormal.setDefend(trueres[i].getDefPG());					
+					resnormal.setFault(trueres[i].getToPG());
+					resnormal.setFoul(trueres[i].getFoulPG());
+					resnormal.setMinute(trueres[i].getMPG()/60);					
+					resnormal.setOffend(trueres[i].getOffPG());					
+					resnormal.setPoint(trueres[i].getPPG());
+					resnormal.setRebound(trueres[i].getBPG());
+					resnormal.setSteal(trueres[i].getStealPG());
+					}
+					else {
+						resnormal.setAssist(trueres[i].getAssist());
+						resnormal.setBlockShot(trueres[i].getRejection());
+						resnormal.setDefend(trueres[i].getDef());					
+						resnormal.setFault(trueres[i].getTo());
+						resnormal.setFoul(trueres[i].getFoul());
+						resnormal.setMinute(trueres[i].getMinutesOnField()/60);					
+						resnormal.setOffend(trueres[i].getOff());					
+						resnormal.setPoint(trueres[i].getPTS());
+						resnormal.setRebound(trueres[i].getBackboard());
+						resnormal.setSteal(trueres[i].getSteal());
+					}
+					resnormal.setTeamName(trueres[i].getTeamName());
+					resnormal.setThree(trueres[i].getThreePGPercentage());
+					resnormal.setEfficiency(trueres[i].getUseEff());
+					resnormal.setName(trueres[i].getName());
+					resnormal.setNumOfGame(trueres[i].getGP());
+					resnormal.setPenalty(trueres[i].getFTPercentage());
+					resnormal.setShot(trueres[i].getFieldGoalPercentage());
+					resnormal.setStart(trueres[i].getGS());
+					resnormal.setAge(trueres[i].getAge());
+					
+					out.print(resnormal);
+				}
+				
+			}
+			
 		}
 		else{
 			
 		}
 		
-		PlayerDataPO[] trueres = new PlayerDataPO[size];
-		if(size>res.length){
-			//return res;
-		}
-		else{
-			for(int i = 0;i<size;i++){
-				trueres[i] = res[i];
-			}
-			//return trueres;
-		}
+		
 		
 	}
 }

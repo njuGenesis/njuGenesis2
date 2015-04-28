@@ -21,7 +21,7 @@ public class Console {
 		public int number = 50;
 		public boolean isHigh = false;
 		public String filterCondition = "position.null,league.null,age.null";
-		public String sortCondition = "score.desc";
+		public String sortCondition = "point.desc";
 		
 		@CmdOption(names = {"--help", "-h"}, description = "Show this help.", isHelp = true)
 	    public boolean help;
@@ -80,7 +80,7 @@ public class Console {
 		 @CmdOption(names = {"-high"},description = "get high data",maxCount = 1,minCount=0)
 		 public void setisHigh(){
 			 isHigh = true;
-			 sortCondition = "realShot.desc ";
+			 sortCondition = "realShot.desc";
 		 }
 		 @CmdOption(names = {"-filter"},description = "filter data",maxCount =1,minCount = 0,args = {"condition"},handler = StringMethodHandler.class)
 		 public void filter(String condition){
