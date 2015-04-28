@@ -29,8 +29,8 @@ public class TempStart {
 		
 		//FileListener f = new FileListener();
 		//f.Listen("./迭代一数据/matches");
-		PlayerDataPO res = p.getInfo("LeBron James", "13-14");
-		System.out.println(res.getName()+";"+res.getTeamName()+";"+res.getPPG()+";"+res.getAPG()+";"+res.getBPG()+";"+res.getGP());
+		//PlayerDataPO res = p.getInfo("LeBron James", "13-14");
+		//System.out.println(res.getName()+";"+res.getTeamName()+";"+res.getPPG()+";"+res.getAPG()+";"+res.getBPG()+";"+res.getGP());
 		//p.setOrder("得分", false, "13-14", false);
 		//p.getSearch("d", "13-14");
 		//p.getFirstFifty("抢断", p.getAllInfo("13-14"), true);
@@ -41,6 +41,11 @@ public class TempStart {
 		//System.out.println(res[i].getName()+";"+res[i].getFieldGoalPercentage()+";"+res[i].getFTPercentage());
 	
 //}
+		PlayerDataPO[] res = p.getAllInfo("13-14");
+		res = p.sort("得分", false, res, true);
+		for(int i = 0;i<res.length;i++){
+			System.out.println(res[i].getName()+";"+res[i].getPPG());
+		}
 	}
 	
 }
