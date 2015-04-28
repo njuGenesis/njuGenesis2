@@ -1,5 +1,6 @@
 package bussinesslogic.team;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import assistance.GetFileData;
@@ -575,6 +576,12 @@ public class TeamLogic implements TeamInfoService {
 		return res;
 	}
 
+	public void aotoTest(PrintStream out,String season,String date,boolean isAvg,boolean isHigh,String AllOrHotOrKing,int number,
+			String filterCondition,String sortCondition){
+		
+		
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
@@ -582,16 +589,10 @@ public class TeamLogic implements TeamInfoService {
 		teams = team.GetAllInfo();
 		team.initTeamData();
 		
-			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(0)
-					.getBuildyear());
-			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(1)
-					.getBuildyear());
-			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(2)
-					.getBuildyear());
-			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(3)
-					.getBuildyear());
-			System.out.println(team.hotTeamSeason("13-14", "BuildYear").get(4)
-					.getBuildyear());
+		teams=team.GetAllInfo();
+		for(int i=0;i<teams.size();i++){
+			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
+		}
 			System.out.println(MatchLogic.getTime());
 		}
 	
