@@ -2724,9 +2724,11 @@ public class PlayerLogic implements PlayerInfoService{
 			boolean isAsc = true;
 			if(st1[1].equals("desc")){
 				isAsc = false;
+				
 			}
 			else {
 				isAsc = true;
+				
 			}
 			
 			switch(st1[0]){

@@ -80,7 +80,7 @@ public class Console {
 		 @CmdOption(names = {"-high"},description = "get high data",maxCount = 1,minCount=0)
 		 public void setisHigh(){
 			 isHigh = true;
-			 sortCondition = "realShot.desc ";
+			 sortCondition = "realShot.desc";
 		 }
 		 @CmdOption(names = {"-filter"},description = "filter data",maxCount =1,minCount = 0,args = {"condition"},handler = StringMethodHandler.class)
 		 public void filter(String condition){
