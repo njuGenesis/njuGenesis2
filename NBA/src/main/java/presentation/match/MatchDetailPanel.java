@@ -80,9 +80,13 @@ public class MatchDetailPanel extends BgPanel{
 		case 0:
 			detailPanel = factory.getInfoPanel(po);break;
 		case 1:
-			detailPanel = factory.getInfoPanel(po);break;
+			detailPanel = factory.getTeamPanel(po.getPlayers1());break;
 		case 2:
-			detailPanel = factory.getInfoPanel(po);break;
+			detailPanel = factory.getTeamPanel(po.getPlayers2());
+			System.out.println(po.getPlayers2().get(0).getPlayername());
+			System.out.println(po.getPlayers2().get(1).getPlayername());
+			break;
+			
 		case 3:
 			detailPanel = factory.getComparePanel(po);break;
 		}

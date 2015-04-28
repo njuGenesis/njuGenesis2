@@ -10,10 +10,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import presentation.component.GLabel;
 import presentation.component.HoriDynamicBarLeft;
 import presentation.component.HoriDynamicBarRight;
+import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.contenui.TableUtility;
 import presentation.contenui.UIUtil;
@@ -65,6 +67,24 @@ public class MatchFactory {
 		jp.setBounds(30, 120, 940, 500);
 		jp.setLayout(null);
 		jp.setOpaque(false);
+		
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+players.get(0).getTeam()+".svg", 50, 40),new Point(45,10),new Point(50,40),jp,true);
+		GLabel name = new GLabel(TableUtility.getChTeam(players.get(0).getTeam()),new Point(100,20),new Point(200,30),jp,true,0,16);
+		
+		String[] header = {"姓名","位置","分钟","投篮%","命中","出手","三分%","三分命中","三分出手","罚球%","罚球命中","罚球出手",
+				"进攻","防守","篮板","助攻","犯规","抢断","失误","盖帽","得分"};  //21列
+		Object[][] data = getTableData(players);
+		
+		StyleTable table = new StyleTable(data,header);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		table.setSize(940, 420);
+//		table.setPreferredScrollableViewportSize(new Dimension(1200, 420));
+		
+		JScrollPane pane = new JScrollPane(table);
+		pane.setBounds(0, 60, 940, 420);
+//		pane.add(table);
+		
+		jp.add(pane);
 		
 		return jp;
 	}
@@ -340,6 +360,45 @@ public class MatchFactory {
 		}else{
 			left.setColor(UIUtil.bgGrey);
 		}
+	}
+	
+	private Object[][] getTableData(ArrayList<Match_PlayerPO> players){
+		Object[][] res = new Object[players.size()][21];
+		
+//		String[] header = {"姓名","位置","分钟","投篮%","命中",
+//				"出手","三分%","三分命中","三分出手","罚球%",
+//				"罚球命中","罚球出手","进攻","防守","篮板",
+//				"助攻","犯规","抢断","失误","盖帽",
+//				"得分"};  //21列
+		
+		for(int i=0;i<players.size();i++){
+			res[i][0] = players.get(i).getPlayername();
+			res[i][1] = players.get(i).getState();
+			res[i][2] = players.get(i).getTime();
+			res[i][3] = players.get(i).getShootEff();
+			res[i][4] = players.get(i).getShootEffNumber();
+			
+			res[i][5] = players.get(i).getShoot();
+			res[i][6] = players.get(i).getTPShootEff();
+			res[i][7] = players.get(i).getTPShootEffNumber();
+			res[i][8] = players.get(i).getTPShoot();
+			res[i][9] = players.get(i).getFTShootEff();
+			
+			res[i][10] = players.get(i).getFTShootEffNumber();
+			res[i][11] = players.get(i).getFT();
+			res[i][12] = players.get(i).getBankOff();
+			res[i][13] = players.get(i).getBankDef();
+			res[i][14] = players.get(i).getBank();
+			
+			res[i][15] = players.get(i).getAss();
+			res[i][16] = players.get(i).getFoul();
+			res[i][17] = players.get(i).getSteal();
+			res[i][18] = players.get(i).getTo();
+			res[i][19] = players.get(i).getRejection();
+			res[i][20] = players.get(i).getPoints();
+		}
+		
+		return res;
 	}
 
 }
