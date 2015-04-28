@@ -6,5 +6,5 @@ public enum PanelKind {
 	TEAM,
 	PLAYER,
 	MATCH,
-	STATS;
+	STATS,
 }

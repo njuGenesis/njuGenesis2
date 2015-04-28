@@ -10,6 +10,7 @@ import bussinesslogic.team.TeamLogic;
 import data.po.TeamDataPO;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.mainui.StartUI;
 
 public class TeamUI extends BgPanel{
 
@@ -19,11 +20,13 @@ public class TeamUI extends BgPanel{
 	private static final long serialVersionUID = 1L;
 	private static String bg = "img/team/teamAllBg.png";
 	private GLabel[] team = new GLabel[30];
+	private TurnController turnController;
 
 	public TeamUI(){
 		super(bg);
 		super.setVisible(false);
 		this.setLayout(null);
+		turnController = new TurnController();
 		init();
 	}
 
@@ -65,12 +68,7 @@ public class TeamUI extends BgPanel{
 			}
 			public void mousePressed(MouseEvent e) {
 				GLabel button = (GLabel)e.getSource();
-				TeamDetials td = new TeamDetials(button.po);
-				TeamUI.this.add(td);
-				for(int i = 0;i<team.length;i++){
-					team[i].setVisible(false);
-				}
-				repaint();
+				StartUI.startUI.turn(turnController.turnToTeamDetials(button.po));
 			}
 		};
 

@@ -30,6 +30,7 @@ public class StartUI extends GFrame implements Runnable{
 	/**
 	 * 
 	 */
+	public static StartUI startUI;
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private GLabel NBAleft, NBAright, blueStrip, redStrip, startWord1, startWord2, startWord3, close;
@@ -47,6 +48,8 @@ public class StartUI extends GFrame implements Runnable{
 	}
 	
 	public StartUI(){
+		startUI = this;
+		
 		turnController = new TurnController();
 		menuCurrentNumber = 0;
 		menuNextNumber = 0;
@@ -121,17 +124,21 @@ public class StartUI extends GFrame implements Runnable{
 					menu[menuCurrentNumber].setIcon(new ImageIcon("img/Framebg/menu"+menuCurrentNumber+"Blue.png"));
 					menu[menuNextNumber].setIcon(new ImageIcon("img/Framebg/menu"+menuNextNumber+"Red.png"));
 					
+					switch(menuNextNumber){
+					case 0:nextPanel = turnController.turn(PanelKind.HOT);break;
+					case 1:nextPanel = turnController.turn(PanelKind.TEAM);break;
+					case 2:nextPanel = turnController.turn(PanelKind.PLAYER);break;
+					case 3:nextPanel = turnController.turn(PanelKind.MATCH);break;
+					case 4:nextPanel = turnController.turn(PanelKind.STATS);break;
+					}
+					
 					type = typeOfRun.MENURUN;
 					thread = new Thread(StartUI.this);
 					thread.start();
 					while(thread.isAlive()){
 						
 					}
-					StartUI.this.remove(currentPanel);
-					currentPanel = nextPanel;
-					StartUI.this.add(currentPanel);
-					currentPanel.setVisible(true);
-					StartUI.this.repaint();
+					turn(nextPanel);
 				}
 			}
 		};
@@ -145,6 +152,15 @@ public class StartUI extends GFrame implements Runnable{
 		
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	public void turn(BgPanel nextPanel){
+		this.nextPanel = nextPanel;
+		StartUI.this.remove(currentPanel);
+		currentPanel = this.nextPanel;
+		StartUI.this.add(currentPanel);
+		currentPanel.setVisible(true);
+		StartUI.this.repaint();
 	}
 
 	public void run() {
@@ -250,18 +266,10 @@ public class StartUI extends GFrame implements Runnable{
 		case MENURUN:{
 			Image[] imgCurrent = new Image[2];
 			imgCurrent = assit.createPanelImage(currentPanel);
-			switch(menuNextNumber){
-			case 0:nextPanel = turnController.turn(PanelKind.HOT);break;
-			case 1:nextPanel = turnController.turn(PanelKind.TEAM);break;
-			case 2:nextPanel = turnController.turn(PanelKind.PLAYER);break;
-			case 3:nextPanel = turnController.turn(PanelKind.MATCH);break;
-			case 4:nextPanel = turnController.turn(PanelKind.STATS);break;
-			}
 			Image[] imgNext = new Image[2];
 			imgNext = assit.createPanelImage(nextPanel);
 			turnerNewsPaper.setPages(imgCurrent, imgNext, 500, 650);
 			currentPanel.setVisible(false);
-			//turnerNewsPaper.setBorderLinesVisible(true);
 			turnerNewsPaper.setVisible(true);
 			if(menuNextNumber>menuCurrentNumber){
 				turnerNewsPaper.nextPage();

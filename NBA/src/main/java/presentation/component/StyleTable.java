@@ -10,13 +10,19 @@ import java.util.Enumeration;
 import java.util.Set;
 
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.contenui.UIUtil;
 
 /**
  * 本类实现了对JTable颜色的控制，提供了两套方案：
@@ -37,57 +43,60 @@ public class StyleTable extends JTable {
 	public void setStyleTabelModel(TableModel tableModel){
 		super.setModel(tableModel);
 		paintRow(); //将奇偶行分别设置为不同颜色
-
-		//setFixColumnWidth(this); //固定表格的列宽
-
-		this.setIntercellSpacing(new Dimension(0,0)); //设置数据与单元格边框的眉边距
-
-		//根据单元内的数据内容自动调整列宽resize column width accordng to content of cell automatically
-		fitTableColumns(this);
+		setting();
 	}
 	
 	public StyleTable(TableModel tableModel) {
 		super(tableModel);
 		paintRow(); //将奇偶行分别设置为不同颜色
-
-		//setFixColumnWidth(this); //固定表格的列宽
-
-		this.setIntercellSpacing(new Dimension(0,0)); //设置数据与单元格边框的眉边距
-
-		//根据单元内的数据内容自动调整列宽resize column width accordng to content of cell automatically
-		fitTableColumns(this);
+		setting();
 	}
 	
 	public StyleTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
 		paintRow(); //将奇偶行分别设置为不同颜色
+		setting();
+	}
+	
+	public StyleTable(Object[][] rowData, Object[] columnNames, String[] color) {
+		super(rowData, columnNames);
+		this.color = color;
+		paintColorRow();
+		setting();
+	}
 
+	private void setting(){
 		//setFixColumnWidth(this); //固定表格的列宽
-
 		this.setIntercellSpacing(new Dimension(0,0)); //设置数据与单元格边框的眉边距
-
 		//根据单元内的数据内容自动调整列宽resize column width accordng to content of cell automatically
 		fitTableColumns(this);
 		
+		this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//设置表头拖动方式
+		this.getTableHeader().setReorderingAllowed(false);//设置表头不允许变换顺序
+		this.getTableHeader().setForeground(Color.black);
+		this.getTableHeader().setOpaque(false);
+		this.setRowHeight(30);//设置行宽
+		this.setSelectionBackground(UIUtil.nbaBlue); //设置选中的颜色
+		this.setSelectionForeground(UIUtil.bgWhite);
+		this.setBorder(null);
+		this.setShowHorizontalLines(false);//取消单元格之间的线
+		this.setShowVerticalLines(false);
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//选择单个行
+		this.setOpaque(false);
+		
+		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
+		TableColumnModel cmodel = this.getColumnModel();  
+		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
+			//cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
+		} 
 	}
-
+	
 	public void setSort(){
 		//通过点击表头来排序列中数据resort data by clicking table header
 		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(this.getModel());
 		this.setRowSorter(sorter);
 	}
 
-	public StyleTable(Object[][] rowData, Object[] columnNames, String[] color) {
-		super(rowData, columnNames);
-		this.color = color;
-		paintColorRow();
-
-		//setFixColumnWidth(this);
-
-		this.setIntercellSpacing(new Dimension(0,0));
-
-		fitTableColumns(this);
-	}
 
 	/**
 	 * 根据color数组中相应字符串所表示的颜色来设置某行的颜色，注意，JTable中可以对列进行整体操作
@@ -212,5 +221,39 @@ public class StyleTable extends JTable {
 			return super.getTableCellRendererComponent(t, value, isSelected,
 					hasFocus, row, column);
 		}
+	}
+}
+
+class MultiLineHeaderRenderer extends JTextArea implements TableCellRenderer{
+	private static final long serialVersionUID = 1L;
+
+	public MultiLineHeaderRenderer() {
+		super(1, 50);
+		setOpaque(true);
+		setLineWrap(true);
+		setWrapStyleWord(true);
+	}
+
+	public java.awt.Component getTableCellRendererComponent(JTable table, Object obj,
+			boolean isSelected, boolean hasFocus,
+			int row,int column) {
+		int width = 1;
+		String value = "";
+		if (table != null) {
+			JTableHeader header = table.getTableHeader();
+			if (header != null) {
+				setForeground(header.getForeground());
+				setBackground(header.getBackground());
+				setFont(header.getFont());
+			}
+			width = header.getColumnModel().getColumn(column).getWidth();
+			if(width==0)
+				width = 150;
+			value = header.getColumnModel().getColumn(column).getHeaderValue().toString();
+		}
+		setText( (value == null) ? "Column:" + column : value.toString());
+		setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		this.setRows((10*value.length())/width);
+		return this;
 	}
 }

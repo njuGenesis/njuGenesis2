@@ -52,7 +52,7 @@ import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.hotspot.SelectLabel;
 
-public class TeamDetials extends JPanel{
+public class TeamDetials extends BgPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private GLabel title;
@@ -61,6 +61,7 @@ public class TeamDetials extends JPanel{
 	private BgPanel sonPanel;
 	
 	public TeamDetials(TeamDataPO po){
+		super("");
 		this.po = po;
 		
 		this.setLayout(null);
@@ -85,9 +86,7 @@ public class TeamDetials extends JPanel{
 		sonPanel = info;
 		TeamDetials.this.add(sonPanel);
 		
-		tdMenu[0].addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-			}
+		tdMenu[0].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				for(int i=0;i<tdMenu.length;i++){
 					tdMenu[i].setSelected(false);
@@ -99,17 +98,8 @@ public class TeamDetials extends JPanel{
 				TeamDetials.this.add(sonPanel);
 				repaint();
 			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
-			public void mouseClicked(MouseEvent e) {
-			}
 		});
-		
-		tdMenu[1].addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-			}
+		tdMenu[1].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				for(int i=0;i<tdMenu.length;i++){
 					tdMenu[i].setSelected(false);
@@ -121,17 +111,9 @@ public class TeamDetials extends JPanel{
 				TeamDetials.this.add(sonPanel);
 				repaint();
 			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
-			public void mouseClicked(MouseEvent e) {
-			}
 		});
 		
-		tdMenu[2].addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-			}
+		tdMenu[2].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				for(int i=0;i<tdMenu.length;i++){
 					tdMenu[i].setSelected(false);
@@ -143,17 +125,9 @@ public class TeamDetials extends JPanel{
 				TeamDetials.this.add(sonPanel);
 				repaint();
 			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
-			public void mouseClicked(MouseEvent e) {
-			}
 		});
 		
-		tdMenu[3].addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-			}
+		tdMenu[3].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				for(int i=0;i<tdMenu.length;i++){
 					tdMenu[i].setSelected(false);
@@ -165,29 +139,15 @@ public class TeamDetials extends JPanel{
 				TeamDetials.this.add(sonPanel);
 				repaint();
 			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
-			public void mouseClicked(MouseEvent e) {
-			}
 		});
 		
-		tdMenu[4].addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-			}
+		tdMenu[4].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				for(int i=0;i<tdMenu.length;i++){
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[4].setSelected(true);
 				repaint();
-			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
-			public void mouseClicked(MouseEvent e) {
 			}
 		});
 	}
@@ -282,7 +242,7 @@ class Player extends BgPanel{
 		
 		final String[] headerDetials = {"姓名", "场数", "先发", "分钟", "使用", "三分", "罚球", "进攻", "防守", "场均篮板", "场均助攻", "场均抢断", "场均盖帽", "失误", "犯规", "场均得分"};
 		final Object[][] dataDetials = new Object[playerNames.length][headerDetials.length];
-		for(int i=0;i<dataBasic.length;i++){
+		for(int i=0;i<dataDetials.length;i++){
 			PlayerDataPO p = playerLogic.getInfo(playerNames[i], "13-14");
 			dataDetials[i][0] = p.getName();
 			dataDetials[i][1] = p.getGP();
@@ -337,7 +297,7 @@ class Player extends BgPanel{
 		
 		scrollPane2 = new JScrollPane(); 
 		scrollPane2.setBounds(14, 35, 920, 480);
-		scrollPane2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPane2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPane2.setBorder(null);
 		scrollPane2.setOpaque(false);
 		scrollPane2.getViewport().setOpaque(false);
@@ -347,7 +307,7 @@ class Player extends BgPanel{
 		
 		scrollPane1 = new JScrollPane(); 
 		scrollPane1.setBounds(14, 35, 920, 480);
-		scrollPane1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPane1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPane1.setBorder(null);
 		scrollPane1.setOpaque(false);
 		scrollPane1.getViewport().setOpaque(false);
@@ -396,26 +356,8 @@ class Player extends BgPanel{
 	
 	private void tableSetting(final JTable table){
 		table.setPreferredScrollableViewportSize(new Dimension(920, 480));//设置大小
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//设置表头拖动方式
 		table.setBounds(14, 35, 920, 480);
-		table.getTableHeader().setReorderingAllowed(false);//设置表头不允许变换顺序
 		table.getTableHeader().setPreferredSize(new Dimension(920, 30));//设置表头大小
-		table.getTableHeader().setForeground(Color.black);
-		table.getTableHeader().setOpaque(false);
-		table.setRowHeight(30);//设置行宽
-		table.setSelectionBackground(UIUtil.nbaBlue); //设置选中的颜色
-		table.setSelectionForeground(UIUtil.bgWhite);
-		table.setBorder(null);
-		table.setShowHorizontalLines(false);//取消单元格之间的线
-		table.setShowVerticalLines(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//选择单个行
-		table.setOpaque(false);
-
-		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
-		TableColumnModel cmodel = table.getColumnModel();  
-		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
-			cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
-		}  
 
 		table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer(){
 			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
@@ -578,7 +520,7 @@ class Match extends BgPanel{
 		JScrollPane scrollPane = new JScrollPane(); 
 		scrollPane.setBounds(14, 50, 920, 460);
 		scrollPane.setViewportView(table);
-		scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPane.setBorder(null);
 		scrollPane.setOpaque(false);
 		//scrollPane.setLayout(null);
@@ -592,26 +534,8 @@ class Match extends BgPanel{
 	
 	private void tableSetting(final JTable table){
 		table.setPreferredScrollableViewportSize(new Dimension(920, 480));//设置大小
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//设置表头拖动方式
 		table.setBounds(14, 35, 920, 480);
-		table.getTableHeader().setReorderingAllowed(false);//设置表头不允许变换顺序
 		table.getTableHeader().setPreferredSize(new Dimension(920, 30));//设置表头大小
-		table.getTableHeader().setForeground(Color.black);
-		table.getTableHeader().setOpaque(false);
-		table.setRowHeight(30);//设置行宽
-		table.setSelectionBackground(UIUtil.nbaBlue); //设置选中的颜色
-		table.setSelectionForeground(UIUtil.bgWhite);
-		table.setBorder(null);
-		table.setShowHorizontalLines(false);//取消单元格之间的线
-		table.setShowVerticalLines(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//选择单个行
-		table.setOpaque(false);
-		
-		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
-		TableColumnModel cmodel = table.getColumnModel();  
-		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
-		    cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
-		}  
 		
 		table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer(){
 			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
@@ -738,7 +662,7 @@ class Data extends BgPanel{
 		
 		scrollPaneTotal = new JScrollPane(); 
 		scrollPaneTotal.setBounds(14, 215, 920, 300);
-		scrollPaneTotal.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPaneTotal.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPaneTotal.setBorder(null);
 		scrollPaneTotal.setOpaque(false);
 		scrollPaneTotal.getViewport().setOpaque(false);
@@ -801,7 +725,7 @@ class Data extends BgPanel{
 
 		scrollPaneAverage = new JScrollPane(); 
 		scrollPaneAverage.setBounds(14, 215, 920, 300);
-		scrollPaneAverage.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPaneAverage.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPaneAverage.setBorder(null);
 		scrollPaneAverage.setOpaque(false);
 		scrollPaneAverage.getViewport().setOpaque(false);
@@ -858,7 +782,7 @@ class Data extends BgPanel{
 
 		scrollPaneEff = new JScrollPane(); 
 		scrollPaneEff.setBounds(14, 215, 920, 300);
-		scrollPaneEff.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		//scrollPaneEff.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPaneEff.setBorder(null);
 		scrollPaneEff.setOpaque(false);
 		scrollPaneEff.getViewport().setOpaque(false);
@@ -921,26 +845,9 @@ class Data extends BgPanel{
 
 	private void tableSetting(final JTable table){
 		table.setPreferredScrollableViewportSize(new Dimension(920, 300));//设置大小
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//设置表头拖动方式
 		table.setBounds(14, 215, 920, 300);
-		table.getTableHeader().setReorderingAllowed(false);//设置表头不允许变换顺序
 		table.getTableHeader().setPreferredSize(new Dimension(920, 30));//设置表头大小
-		table.getTableHeader().setForeground(Color.black);
-		table.getTableHeader().setOpaque(false);
-		table.setRowHeight(30);//设置行宽
-		table.setSelectionBackground(UIUtil.nbaBlue); //设置选中的颜色
-		table.setSelectionForeground(UIUtil.bgWhite);
-		table.setBorder(null);
-		table.setShowHorizontalLines(false);//取消单元格之间的线
-		table.setShowVerticalLines(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//选择单个行
-		table.setOpaque(false);
 
-		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
-		TableColumnModel cmodel = table.getColumnModel();  
-		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
-			cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
-		}  
 
 		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
 		table.setRowSorter(sorter);
@@ -984,36 +891,3 @@ class Data extends BgPanel{
 	}
 }
 
-class MultiLineHeaderRenderer extends JTextArea implements TableCellRenderer{
-	private static final long serialVersionUID = 1L;
-
-	public MultiLineHeaderRenderer() {
-		super(1, 50);
-		setOpaque(true);
-		setLineWrap(true);
-		setWrapStyleWord(true);
-	}
-
-	public java.awt.Component getTableCellRendererComponent(JTable table, Object obj,
-			boolean isSelected, boolean hasFocus,
-			int row,int column) {
-		int width = 1;
-		String value = "";
-		if (table != null) {
-			JTableHeader header = table.getTableHeader();
-			if (header != null) {
-				setForeground(header.getForeground());
-				setBackground(header.getBackground());
-				setFont(header.getFont());
-			}
-			width = header.getColumnModel().getColumn(column).getWidth();
-			if(width==0)
-				width = 150;
-			value = header.getColumnModel().getColumn(column).getHeaderValue().toString();
-		}
-		setText( (value == null) ? "Column:" + column : value.toString());
-		setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-		this.setRows((10*value.length())/width);
-		return this;
-	}
-}

@@ -76,7 +76,7 @@ public class GMainUI extends JPanel implements Runnable{
 	public GMainUI() {
 		super();
 
-		refreshSpeed = 10;//刷新速度
+		refreshSpeed = 8;//刷新速度
 		shadowWidth = 100;//阴影宽度
 		bookBounds = new Rectangle();
 		borderLinesVisible = false;//是否显示书的边框
@@ -507,46 +507,6 @@ public class GMainUI extends JPanel implements Runnable{
 			g.setColor(oldColor);
 		}
 	}
-
-
-
-//	public void actionPerformed(final ActionEvent e) {
-//
-//		switch (action) {
-//
-//		case AUTO_TURN:
-//
-//			// update autoPoint
-//			double nextX = autoPoint.getX() - 15.0;
-//			double x = nextX;
-//			x = x - bookBounds.x - pageWidth;
-//			double y = -1.0 * Math.pow(x / pageWidth, 2);
-//			y += 1;
-//			y *= 50;
-//
-//			if (leftPageTurn) {
-//				nextX = this.transformIndex(nextX);
-//			}
-//
-//			autoPoint.setLocation(nextX, bookBounds.y + bookBounds.height - y);
-//
-//			if (nextX <= bookBounds.x || nextX >= bookBounds.x + bookBounds.width) {
-//				//timer.stop();
-//				action = null;
-//				switchImages();
-//				autoPoint.x = bookBounds.x;
-//				calculate(autoPoint);
-//				initRotationX();
-//				this.repaint();
-//				return;
-//			}
-//
-//			// calculate using new point
-//			calculate(autoPoint);
-//
-//			break;
-//		}
-//	}
 
 	////////////////////
 	// HELPER METHODS //
