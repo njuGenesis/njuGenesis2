@@ -1,12 +1,12 @@
 package presentation.hotspot;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,6 +36,8 @@ public class HotTeamSeasonPanel extends BgPanel{
 	SelectLabel free;  //罚球命中率
 	
 	SelectLabel[] menuItem = new SelectLabel[8];
+	
+	JComboBox<String> seasonChooser;
 
 	TeamLogic logic = new TeamLogic();
 
@@ -51,6 +53,11 @@ public class HotTeamSeasonPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		String[] seasons = {"12-13赛季","13-14赛季"};
+		seasonChooser = new JComboBox<String>(seasons);
+		seasonChooser.setBounds(800-this.getX(), 42, 120, 30);
+		seasonChooser.addActionListener(new SeasonListener());
+		this.add(seasonChooser);
 
 		title = new GLabel("   赛季热点球队",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
@@ -128,15 +135,17 @@ public class HotTeamSeasonPanel extends BgPanel{
 	}
 	
 	public void getRankingPanel(String type){
-		Date dateNow = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM-dd");  
-		String dateNowStr = dateFormat.format(dateNow);  
 
-		ArrayList<TeamDataPO> teams  = logic.hotTeamSeason("13-14", transType(type));
+		ArrayList<TeamDataPO> teams  = logic.hotTeamSeason(getSeasonStr(), transType(type));
 		JPanel p = factory.getTeamSeason(teams,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
+	}
+	
+	private String getSeasonStr(){
+		String s = (String)seasonChooser.getSelectedItem();
+		return s.substring(0, 5);
 	}
 	
 	private String transType(String ch){
@@ -201,4 +210,23 @@ public class HotTeamSeasonPanel extends BgPanel{
 
 	}
 
+	
+	class SeasonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//更新标签
+			for(int i=0;i<menuItem.length;i++){
+				menuItem[i].setSelected(false);
+			}
+			score.setSelected(true);
+			
+			if(rankingPanel!=null){
+				HotTeamSeasonPanel.this.remove(rankingPanel);
+			}
+			
+			getRankingPanel("场均得分");
+		}
+		
+	}
 }

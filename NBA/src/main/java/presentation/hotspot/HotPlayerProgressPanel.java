@@ -1,19 +1,20 @@
 package presentation.hotspot;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import data.po.PlayerDataPO;
-import bussinesslogic.player.PlayerLogic;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.contenui.UIUtil;
+import bussinesslogic.player.PlayerLogic;
+import data.po.PlayerDataPO;
 
 public class HotPlayerProgressPanel extends BgPanel{
 
@@ -25,15 +26,14 @@ public class HotPlayerProgressPanel extends BgPanel{
 	
 	GLabel title;
 
-	SelectLabel score;  //得分
-	SelectLabel backboard;  //篮板
-	SelectLabel assis;  //助攻
-	SelectLabel block;  //盖帽
-	SelectLabel steal;  //抢断
+	SelectLabel score;  //场均得分
+	SelectLabel backboard;  //场均篮板
+	SelectLabel assis;  //场均助攻
 	SelectLabel[] menuItem = new SelectLabel[3];
 
 	PlayerLogic logic = new PlayerLogic();
-
+	
+	JComboBox<String> seasonChooser;
 
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
@@ -46,6 +46,11 @@ public class HotPlayerProgressPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		String[] seasons = {"12-13赛季","13-14赛季"};
+		seasonChooser = new JComboBox<String>(seasons);
+		seasonChooser.setBounds(800-this.getX(), 42, 120, 30);
+		seasonChooser.addActionListener(new SeasonListener());
+		this.add(seasonChooser);
 
 		title = new GLabel("   进步最快球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
@@ -83,18 +88,19 @@ public class HotPlayerProgressPanel extends BgPanel{
 	}
 
 	public void getRankingPanel(String type){
-		Date dateNow = new Date();  
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM-dd");  
-		String dateNowStr = dateFormat.format(dateNow);  
 
-//		System.out.println(dateNowStr);
-		PlayerDataPO[] players = logic.progressPlayer("13-14", type);
+		PlayerDataPO[] players = logic.progressPlayer(getSeasonStr(), type);
 		JPanel p = factory.getPlayerProgress(players,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
 	}
 
+	private String getSeasonStr(){
+		String s = (String)seasonChooser.getSelectedItem();
+		return s.substring(0, 5);
+	}
+	
 	class MenuListener implements MouseListener{
 
 		public void mouseClicked(MouseEvent e) {
@@ -133,6 +139,25 @@ public class HotPlayerProgressPanel extends BgPanel{
 
 		}
 
+	}
+	
+	class SeasonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//更新标签
+			for(int i=0;i<menuItem.length;i++){
+				menuItem[i].setSelected(false);
+			}
+			score.setSelected(true);
+			
+			if(rankingPanel!=null){
+				HotPlayerProgressPanel.this.remove(rankingPanel);
+			}
+			
+			getRankingPanel("场均得分");
+		}
+		
 	}
 	
 }

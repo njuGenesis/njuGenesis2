@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import presentation.component.GLabel;
 import presentation.component.HoriDynamicBarLeft;
@@ -76,7 +75,7 @@ public class MatchFactory {
 		Object[][] data = getTableData(players);
 		
 		StyleTable table = new StyleTable(data,header);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //		table.setSize(940, 420);
 //		table.setPreferredScrollableViewportSize(new Dimension(1200, 420));
 		
@@ -375,14 +374,14 @@ public class MatchFactory {
 			res[i][0] = players.get(i).getPlayername();
 			res[i][1] = players.get(i).getState();
 			res[i][2] = players.get(i).getTime();
-			res[i][3] = players.get(i).getShootEff();
+			res[i][3] = roundDouble(players.get(i).getShootEff());
 			res[i][4] = players.get(i).getShootEffNumber();
 			
 			res[i][5] = players.get(i).getShoot();
-			res[i][6] = players.get(i).getTPShootEff();
+			res[i][6] = roundDouble(players.get(i).getTPShootEff());
 			res[i][7] = players.get(i).getTPShootEffNumber();
 			res[i][8] = players.get(i).getTPShoot();
-			res[i][9] = players.get(i).getFTShootEff();
+			res[i][9] = roundDouble(players.get(i).getFTShootEff());
 			
 			res[i][10] = players.get(i).getFTShootEffNumber();
 			res[i][11] = players.get(i).getFT();
@@ -399,6 +398,11 @@ public class MatchFactory {
 		}
 		
 		return res;
+	}
+	
+	private double roundDouble(double d){
+		DecimalFormat df = new DecimalFormat(".00");
+		return Double.parseDouble(df.format(d));
 	}
 
 }

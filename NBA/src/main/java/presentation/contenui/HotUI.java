@@ -32,6 +32,8 @@ public class HotUI extends BgPanel implements Runnable{
 
 	private JLabel titleLabel;
 	private GLabel rightBt;
+	
+	private GLabel text;
 
 	private Point2D[] polygonPlayerToday = {new Point(254-78-15,79-79),new Point(325-78-15,149-79),new Point(254-78-15,220-79),new Point(184-78-15,149-79)};
 	private Point2D[] polygonTeamSeason = {new Point(148-78-15,325-79),new Point(219-78-15,395-79),new Point(148-78-15,466-79),new Point(78-78-15,395-79)};
@@ -57,6 +59,8 @@ public class HotUI extends BgPanel implements Runnable{
 		this.setLocation(15, 50);
 		this.setLayout(null);
 		this.setOpaque(false);
+		
+		text = new GLabel(HotspotUtil.welcome,new Point(700, 120), new Point(260, 370), this, true);
 
 		bluePanel = new BgPanel("");
 		bluePanel.setSize(650, 650);
@@ -119,11 +123,13 @@ public class HotUI extends BgPanel implements Runnable{
 			}
 
 			rightBt.setVisible(false);
+			text.setIcon(HotspotUtil.welcome);
+			text.setVisible(true);
 			this.repaint();
 			break;
 
 		case playerfast:
-			
+			text.setVisible(false);
 
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -139,11 +145,12 @@ public class HotUI extends BgPanel implements Runnable{
 			hotPanel = new HotPlayerProgressPanel();
 			this.add(hotPanel);
 			rightBt.setVisible(true);
+			
 			this.repaint();
 			break;
 
 		case playerseason:
-			
+			text.setVisible(false);
 
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -159,11 +166,12 @@ public class HotUI extends BgPanel implements Runnable{
 			hotPanel = new HotPlayerSeasonPanel();
 			this.add(hotPanel);
 			rightBt.setVisible(true);
+			
 			this.repaint();
 			break;
 
 		case playertoday:
-			
+			text.setVisible(false);
 
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -180,12 +188,12 @@ public class HotUI extends BgPanel implements Runnable{
 			hotPanel = new HotPlayerTodayPanel();
 			this.add(hotPanel);
 			rightBt.setVisible(true);
-			this.repaint();
 			
+			this.repaint();
 			break;
 
 		case teamseason:
-			
+			text.setVisible(false);
 
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -202,8 +210,8 @@ public class HotUI extends BgPanel implements Runnable{
 			hotPanel = new HotTeamSeasonPanel();
 			this.add(hotPanel);
 			rightBt.setVisible(true);
-			this.repaint();
 			
+			this.repaint();
 			break;
 		}
 
@@ -266,18 +274,23 @@ public class HotUI extends BgPanel implements Runnable{
 			if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerToday)){
 				titleLabel.setIcon(HotspotUtil.title_playertoday);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(HotspotUtil.playerToday);
 			}else if(HotUI.this.checkWithJdkPolygon(p, polygonTeamSeason)){
 				titleLabel.setIcon(HotspotUtil.title_teamseason);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(HotspotUtil.teamSeason);
 			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerSeason)){
 				titleLabel.setIcon(HotspotUtil.title_playerseason);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(HotspotUtil.playerSeason);
 			}else if(HotUI.this.checkWithJdkPolygon(p, polygonPlayerFast)){
 				titleLabel.setIcon(HotspotUtil.title_playerfast);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(HotspotUtil.playerFast);
 			}else{
 				titleLabel.setIcon(HotspotUtil.titleIcon);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				text.setIcon(HotspotUtil.welcome);
 			}
 		}
 

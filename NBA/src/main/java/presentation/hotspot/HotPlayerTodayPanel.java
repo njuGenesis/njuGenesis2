@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import presentation.component.BgPanel;
 import presentation.component.DatePanel;
@@ -50,6 +52,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 		this.setOpaque(false);
 		
 		date = new DatePanel(new Point(800-this.getX(),42),this);
+		date.addDocuListener(new DateListener());
 
 
 		title = new GLabel("   当天热点球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
@@ -66,7 +69,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 		score.addMouseListener(new MenuListener());
 		menuItem[0] = score;
 
-		getRankingPanel("得分");
+		getRankingPanel("得分",getToday());
 
 		backboard = new SelectLabel("篮板",new Point(258-this.getX(),83),new Point(177,35),this,true,0,16);
 		backboard.setOpaque(true);
@@ -104,18 +107,40 @@ public class HotPlayerTodayPanel extends BgPanel{
 	}
 
 
-	public void getRankingPanel(String type){
-		Date dateNow = new Date();  
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM-dd");  
-		String dateNowStr = dateFormat.format(dateNow);  
+	public void getRankingPanel(String type,String date){
+		String season = getSeason(date);  
+		String day = date.substring(5);
 
-//		System.out.println(dateNowStr);
-		PlayerDataPO[] players = logic.hotPlayerToday("13-14", "01-01", type);
+		PlayerDataPO[] players = logic.hotPlayerToday(season, day, type);
 		JPanel p = factory.getPlayerToday(players,type);
 		rankingPanel = p;
 		this.add(rankingPanel);
 		this.repaint();
 	}
+	
+	public String getSeason(String date){
+		String season = "13-14";
+
+		int year = 2010;
+		while(true){
+			String d1 = String.valueOf(year)+"-10-01";
+			String d2 = String.valueOf(year+1)+"-06-30";
+			if(date.compareTo(d1)>=0 && date.compareTo(d2)<=0){
+				season = String.valueOf(year).substring(2, 4)+"-"+String.valueOf(year+1).substring(2, 4);
+				break;
+			}else{
+				year++;
+			}
+		}
+		return season;
+	}
+	
+	private String getToday(){
+		Date dateNow = new Date();  
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");  
+		return dateFormat.format(dateNow);
+	}
+	
 
 	class MenuListener implements MouseListener{
 
@@ -132,7 +157,7 @@ public class HotPlayerTodayPanel extends BgPanel{
 			}
 
 			String type = sl.getText();
-			HotPlayerTodayPanel.this.getRankingPanel(type);
+			HotPlayerTodayPanel.this.getRankingPanel(type,date.getText());
 		}
 
 		public void mousePressed(MouseEvent e) {
@@ -154,6 +179,29 @@ public class HotPlayerTodayPanel extends BgPanel{
 			// TODO Auto-generated method stub
 
 		}
+
+	}
+	
+	
+	class DateListener implements DocumentListener{
+
+		public void insertUpdate(DocumentEvent e) {
+			for(int i=0;i<menuItem.length;i++){
+				menuItem[i].setSelected(false);
+			}
+			score.setSelected(true);
+
+			if(rankingPanel!=null){
+				HotPlayerTodayPanel.this.remove(rankingPanel);
+			}
+			getRankingPanel("得分",date.getText());
+
+			HotPlayerTodayPanel.this.repaint();
+		}
+
+		public void removeUpdate(DocumentEvent e) {}
+
+		public void changedUpdate(DocumentEvent e) {}
 
 	}
 

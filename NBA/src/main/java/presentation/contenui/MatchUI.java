@@ -148,8 +148,6 @@ public class MatchUI extends BgPanel{
 
 		public void changedUpdate(DocumentEvent e) {}
 
-
-
 	}
 
 }

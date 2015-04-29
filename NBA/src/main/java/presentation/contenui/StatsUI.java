@@ -27,8 +27,6 @@ public class StatsUI extends BgPanel implements Runnable{
 	
 	private BgPanel statsPanel;
 	
-//	List<Point2D.Double> polygonPlayer;
-//	List<Point2D.Double> polygonTeam;
 	
 	Point2D[] polygonPlayer = {new Point(163-78-15,325-149),new Point(93-78-15,395-149),new Point(163-78-15,466-149),new Point(234-78-15,395-149)};
 	Point2D[] polygonTeam = {new Point(515-78-15,185-149),new Point(445-78-15,255-149),new Point(515-78-15,326-149),new Point(586-78-15,255-149)};

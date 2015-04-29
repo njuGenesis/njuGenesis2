@@ -1,6 +1,7 @@
 package presentation.hotspot;
 
 import java.awt.Point;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -110,25 +111,29 @@ public class RankingFactory {
 		JPanel panel = getInitPanel();
 		String[] info = new String[5];
 		
-		for(int i=0;i<5;i++){
-			if(type.equals("得分")){
-				info[i] = String.valueOf(players[i].getPTS());
-			}else if(type.equals("篮板")){
-				info[i] = String.valueOf(players[i].getBackboard());
-			}else if(type.equals("助攻")){
-				info[i] = String.valueOf(players[i].getAssist());
-			}else if(type.equals("盖帽")){
-				info[i] = String.valueOf(players[i].getRejection());
-			}else if(type.equals("抢断")){
-				info[i] = String.valueOf(players[i].getSteal());
+		if(!(players[0].getName()==null)){
+			for(int i=0;i<5;i++){
+				if(type.equals("得分")){
+					info[i] = String.valueOf(players[i].getPTS());
+				}else if(type.equals("篮板")){
+					info[i] = String.valueOf(players[i].getBackboard());
+				}else if(type.equals("助攻")){
+					info[i] = String.valueOf(players[i].getAssist());
+				}else if(type.equals("盖帽")){
+					info[i] = String.valueOf(players[i].getRejection());
+				}else if(type.equals("抢断")){
+					info[i] = String.valueOf(players[i].getSteal());
+				}
 			}
+			
+			panel.add(getPlayerPanel1(players[0],info[0]));
+			panel.add(getPlayerPanel2(players[1],info[1]));
+			panel.add(getPlayerPanel3(players[2],info[2]));
+			panel.add(getPlayerPanel4(players[3],info[3]));
+			panel.add(getPlayerPanel5(players[4],info[4]));
+		}else{
+			GLabel l = new GLabel(new ImageIcon("img/match/nogame.png"),new Point(350,150),new Point(200,200),panel,true);
 		}
-		
-		panel.add(getPlayerPanel1(players[0],info[0]));
-		panel.add(getPlayerPanel2(players[1],info[1]));
-		panel.add(getPlayerPanel3(players[2],info[2]));
-		panel.add(getPlayerPanel4(players[3],info[3]));
-		panel.add(getPlayerPanel5(players[4],info[4]));
 		
 		return panel;
 	}
@@ -238,7 +243,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_1,new Point(20,45),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/action/"+po.getName()+".png"),new Point(0,102),new Point(207,329),p,true);
+		GLabel player = new GLabel(getBigPlayer(po.getName()),new Point(0,102),new Point(207,329),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(215,315),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(160,40),new Point(200,30),p,true,0,20);
@@ -255,7 +260,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_2,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -272,7 +277,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_3,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -289,7 +294,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_4,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -306,7 +311,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_5,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -324,7 +329,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_1,new Point(20,45),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/action/"+po.getName()+".png"),new Point(0,102),new Point(207,329),p,true);
+		GLabel player = new GLabel(getBigPlayer(po.getName()),new Point(0,102),new Point(207,329),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(225,316),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(180,50),new Point(180,30),p,true,0,20);
@@ -341,7 +346,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_2,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -358,7 +363,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_3,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -375,7 +380,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_4,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -392,7 +397,7 @@ public class RankingFactory {
 		p.setOpaque(false);
 		
 		GLabel num = new GLabel(HotspotUtil.ranking_5,new Point(18,38),new Point(36,40),p,true);
-		GLabel player = new GLabel(new ImageIcon("迭代一数据/players/portrait/"+po.getName()+".png"),new Point(68,23),new Point(81,62),p,true);
+		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		
 		GLabel name = new GLabel(po.getName(),new Point(170,30),new Point(180,30),p,true,0,20);
@@ -400,6 +405,24 @@ public class RankingFactory {
 		GLabel infoLabel = new GLabel(info,new Point(354,40),new Point(80,60),p,true,0,24);
 		
 		return p;
+	}
+	
+	private ImageIcon getBigPlayer(String name){
+		File f = new File("迭代一数据/players/action/"+name+".png");
+		if(f.exists()){
+			return new ImageIcon("迭代一数据/players/action/"+name+".png");
+		}else{
+			return HotspotUtil.noBigPlayer;
+		}
+	}
+	
+	private ImageIcon getPlayer(String name){
+		File f = new File("迭代一数据/players/portrait/"+name+".png");
+		if(f.exists()){
+			return new ImageIcon("迭代一数据/players/portrait/"+name+".png");
+		}else{
+			return HotspotUtil.noPlayer;
+		}
 	}
 
 }
