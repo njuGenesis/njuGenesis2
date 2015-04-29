@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.hotspot.HotspotUtil;
 import presentation.stats.PlayerStatsPanelNew;
 import presentation.stats.TeamStatsPanelNew;
 
@@ -28,6 +29,8 @@ public class StatsUI extends BgPanel implements Runnable{
 	private GLabel rightBt;
 	
 	private BgPanel statsPanel;
+	
+	private GLabel text;
 	
 	
 	Point2D[] polygonPlayer = {new Point(163-78-15,325-149),new Point(93-78-15,395-149),new Point(163-78-15,466-149),new Point(234-78-15,395-149)};
@@ -48,6 +51,8 @@ public class StatsUI extends BgPanel implements Runnable{
 		this.setLocation(15, 50);
 		this.setLayout(null);
 		this.setOpaque(false);
+		
+		text = new GLabel(StatsUtil.text_stats,new Point(700, 120), new Point(260, 370), this, true);
 		
 		bluePanel = new BgPanel("");
 		bluePanel.setSize(650, 650);
@@ -98,6 +103,7 @@ public class StatsUI extends BgPanel implements Runnable{
 		switch(runType){
 		case player:
 			
+			text.setVisible(false);
 			
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -123,6 +129,7 @@ public class StatsUI extends BgPanel implements Runnable{
 			
 		case team:
 			
+			text.setVisible(false);
 			
 			for(int i=0;i<600;i++){
 				int x = bluePanel.getX();
@@ -162,6 +169,7 @@ public class StatsUI extends BgPanel implements Runnable{
 			}
 			
 			rightBt.setVisible(false);
+			text.setVisible(true);
 			StatsUI.this.repaint();
 			break;
 		
@@ -217,12 +225,15 @@ public class StatsUI extends BgPanel implements Runnable{
 			if(StatsUI.this.checkWithJdkPolygon(p, polygonPlayer)){
 				titleLabel.setIcon(StatsUtil.title_player);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(StatsUtil.text_player);
 			}else if(StatsUI.this.checkWithJdkPolygon(p, polygonTeam)){
 				titleLabel.setIcon(StatsUtil.title_team);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				text.setIcon(StatsUtil.text_team);
 			}else{
 				titleLabel.setIcon(StatsUtil.title);
 				titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				text.setIcon(StatsUtil.text_stats);
 			}
 		}
 		

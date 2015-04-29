@@ -64,12 +64,12 @@ public class StatsFactory {
 			int r = table.getSelectedRow();
 			int c = table.getSelectedColumn();
 
-			if(c==1){
+			if(c==0){
 				String player = table.getValueAt(r, c).toString();
 				TurnController tc = new TurnController();
 
 				//				StartUI.startUI.turn(tc.turnToPlayerDetials(player));
-			}else if(c==2){
+			}else if(c==1){
 				String team = TableUtility.getShortChTeam(table.getValueAt(r, c).toString());
 				TurnController tc = new TurnController();
 				if(!team.equals("null")){
@@ -115,7 +115,7 @@ public class StatsFactory {
 			int r = table.getSelectedRow();
 			int c = table.getSelectedColumn();
 
-			if(c==1){
+			if(c==0){
 				String team = TableUtility.getChTeam(table.getValueAt(r, c).toString());
 				TurnController tc = new TurnController();
 				if(!team.equals("null")){

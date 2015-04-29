@@ -7,25 +7,19 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
-import org.apache.batik.transcoder.TranscoderException;
 
 import presentation.component.BgPanel;
+import presentation.component.BookEffectAssist;
 import presentation.component.GFrame;
 import presentation.component.GLabel;
-import presentation.component.BookEffectAssist;
 import presentation.contenui.PanelKind;
 import presentation.contenui.TurnController;
+import assistance.FileListener;
 
-public class StartUI extends GFrame implements Runnable{
+public class StartUI extends GFrame implements Runnable,Refresh{
 	
 	/**
 	 * 
@@ -45,7 +39,15 @@ public class StartUI extends GFrame implements Runnable{
 	
 	public static void main(String[] args) {
 		new StartUI();
+		
+		RefreshData re = new RefreshData();
+		Thread t = new Thread(re);
+		t.setDaemon(true);
+		t.start();
+		
 	}
+	
+	
 	
 	public StartUI(){
 		startUI = this;
@@ -401,6 +403,12 @@ public class StartUI extends GFrame implements Runnable{
 
 	public void setCurrentPanel(BgPanel currentPanel){
 		this.currentPanel = currentPanel;
+	}
+
+	@Override
+	public void refreshUI() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

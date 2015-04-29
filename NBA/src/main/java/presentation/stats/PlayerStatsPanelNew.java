@@ -64,8 +64,8 @@ public class PlayerStatsPanelNew extends BgPanel{
 	//			"罚球命中率","两双","进攻","防守","抢断","盖帽","失误","犯规","效率","GmSc效率",
 	//			"真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
 
-	String[] header1 = {"序号","姓名","球队","参赛","先发","在场时间","得分","篮板","助攻","两双","进攻","防守","抢断","盖帽","失误","犯规","效率"};
-	String[] header2 = {"序号","姓名","球队","投篮命中率","三分命中率","罚球命中率","GmSc效率","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
+	String[] header1 = {"姓名","球队","参赛","先发","在场时间","得分","篮板","助攻","两双","进攻","防守","抢断","盖帽","失误","犯规","效率"};
+	String[] header2 = {"姓名","球队","投篮命中率","三分命中率","罚球命中率","GmSc效率","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
 
 	JCheckBox all;  //总数
 	JCheckBox avg;  //场均
@@ -211,7 +211,6 @@ public class PlayerStatsPanelNew extends BgPanel{
 		for(int i=0;i<po.length;i++){
 			Vector<Object> v = new Vector<Object>();
 			//			"序号","姓名","球队","参赛","先发","在场时间","得分","篮板","助攻","两双","进攻","防守","抢断","盖帽","失误","犯规","效率"
-			v.addElement(i+1);
 			v.addElement(po[i].getName());
 			v.addElement(TableUtility.getShortChTeam(po[i].getTeamName()));
 			//			v.addElement(po[i].getTeamName());
@@ -247,7 +246,6 @@ public class PlayerStatsPanelNew extends BgPanel{
 		for(int i=0;i<po.length;i++){
 			Vector<Object> v = new Vector<Object>();
 			//			"序号","姓名","球队","参赛","先发","在场时间","得分","篮板","助攻","两双","进攻","防守","抢断","盖帽","失误","犯规","效率"
-			v.addElement(i+1);
 			v.addElement(po[i].getName());
 			v.addElement(TableUtility.getShortChTeam(po[i].getTeamName()));
 			v.addElement(po[i].getGP());
@@ -283,7 +281,6 @@ public class PlayerStatsPanelNew extends BgPanel{
 			//			"序号","姓名","球队","投篮命中率","三分命中率","罚球命中率",
 			//			"GmSc效率","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率",
 			//			"助攻率","抢断率","盖帽率","失误率","使用率"
-			v.addElement(i+1);
 			v.addElement(po[i].getName());
 			v.addElement(TableUtility.getShortChTeam(po[i].getTeamName()));
 			v.addElement(po[i].getFieldGoalPercentage());
