@@ -125,6 +125,12 @@ public class GetFileData {
 			res.setDate(res.getSeason()+"_"+temp[0]);
 			res.setFirstteam(temp[1].split("-")[0]);
 			res.setSecondteam(temp[1].split("-")[1]);
+			if(res.getFirstteam().equals("NOH")){
+				res.setFirstteam("NOP");
+			}
+			if(res.getSecondteam().equals("NOH")){
+				res.setSecondteam("NOP");
+			}
 			res.setPoints(temp[2]);
 			if(res.getPoints().equals("0-0")){
 				return res;
