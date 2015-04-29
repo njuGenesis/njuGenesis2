@@ -3,6 +3,7 @@ package presentation.contenui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -82,7 +83,7 @@ public class TeamDetials extends BgPanel{
 		tdMenu[4] = new SelectLabel("对比", new Point(26+(188+2)*4, 83), new Point(188, 35), this, true, 0, 18);
 		
 		tdMenu[0].setSelected(true);
-		Info info = new Info(TeamDetials.this.po);
+		TeamInfo info = new TeamInfo(TeamDetials.this.po);
 		sonPanel = info;
 		TeamDetials.this.add(sonPanel);
 		
@@ -92,7 +93,7 @@ public class TeamDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[0].setSelected(true);
-				Info info = new Info(TeamDetials.this.po);
+				TeamInfo info = new TeamInfo(TeamDetials.this.po);
 				TeamDetials.this.remove(sonPanel);
 				sonPanel = info;
 				TeamDetials.this.add(sonPanel);
@@ -105,7 +106,7 @@ public class TeamDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[1].setSelected(true);
-				Player player = new Player(TeamDetials.this.po);
+				TeamPlayer player = new TeamPlayer(TeamDetials.this.po);
 				TeamDetials.this.remove(sonPanel);
 				sonPanel = player;
 				TeamDetials.this.add(sonPanel);
@@ -119,7 +120,7 @@ public class TeamDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[2].setSelected(true);
-				Match match = new Match(TeamDetials.this.po);
+				TeamMatch match = new TeamMatch(TeamDetials.this.po);
 				TeamDetials.this.remove(sonPanel);
 				sonPanel = match;
 				TeamDetials.this.add(sonPanel);
@@ -133,7 +134,7 @@ public class TeamDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[3].setSelected(true);
-				Data data = new Data(TeamDetials.this.po);
+				TeamData data = new TeamData(TeamDetials.this.po);
 				TeamDetials.this.remove(sonPanel);
 				sonPanel = data;
 				TeamDetials.this.add(sonPanel);
@@ -153,15 +154,16 @@ public class TeamDetials extends BgPanel{
 	}
 }
  
-class Info extends BgPanel{
+class TeamInfo extends BgPanel{
 
 	private static final long serialVersionUID = 1L;
 	private static String file = "img/teamDetials/info.png";
 	
 	private TeamImageAssist assist;
-	private GLabel teamPic, name, shortName, city, time, position, place;
+	private GLabel teamPic, name, shortName, city, time, position;
+	private JTextArea place;
 	
-	public Info(TeamDataPO po){
+	public TeamInfo(TeamDataPO po){
 		super(file);
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
@@ -173,14 +175,22 @@ class Info extends BgPanel{
 		name = new GLabel(po.getName(), new Point(103, 40), new Point(180, 25), this, true, 0, 20);
 		shortName = new GLabel(po.getShortName(), new Point(103, 75), new Point(180, 25), this, true, 0, 20);
 		city = new GLabel(po.getCity(), new Point(733, 144), new Point(180, 25), this, true, 0, 20);
-		time = new GLabel(String.valueOf(po.getBuildyear()), new Point(762, 210), new Point(180, 25), this, true, 0, 20);
+		time = new GLabel(String.valueOf(po.getBuildyear()), new Point(762, 179), new Point(180, 25), this, true, 0, 20);
 		position = new GLabel(po.getEorW()+"-"+po.getArea(), new Point(246, 467), new Point(180, 25), this, true, 0, 20);
-		place = new GLabel(po.getMainposition(), new Point(733, 180), new Point(215, 25), this, true, 0, 15);
+		place = new JTextArea();
+		place.setEditable(false);
+		place.setLineWrap(true);
+		place.setWrapStyleWord(true);
+		place.setBounds(733, 211, 200, 50);
+		place.setText(po.getMainposition());
+		place.setFont(new Font("微软雅黑", 0, 20));
+		place.setOpaque(false);
+		this.add(place);
 	}
 	
 }
 
-class Player extends BgPanel{
+class TeamPlayer extends BgPanel{
 
 	private static final long serialVersionUID = 1L;
 	private static String file = "";
@@ -189,7 +199,7 @@ class Player extends BgPanel{
 	private StyleTable tableBasic, tableDetials;
 	private JScrollPane scrollPane1, scrollPane2;
 	
-	public Player(TeamDataPO po) {
+	public TeamPlayer(TeamDataPO po) {
 		super(file);
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
@@ -398,14 +408,14 @@ class Player extends BgPanel{
 	}
 }
 
-class Match extends BgPanel{
+class TeamMatch extends BgPanel{
 
 	private static final long serialVersionUID = 1L;
 	private static String file = "";
 	private MatchLogic matchLogic;
 	private DateLabel dateLabel1, dateLabel2;
 	
-	public Match(TeamDataPO po) {
+	public TeamMatch(TeamDataPO po) {
 		super(file);
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
@@ -576,7 +586,7 @@ class Match extends BgPanel{
 	}
 }
 
-class Data extends BgPanel{
+class TeamData extends BgPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private static String file = "img/teamDetials/data.png";
@@ -585,7 +595,7 @@ class Data extends BgPanel{
 	private TeamImageAssist assist;
 	private JCheckBox checkBox1, checkBox2, checkBox3;
 	
-	public Data(TeamDataPO po){
+	public TeamData(TeamDataPO po){
 		super(file);
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);

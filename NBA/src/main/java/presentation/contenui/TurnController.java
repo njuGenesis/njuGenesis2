@@ -31,8 +31,8 @@ public class TurnController {
 		return newPanel;
 	}
 	
-	public BgPanel turnToPlayerDetials(PlayerDataPO po){
-		BgPanel newPanel = new PlayerDetials(po);
+	public BgPanel turnToPlayerDetials(PlayerDataPO[] pos){
+		BgPanel newPanel = new PlayerDetials(pos);
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
 		return newPanel;

@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
 import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -78,16 +79,19 @@ public class StyleTable extends JTable {
 		this.setRowHeight(30);//设置行宽
 		this.setSelectionBackground(UIUtil.nbaBlue); //设置选中的颜色
 		this.setSelectionForeground(UIUtil.bgWhite);
-		this.setBorder(null);
+		//this.setBorder(null);
 		this.setShowHorizontalLines(false);//取消单元格之间的线
 		this.setShowVerticalLines(false);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//选择单个行
 		this.setOpaque(false);
+		this.setShowGrid(false);
+		Color color = this.getGridColor();
+		this.setBorder(new MatteBorder(0, 1, 0, 0, color));
 		
 		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
 		TableColumnModel cmodel = this.getColumnModel();  
 		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
-			//cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
+			cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
 		} 
 	}
 	
@@ -164,7 +168,7 @@ public class StyleTable extends JTable {
 			column.setWidth(width+myTable.getIntercellSpacing().width);
 		}
 	}
-
+	
 	/**
 	 * 定义内部类，用于控制单元格颜色，每两行颜色相间，本类中定义为蓝色和绿色。
 	 *
