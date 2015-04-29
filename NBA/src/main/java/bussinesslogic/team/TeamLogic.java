@@ -591,9 +591,9 @@ public class TeamLogic implements TeamInfoService {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
+		//teams = team.GetAllInfo();
+		team.initTeamData();
 		teams = team.GetAllInfo();
-		//team.initTeamData();
-
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
 		}

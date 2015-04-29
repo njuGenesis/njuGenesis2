@@ -35,11 +35,11 @@ public class FileListener {
 		            		//System.out.println(event.context().toString()+event.kind());
 		            		System.out.println("start "+MatchLogic.getTime());
 		            		//p.initialize("./迭代一数据/players/info",ptemp);
-		            		Thread.sleep(200);
+		            		//Thread.sleep(200);
 		            		p.updatePlayer(event.context().toString(), ptemp);
 		            		System.out.println("play  "+MatchLogic.getTime());
-		            		//m.update(temp);
-		            		System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
+		            		m.update(temp);
+		            		//System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
 		            		System.out.println("end   "+MatchLogic.getTime());
 		            		
 		            		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
