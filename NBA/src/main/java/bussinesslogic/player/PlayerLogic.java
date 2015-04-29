@@ -1770,8 +1770,554 @@ public class PlayerLogic implements PlayerInfoService{
 		res = res.substring(0,5);
 		return res;
     }
-	
-	
+	public void updatePlayer(String filename,String season){
+		PlayerList.clear();
+		
+		int firstb = 0;//鐞冮槦鎬荤鏉�
+		double firsttotaltime = 0;//鐞冮槦涓婂満鎬绘椂闂�
+		int firstGoal = 0;//鐞冮槦杩涚悆娆℃暟
+		int firstFT = 0;//鐞冮槦缃氱悆娆℃暟
+		int firstOffb = 0;//鐞冮槦鎬昏繘鏀荤鏉�
+		int firstTo = 0;//鐞冮槦鎬诲け璇�
+		int secondb = 0;//鐞冮槦鎬荤鏉�
+		double secondtotaltime = 0;//鐞冮槦涓婂満鎬绘椂闂�
+		int secondGoal = 0;//鐞冮槦杩涚悆娆℃暟
+		int secondFT = 0;//鐞冮槦缃氱悆娆℃暟
+		int secondOffb = 0;//鐞冮槦鎬昏繘鏀荤鏉�
+		int secondTo = 0;//鐞冮槦鎬诲け璇�
+		
+		String mathchPath = "./迭代一数据/matches/"+filename;
+		MatchDataPO tempmatch = g.readMatchfile(mathchPath);
+		for(int i = 1;i<tempmatch.firstTeamInfo.size();i++){
+			String playername =tempmatch.firstTeamInfo.get(i).split(";")[0];
+			
+				//把原来的数据加载进来
+				PlayerDataPO res = getInfo(playername,season);
+			if(res==null){
+				//System.out.println("初始化"+playername);
+			//如果原来不存在这个数据就初始化
+			String filePath = "./迭代一数据/players/info/" + playername;
+			
+			try{
+				String basicInfo = g.readPlayerfile(filePath);
+				String[] tempbasic = basicInfo.split("\n");
+				PlayerDataPO temp = new PlayerDataPO();
+			
+				if(tempbasic[0].endsWith("Jr.")){
+				
+					temp.setName(tempbasic[0].replaceAll("\\.", ""));	
+				}
+				else{
+					temp.setName(tempbasic[0]);
+				}
+				temp.setNumber(tempbasic[1]);
+				temp.setPosition(tempbasic[2]);
+				temp.setHeight(tempbasic[3]);
+				temp.setWeight(Double.valueOf(tempbasic[4]));
+				temp.setBirth(tempbasic[5]);
+				temp.setAge(Integer.valueOf(tempbasic[6]));
+				if(tempbasic[7].equals("R")){
+					temp.setExp(0);
+				}
+				else{
+					temp.setExp(Integer.valueOf(tempbasic[7]));
+				}
+			
+				temp.setSchool(tempbasic[8]);
+				temp.setTeamName("null");
+			//System.out.println(AllInfo.getName());
+				temp.setSeason(season);
+				
+				PlayerList.add(temp);
+				}catch(Exception e2){
+				
+			}
+			}
+			else{
+				PlayerList.add(res);
+			}
+		}
+		for(int i = 1;i<tempmatch.secondTeamInfo.size();i++){
+			String playername =tempmatch.secondTeamInfo.get(i).split(";")[0];
+			
+				//把原来的数据加载进来
+				PlayerDataPO res = getInfo(playername,season);
+			if(res==null){
+				
+			//如果原来不存在这个数据就初始化
+			String filePath = "./迭代一数据/players/info/" + playername;
+			
+			try{
+				String basicInfo = g.readPlayerfile(filePath);
+				String[] tempbasic = basicInfo.split("\n");
+				PlayerDataPO temp = new PlayerDataPO();
+			
+				if(tempbasic[0].endsWith("Jr.")){
+				
+					temp.setName(tempbasic[0].replaceAll("\\.", ""));	
+				}
+				else{
+					temp.setName(tempbasic[0]);
+				}
+				temp.setNumber(tempbasic[1]);
+				temp.setPosition(tempbasic[2]);
+				temp.setHeight(tempbasic[3]);
+				temp.setWeight(Double.valueOf(tempbasic[4]));
+				temp.setBirth(tempbasic[5]);
+				temp.setAge(Integer.valueOf(tempbasic[6]));
+				if(tempbasic[7].equals("R")){
+					temp.setExp(0);
+				}
+				else{
+					temp.setExp(Integer.valueOf(tempbasic[7]));
+				}
+			
+				temp.setSchool(tempbasic[8]);
+				temp.setTeamName("null");
+			//System.out.println(AllInfo.getName());
+				temp.setSeason(season);
+				PlayerList.add(temp);
+				}catch(Exception e2){
+				
+			}
+			}
+			else {
+				PlayerList.add(res);
+			}
+		}
+		
+		
+		//预先计算
+		try{
+			for(int i = 1;i<tempmatch.firstTeamInfo.size();i++){//鏁翠釜鐞冮槦鐨勬暟鎹�
+				int fminute = 0;
+				int fseconds = 0;
+				String[] temp =tempmatch.firstTeamInfo.get(i).split(";");
+				firstb = firstb + Integer.valueOf(temp[11]);
+				
+				try{
+				String[] ftime = temp[2].split(":");
+				if(temp[2].equals(null)){
+					
+				}
+				else{
+				fminute = Integer.valueOf(ftime[0]);//time
+				fseconds = Integer.valueOf(ftime[1]);
+				}
+				firsttotaltime = firsttotaltime + fminute*60+fseconds;
+				}
+				catch(Exception e){
+					
+				}
+				
+				firstGoal = firstGoal + Integer.valueOf(temp[3]);
+				firstFT = firstFT + Integer.valueOf(temp[8]);
+				firstOffb = firstOffb + Integer.valueOf(temp[9]);
+				firstTo = firstTo + Integer.valueOf(temp[15]);
+			}
+			
+			for(int i = 1;i<tempmatch.secondTeamInfo.size();i++){//鏁翠釜鐞冮槦鐨勬暟鎹�
+				int fminute = 0;
+				int fseconds = 0;
+				
+				String[] temp = tempmatch.secondTeamInfo.get(i).split(";");
+				secondb = secondb + Integer.valueOf(temp[11]);
+				
+				try{
+				String[] ftime = temp[2].split(":");
+				if(temp[2].equals(null)){
+					
+				}
+				else{
+				 fminute = Integer.valueOf(ftime[0]);//time
+				fseconds = Integer.valueOf(ftime[1]);
+				}
+				secondtotaltime = secondtotaltime + fminute*60+fseconds;
+			
+				}
+				catch(Exception e){
+					
+				}
+				
+				secondGoal = secondGoal + Integer.valueOf(temp[3]);
+				secondFT = secondFT + Integer.valueOf(temp[8]);
+				secondOffb = secondOffb + Integer.valueOf(temp[9]);
+				secondTo = secondTo + Integer.valueOf(temp[15]);
+			}
+			for(int i = 1;i<tempmatch.firstTeamInfo.size();i++){				
+				
+				String[] temp = tempmatch.firstTeamInfo.get(i).split(";");
+				
+				for(int k = 0;k<PlayerList.size();k++){
+					
+				if(temp[0].equals(PlayerList.get(k).getName())){
+					
+					PlayerList.get(k).setTeamName(tempmatch.firstTeamInfo.get(0));
+					
+					PlayerList.get(k).setTotalb(PlayerList.get(k).getTotalb() + firstb); 
+					PlayerList.get(k).setTotalbother(PlayerList.get(k).getTotalbother()+ secondb);
+					PlayerList.get(k).setTotalminute(PlayerList.get(k).getTotalminute()+firsttotaltime);
+					PlayerList.get(k).setTotalGoal(PlayerList.get(k).getTotalGoal()+firstGoal);
+					PlayerList.get(k).setOtherTotalFieldGoal(PlayerList.get(k).getOtherTotalFieldGoal()+ secondGoal);
+					PlayerList.get(k).setAllFT(PlayerList.get(k).getAllFT()+firstFT);
+					PlayerList.get(k).setTotalOffb(PlayerList.get(k).getTotalOffb()+secondOffb);
+					PlayerList.get(k).setAllTo(PlayerList.get(k).getAllTo()+firstTo);
+					
+					PlayerList.get(k).setGP(PlayerList.get(k).getGP()+1);
+					//System.out.println(file.getAbsolutePath());
+					if(!temp[1].equals("")){
+						PlayerList.get(k).setGS(PlayerList.get(k).getGS()+1);
+					}
+					
+					try{
+					String[] time = temp[2].split(":");
+					int minute = 0;
+					int seconds = 0;
+					if(temp[2].equals(null)){
+						
+					}
+					else{
+					minute = Integer.valueOf(time[0]);//time
+					seconds = Integer.valueOf(time[1]);
+					}
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					}catch(Exception e){
+						
+					}
+					
+					PlayerList.get(k).setFieldGoal(PlayerList.get(k).getFieldGoal()+Integer.valueOf(temp[3]));
+					PlayerList.get(k).setTotalFieldGoal(PlayerList.get(k).getTotalFieldGoal() + Integer.valueOf(temp[4]));
+					
+					PlayerList.get(k).setThreeGoal(PlayerList.get(k).getThreeGoal()+ Integer.valueOf(temp[5]));
+					PlayerList.get(k).setTotalThreeGoal(PlayerList.get(k).getTotalThreeGoal() + Integer.valueOf(temp[6]));
+					
+					PlayerList.get(k).setFT(PlayerList.get(k).getFT() + Integer.valueOf(temp[7]));
+					PlayerList.get(k).setTotalFT(PlayerList.get(k).getTotalFT() + Integer.valueOf(temp[8]));
+					
+					PlayerList.get(k).setOffb(PlayerList.get(k).getOffb() + Integer.valueOf(temp[9]));
+					
+					PlayerList.get(k).setDefb(PlayerList.get(k).getDefb() + Integer.valueOf(temp[10]));
+					
+					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
+					
+//					if(PlayerList.get(k).getGP()<=5){
+//						PlayerList.get(k).setRecentBackboard(PlayerList.get(k).getRecentBackboard()+Integer.valueOf(temp[11]));
+//						PlayerList.get(k).setRecentAssist(PlayerList.get(k).getRecentAssist()+Integer.valueOf(temp[12]));
+//						PlayerList.get(k).setRecentPTS(PlayerList.get(k).getRecentPTS()+Integer.valueOf(temp[17]));
+//					}
+//					else{
+//						
+//					}
+					PlayerList.get(k).addBackboard(Integer.valueOf(temp[11]));
+					
+					PlayerList.get(k).addAssist(Integer.valueOf(temp[12]));
+					
+					
+					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
+					
+					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
+					
+					PlayerList.get(k).setSteal(PlayerList.get(k).getSteal() + Integer.valueOf(temp[13]));
+					
+					PlayerList.get(k).setTo (PlayerList.get(k).getTo() + Integer.valueOf(temp[15]));
+					
+					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
+					try{
+						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
+						PlayerList.get(k).addPTS(Integer.valueOf(temp[17]));
+					}
+					catch(Exception e){
+						temp[17] = "0";
+					}
+					int tempd = 0;
+					if(Integer.valueOf(temp[17])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[11])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[12])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[13])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[14])>=10){
+						tempd++;
+					}
+					if(tempd>=2){
+						PlayerList.get(k).setDouble(PlayerList.get(k).getDouble()+1);
+					}
+					
+					break;
+				}
+				}
+			}
+
+			for(int i = 1;i<tempmatch.secondTeamInfo.size();i++){				
+				
+				String[] temp = tempmatch.secondTeamInfo.get(i).split(";");
+				
+				for(int k = 0;k<PlayerList.size();k++){
+				if(temp[0].equals(PlayerList.get(k).getName())){
+					PlayerList.get(k).setTeamName(tempmatch.secondTeamInfo.get(0));
+					
+					PlayerList.get(k).setTotalb(PlayerList.get(k).getTotalb() + secondb); 
+					PlayerList.get(k).setTotalbother(PlayerList.get(k).getTotalbother()+ firstb);
+					PlayerList.get(k).setTotalminute(PlayerList.get(k).getTotalminute()+secondtotaltime);
+					PlayerList.get(k).setTotalGoal(PlayerList.get(k).getTotalGoal()+secondGoal);
+					PlayerList.get(k).setOtherTotalFieldGoal(PlayerList.get(k).getOtherTotalFieldGoal()+ firstGoal);
+					PlayerList.get(k).setAllFT(PlayerList.get(k).getAllFT()+secondFT);
+					PlayerList.get(k).setTotalOffb(PlayerList.get(k).getTotalOffb()+firstOffb);
+					PlayerList.get(k).setAllTo(PlayerList.get(k).getAllTo()+secondTo);
+					
+					PlayerList.get(k).setGP(PlayerList.get(k).getGP()+1);
+					//System.out.println(file.getAbsolutePath());
+					if(!temp[1].equals("")){
+						PlayerList.get(k).setGS(PlayerList.get(k).getGS()+1);
+					}
+					
+					try{
+					String[] time = temp[2].split(":");
+					int minute = 0;
+					int seconds = 0;
+					if(temp[2].equals(null)){
+						
+					}
+					else{
+					minute = Integer.valueOf(time[0]);//time
+					seconds = Integer.valueOf(time[1]);
+					}
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					}catch(Exception e){
+						
+					}
+					
+					PlayerList.get(k).setFieldGoal(PlayerList.get(k).getFieldGoal()+Integer.valueOf(temp[3]));
+					PlayerList.get(k).setTotalFieldGoal(PlayerList.get(k).getTotalFieldGoal() + Integer.valueOf(temp[4]));
+					
+					PlayerList.get(k).setThreeGoal(PlayerList.get(k).getThreeGoal()+ Integer.valueOf(temp[5]));
+					PlayerList.get(k).setTotalThreeGoal(PlayerList.get(k).getTotalThreeGoal() + Integer.valueOf(temp[6]));
+					
+					PlayerList.get(k).setFT(PlayerList.get(k).getFT() + Integer.valueOf(temp[7]));
+					PlayerList.get(k).setTotalFT(PlayerList.get(k).getTotalFT() + Integer.valueOf(temp[8]));
+					
+					PlayerList.get(k).setOffb(PlayerList.get(k).getOffb() + Integer.valueOf(temp[9]));
+					
+					PlayerList.get(k).setDefb(PlayerList.get(k).getDefb() + Integer.valueOf(temp[10]));
+					
+					PlayerList.get(k).setBackboard(PlayerList.get(k).getBackboard() + Integer.valueOf(temp[11]));
+					
+					PlayerList.get(k).addBackboard(Integer.valueOf(temp[11]));
+					
+					PlayerList.get(k).addAssist(Integer.valueOf(temp[12]));
+					
+					PlayerList.get(k).setAssist(PlayerList.get(k).getAssist() + Integer.valueOf(temp[12]));
+					
+					PlayerList.get(k).setRejection (PlayerList.get(k).getRejection() + Integer.valueOf(temp[14]));
+					
+					PlayerList.get(k).setSteal(PlayerList.get(k).getSteal() + Integer.valueOf(temp[13]));
+					
+					PlayerList.get(k).setTo (PlayerList.get(k).getTo() + Integer.valueOf(temp[15]));
+					
+					PlayerList.get(k).setFoul(PlayerList.get(k).getFoul() + Integer.valueOf(temp[16]));
+					try{
+						PlayerList.get(k).setPTS (PlayerList.get(k).getPTS() + Integer.valueOf(temp[17]));
+						PlayerList.get(k).addPTS(Integer.valueOf(temp[17]));
+					}
+					catch(Exception e){
+					   temp[17] = "0";
+					}
+					int tempd = 0;
+					if(Integer.valueOf(temp[17])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[11])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[12])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[13])>=10){
+						tempd++;
+					}
+					if(Integer.valueOf(temp[14])>=10){
+						tempd++;
+					}
+					if(tempd>=2){
+						PlayerList.get(k).setDouble(PlayerList.get(k).getDouble()+1);
+					}
+					
+					break;
+						}
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		//计算高阶数据
+		for(int i = 0;i<PlayerList.size();i++){
+			int backboard = PlayerList.get(i).getBackboard();
+			int GP =  PlayerList.get(i).getGP();
+			int assist =  PlayerList.get(i).getAssist();
+			double MinutesOnField =  PlayerList.get(i).getMinutesOnField();
+			int FieldGoal =  PlayerList.get(i).getFieldGoal();
+			int TotalFieldGoal =  PlayerList.get(i).getTotalFieldGoal();
+			int TotalThreeGoal =  PlayerList.get(i).getTotalThreeGoal();
+			int ThreeGoal =  PlayerList.get(i).getThreeGoal();
+			int Offb =  PlayerList.get(i).getOffb();
+			int Defb =  PlayerList.get(i).getDefb();
+			int Steal =  PlayerList.get(i).getSteal();
+			int Rejection =  PlayerList.get(i).getRejection();
+			int To =  PlayerList.get(i).getTo();
+			int foul =  PlayerList.get(i).getFoul();
+			int PTS =  PlayerList.get(i).getPTS();
+			int TotalFT =  PlayerList.get(i).getTotalFT();
+			int FT =  PlayerList.get(i).getFT();
+			double totalminute =  PlayerList.get(i).getTotalminute();
+			int totalb =  PlayerList.get(i).getTotalb();
+			int totalbother =  PlayerList.get(i).getTotalbother();
+			int TotalGoal =  PlayerList.get(i).getTotalGoal();
+			int TotalOffb =  PlayerList.get(i).getTotalOffb();
+			int OtherTotalFieldGoal =  PlayerList.get(i).getOtherTotalFieldGoal();
+			int AllFT  =  PlayerList.get(i).getAllFT();
+			int AllTo =  PlayerList.get(i).getAllTo();
+			
+		if(PlayerList.get(i).getGP()!=0){
+			PlayerList.get(i).setBPG(backboard/(double)GP);
+			PlayerList.get(i).setAPG(assist/(double)GP);
+			PlayerList.get(i).setMPG( MinutesOnField/(double)GP);
+			if(TotalFieldGoal!=0){
+			PlayerList.get(i).setFieldGoalPercentage(FieldGoal/(double)TotalFieldGoal);
+			}
+			else{
+				PlayerList.get(i).setFieldGoalPercentage(0);
+			}
+			if(TotalThreeGoal!=0){
+				PlayerList.get(i).setThreePGPercentage(ThreeGoal/(double)TotalThreeGoal);
+			}
+			else{
+				PlayerList.get(i).setThreePGPercentage(0);
+			}
+			if(TotalFT!=0){
+				PlayerList.get(i).setFTPercentage(FT/(double)TotalFT);
+			}
+			else{
+				PlayerList.get(i).setFTPercentage(0);
+			}
+			PlayerList.get(i).setOff(Offb);//杩涙敾鏁�
+			PlayerList.get(i).setOffPG( PlayerList.get(i).getOff()/(double)GP);
+			PlayerList.get(i).setDef(Defb);//闃插畧鏁�
+			PlayerList.get(i).setDefPG( PlayerList.get(i).getDef()/(double)GP);
+			PlayerList.get(i).setStealPG(Steal/(double)GP);
+			PlayerList.get(i).setRPG(Rejection/(double)GP);
+			PlayerList.get(i).setToPG(To/(double)GP);
+			PlayerList.get(i).setFoulPG(foul/(double)GP);
+			PlayerList.get(i).setPPG(PTS/(double)GP);
+			PlayerList.get(i).setEff( (PTS+backboard+assist+Steal+Rejection)-(TotalFieldGoal-FieldGoal)-(TotalFT-FT)-To); 
+			 PlayerList.get(i).setGmsc ( PTS+0.4*FieldGoal-0.7*TotalFieldGoal-0.4*(TotalFT-FT)+0.7*Offb+0.3*Defb+Steal+0.7*assist+0.7*Rejection
+				-0.4*foul-To); 
+			 
+			 if((2*(TotalFieldGoal+0.44*TotalFT))!=0){
+			PlayerList.get(i).setTruePercentage(PTS/(double)(2*(TotalFieldGoal+0.44*TotalFT)));
+			 }
+			 else{
+				 PlayerList.get(i).setTruePercentage(0);
+			 }
+			 
+			 if(TotalFieldGoal!=0){
+			PlayerList.get(i).setShootEff((FieldGoal+0.5*ThreeGoal)/(double)TotalFieldGoal);//鎶曠鏁堢巼锛�	
+			 }
+			 else{
+				 PlayerList.get(i).setShootEff(0);
+			 }
+			 
+			PlayerList.get(i).setBackboardEff ( backboard*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother)) ;//绡澘鐜囷紝		
+			PlayerList.get(i).setOffBEff(Offb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//杩涙敾绡澘鐜囷紝		
+			PlayerList.get(i).setDefBEff(Defb*((double)totalminute/5)/(double)MinutesOnField/(totalb+totalbother) );//闃插畧绡澘鐜囷紝		
+			PlayerList.get(i).setAssitEff (assist/((double)MinutesOnField/((double)totalminute/5)*TotalGoal-TotalFieldGoal)) ;//鍔╂敾鐜囷紝		
+			PlayerList.get(i).setStealEff( Steal*((double)totalminute/5)/(double)MinutesOnField/TotalOffb);//鎶㈡柇鐜囷紝		
+			PlayerList.get(i).setRejectionEff ( Rejection*((double)totalminute/5)/(double)MinutesOnField/OtherTotalFieldGoal);//鐩栧附鐜囷紝		
+			
+			if(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To!=0){
+			PlayerList.get(i).setToEff ( To/(double)(TotalFieldGoal-TotalThreeGoal+0.44*TotalFT+To) );
+			}
+			else{
+				PlayerList.get(i).setToEff (0);//澶辫鐜囷紝		
+			}
+			PlayerList.get(i).setUseEff((TotalFieldGoal+0.44*TotalFT+To)*(totalminute/5)/(double)MinutesOnField/(TotalGoal+0.44*AllFT
+						+AllTo) );//浣跨敤鐜�
+		}
+		else{
+			PlayerList.get(i).setBPG(0);
+			PlayerList.get(i).setAPG(0);
+			PlayerList.get(i).setMPG (0);
+			PlayerList.get(i).setFieldGoalPercentage(0);
+			PlayerList.get(i).setThreePGPercentage (0);
+			PlayerList.get(i).setFTPercentage (0);
+			PlayerList.get(i).setOff (0);//杩涙敾鏁�
+			PlayerList.get(i).setOffPG (0);
+			PlayerList.get(i).setDef (0);//闃插畧鏁�
+			PlayerList.get(i).setDefPG (0);
+			PlayerList.get(i).setStealPG(0);
+			PlayerList.get(i).setRPG (0);
+			PlayerList.get(i).setToPG (0);
+			PlayerList.get(i).setFoulPG (0);
+			PlayerList.get(i).setPPG (0);
+			PlayerList.get(i).setEff (0);
+			PlayerList.get(i).setGmsc(0);
+			PlayerList.get(i).setTruePercentage(0);
+			PlayerList.get(i).setShootEff (0);//鎶曠鏁堢巼锛�	
+			PlayerList.get(i).setBackboardEff (0);//绡澘鐜囷紝		
+			PlayerList.get(i).setOffBEff (0);//杩涙敾绡澘鐜囷紝		
+			PlayerList.get(i).setDefBEff (0);//闃插畧绡澘鐜囷紝		
+			PlayerList.get(i).setAssitEff (0);//鍔╂敾鐜囷紝		
+			PlayerList.get(i).setStealEff (0);//鎶㈡柇鐜囷紝		
+			PlayerList.get(i).setRejectionEff (0);//鐩栧附鐜囷紝		
+			PlayerList.get(i).setToEff (0);//澶辫鐜囷紝		
+			PlayerList.get(i).setUseEff (0);
+		}
+		if(PlayerList.get(i).getGP()>5){
+			ArrayList<Integer> tempb = PlayerList.get(i).getRecentBackboard();
+			ArrayList<Integer> tempa = PlayerList.get(i).getRecentAssist();
+			ArrayList<Integer> tempp = PlayerList.get(i).getRecentPTS();
+			int recentb = 0;
+			int recenta = 0;
+			int recentp = 0;
+			for(int j = tempb.size()-5;j<tempb.size();j++){
+				recentb = recentb + tempb.get(j);
+			}
+			for(int j = tempa.size()-5;j<tempa.size();j++){
+				recenta = recenta + tempa.get(j);
+			}
+			for(int j = tempp.size()-5;j<tempp.size();j++){
+				recentp = recentp + tempp.get(j);
+			}
+			double avgb = recentb/(double)5;
+			double avga = recenta/(double)5;
+			double avgp = recentp/(double)5;
+			double avgB = (backboard-recentb)/(double)(GP-5);
+			double avgA = (assist - recenta)/(double)(GP-5);
+			double avgP = (PTS - recentp)/(double)(GP-5);
+			PlayerList.get(i).setRecentAvgA(avga);
+			PlayerList.get(i).setRecentAvgB(avgb);
+			PlayerList.get(i).setRecentAvgP(avgp);
+			if(avgB!=0){
+			PlayerList.get(i).setBProgressPecnetage((avgb-avgB)/avgB);
+			}
+			if(avgA!=0){
+			PlayerList.get(i).setAProgressPecentage((avga-avgA)/avgA);
+			}
+			if(avgP!=0){
+			PlayerList.get(i).setPProgressPecentage((avgp-avgP)/avgP);
+			}
+			}
+		}
+		for(int i = 0;i<PlayerList.size();i++){	
+			//System.out.println(PlayerList.get(i).getName());
+		pio.WriteIn(PlayerList.get(i),season);
+		}
+	}
 	//自动测试需要的方法
 	public PlayerDataPO[] sort(final String orderName,boolean isASC,PlayerDataPO[] orgin,final boolean isAVG) {
 		// TODO Auto-generated method stub

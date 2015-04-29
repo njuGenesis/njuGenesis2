@@ -27,14 +27,19 @@ public class FileListener {
 		            for(WatchEvent<?> event:key.pollEvents())  
 		            {  
 		            	
-		            	if(event.kind().toString().equals("ENTRY_CREATE")){
+		            	if(event.kind().toString().equals("ENTRY_MODIFY")){
 		            		System.out.println(i);
 		            		i++;
 		            		String temp = "./迭代一数据/matches/"+event.context().toString();
+		            		String ptemp = event.context().toString().substring(0,5);
+		            		//System.out.println(event.context().toString()+event.kind());
 		            		System.out.println("start "+MatchLogic.getTime());
-		            		p.initialize("./迭代一数据/players/info", "12-13");
+		            		//p.initialize("./迭代一数据/players/info",ptemp);
+		            		Thread.sleep(200);
+		            		p.updatePlayer(event.context().toString(), ptemp);
 		            		System.out.println("play  "+MatchLogic.getTime());
-		            		m.update(temp);
+		            		//m.update(temp);
+		            		System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
 		            		System.out.println("end   "+MatchLogic.getTime());
 		            		
 		            		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");

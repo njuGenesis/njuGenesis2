@@ -47,7 +47,7 @@ public class GetFileData {
 			br.close();
 			// System.out.println(res);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("448个球员中不存在"+filename);
 		}
 		return res;
 	}
