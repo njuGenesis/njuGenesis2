@@ -1,4 +1,4 @@
-package presentation.contenui;
+package presentation.player;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -15,23 +15,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Vector;
-
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-
 import bussinesslogic.player.PlayerLogic;
 import bussinesslogic.team.TeamLogic;
 import data.po.PlayerDataPO;
@@ -40,6 +30,9 @@ import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
+import presentation.contenui.TableUtility;
+import presentation.contenui.TurnController;
+import presentation.contenui.UIUtil;
 import presentation.hotspot.SelectLabel;
 import presentation.mainui.StartUI;
 
@@ -216,33 +209,22 @@ public class PlayerUI extends BgPanel{
 		table.setBounds(40, 200, 920, 480);
 		table.getTableHeader().setPreferredSize(new Dimension(920, 30));//设置表头大小
 
+		DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer(){
+			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				if (row % 2 == 0)
+					setBackground(new Color(235, 236, 231));
+				else
+					setBackground(new Color(251, 251, 251));
+
+				setForeground(UIUtil.nbaBlue);
+				return super.getTableCellRendererComponent(t, value, isSelected,
+						hasFocus, row, column);
+			}
+		};
 		//设置列显示蓝色字
-		table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer(){
-			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
-					boolean isSelected, boolean hasFocus, int row, int column) {
-				if (row % 2 == 0)
-					setBackground(new Color(235, 236, 231));
-				else
-					setBackground(new Color(251, 251, 251));
-
-				setForeground(UIUtil.nbaBlue);
-				return super.getTableCellRendererComponent(t, value, isSelected,
-						hasFocus, row, column);
-			}
-		});
-		table.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer(){
-			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
-					boolean isSelected, boolean hasFocus, int row, int column) {
-				if (row % 2 == 0)
-					setBackground(new Color(235, 236, 231));
-				else
-					setBackground(new Color(251, 251, 251));
-
-				setForeground(UIUtil.nbaBlue);
-				return super.getTableCellRendererComponent(t, value, isSelected,
-						hasFocus, row, column);
-			}
-		});
+		table.getColumnModel().getColumn(0).setCellRenderer(defaultTableCellRenderer);
+		table.getColumnModel().getColumn(1).setCellRenderer(defaultTableCellRenderer);
 		
 		//设置列手形监听
 		table.addMouseMotionListener(new MouseMotionListener() {
@@ -269,6 +251,10 @@ public class PlayerUI extends BgPanel{
 					String playerName = table.getValueAt(row, column).toString();
 					StartUI.startUI.turn(turnController.turnToPlayerDetials(playerName));
 				}else{
+					if(row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 1)) {
+						String teamName = table.getValueAt(row, column).toString().split(" ")[1];
+						StartUI.startUI.turn(turnController.turnToTeamDetials(teamName));
+					}
 				}
 			}
 		};
@@ -301,7 +287,7 @@ public class PlayerUI extends BgPanel{
 			PlayerDataPO p = playList[i];
 			Vector<Object> vector = new Vector<Object>();
 			vector.addElement(p.getName());
-			vector.addElement(p.getTeamName()+" "+TableUtility.getChTeam(p.getTeamName()));
+			vector.addElement(TableUtility.getChTeam(p.getTeamName())+" "+p.getTeamName());
 			vector.addElement(p.getPosition());
 			vector.addElement(p.getNumber());
 			vector.addElement(p.getHeight());

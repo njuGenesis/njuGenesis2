@@ -156,6 +156,12 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 		thread.start();
 	}
 	
+	public void setMenu(int number){
+		menu[menuCurrentNumber].setIcon(new ImageIcon("img/Framebg/menu"+menuCurrentNumber+"Blue.png"));
+		menuCurrentNumber = number;
+		menu[menuCurrentNumber].setIcon(new ImageIcon("img/Framebg/menu"+menuCurrentNumber+"Red.png"));
+	}
+	
 	public void turn(BgPanel nextPanel){
 		this.nextPanel = nextPanel;
 		StartUI.this.remove(currentPanel);

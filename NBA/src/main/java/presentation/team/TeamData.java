@@ -27,17 +27,16 @@ import data.po.TeamDataPO;
 public class TeamData extends BgPanel{
 	
 	private static final long serialVersionUID = 1L;
-	private static String file = "img/teamDetials/data.png";
-	private StyleTable tableTotal, tableAverage, tableEff;
-	private StyleScrollPane scrollPaneTotal, scrollPaneAverage, scrollPaneEff;
+	private StyleTable tableTotal, tableAverage, tableEff, tableBasic;
+	private StyleScrollPane scrollPaneTotal, scrollPaneAverage, scrollPaneEff, scrollPaneBasic;
 	private TeamImageAssist assist;
-	private JCheckBox checkBox1, checkBox2, checkBox3;
+	private JCheckBox checkBox1, checkBox2, checkBox3, checkBox4;
 	private ArrayList<TeamDataPO> teamDataPOs;
 	private TeamLogic teamLogic = new TeamLogic();
 	private Rectangle rectangle;
 	
 	public TeamData(TeamDataPO po){
-		super(file);
+		super("");
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
@@ -51,23 +50,19 @@ public class TeamData extends BgPanel{
 		teamDataPOs = teamLogic.GetInfo(po.getShortName());
 		
 		GLabel teamPic = new GLabel(assist.loadImageIcon("img/teams/"+po.getShortName()+".svg", 200, 200), new Point(75, 0), new Point(200, 200), this, true);
-		GLabel wr = new GLabel(String.valueOf(po.getWR()), new Point(372, 68), new Point(200, 50), this, true, 0, 50);
-		GLabel matchNumber = new GLabel(String.valueOf((int)po.getMatchNumber()), new Point(610, 20), new Point(200, 37), this, true, 1, 24);
-		GLabel winNumber = new GLabel(String.valueOf((int)po.getWinMatch()), new Point(723, 20), new Point(200, 37), this, true, 1, 24);
-		GLabel failNumber = new GLabel(String.valueOf((int)(po.getMatchNumber()-po.getWinMatch())), new Point(828, 20), new Point(200, 37), this, true, 1, 24);
-		GLabel pts = new GLabel(String.valueOf((int)po.getPTS()), new Point(627, 69), new Point(200, 37), this, true, 1, 24);
-		GLabel ptsPG = new GLabel(String.valueOf(po.getPPG()), new Point(781, 69), new Point(200, 37), this, true, 1, 24);
-		GLabel lps = new GLabel(String.valueOf((int)po.getLPS()), new Point(627, 118), new Point(200, 37), this, true, 1, 24);
-		GLabel lpsP = new GLabel(String.valueOf(po.getLPG()), new Point(781, 118), new Point(200, 37), this, true, 1, 24);
+		GLabel wr = new GLabel("胜率:"+String.valueOf(po.getWR()), new Point(460, 120), new Point(200, 30), this, true, 0, 24);
+		GLabel winNumber = new GLabel("胜:"+String.valueOf((int)po.getWinMatch()), new Point(380, 40), new Point(200, 30), this, true, 0, 24);
+		GLabel failNumber = new GLabel("负:"+String.valueOf((int)(po.getMatchNumber()-po.getWinMatch())), new Point(420, 80), new Point(200, 30), this, true, 0, 24);
 		
+		basicSetting();
 		totalSetting();
 		pgSetting();
 		effSetting();
 		
-		scrollPaneTotal.setVisible(true);
+		scrollPaneBasic.setVisible(true);
 		
 		checkBox1 = new JCheckBox("总览");
-		checkBox1.setBounds(670, 185, 70, 30);
+		checkBox1.setBounds(600, 180, 70, 30);
 		checkBox1.setSelected(true);
 		this.add(checkBox1);
 		checkBox1.addActionListener(new ActionListener() {
@@ -75,48 +70,105 @@ public class TeamData extends BgPanel{
 				if(checkBox1.isSelected()){
 					checkBox2.setSelected(false);
 					checkBox3.setSelected(false);
+					checkBox4.setSelected(false);
 					scrollPaneAverage.setVisible(false);
 					scrollPaneEff.setVisible(false);
-					scrollPaneTotal.setVisible(true);
+					scrollPaneTotal.setVisible(false);
+					scrollPaneBasic.setVisible(true);
 				}else{
 					checkBox1.setSelected(true);
 				}
 			}
 		});
 		
-		checkBox2 = new JCheckBox("场均");
-		checkBox2.setBounds(740, 185, 70, 30);
+		checkBox2 = new JCheckBox("总计");
+		checkBox2.setBounds(670, 180, 70, 30);
 		this.add(checkBox2);
 		checkBox2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkBox2.isSelected()){
 					checkBox1.setSelected(false);
 					checkBox3.setSelected(false);
-					scrollPaneTotal.setVisible(false);
+					checkBox4.setSelected(false);
+					scrollPaneAverage.setVisible(false);
+					scrollPaneBasic.setVisible(false);
 					scrollPaneEff.setVisible(false);
-					scrollPaneAverage.setVisible(true);
+					scrollPaneTotal.setVisible(true);
 				}else{
 					checkBox2.setSelected(true);
 				}
 			}
 		});
 		
-		checkBox3 = new JCheckBox("效率");
-		checkBox3.setBounds(810, 185, 70, 30);
+		checkBox3 = new JCheckBox("场均");
+		checkBox3.setBounds(740, 180, 70, 30);
 		this.add(checkBox3);
 		checkBox3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkBox3.isSelected()){
 					checkBox1.setSelected(false);
 					checkBox2.setSelected(false);
+					checkBox4.setSelected(false);
+					scrollPaneBasic.setVisible(false);
+					scrollPaneEff.setVisible(false);
 					scrollPaneTotal.setVisible(false);
-					scrollPaneAverage.setVisible(false);
-					scrollPaneEff.setVisible(true);
+					scrollPaneAverage.setVisible(true);
 				}else{
 					checkBox3.setSelected(true);
 				}
 			}
 		});
+		
+		checkBox4 = new JCheckBox("效率");
+		checkBox4.setBounds(810, 180, 70, 30);
+		this.add(checkBox4);
+		checkBox4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox4.isSelected()){
+					checkBox1.setSelected(false);
+					checkBox2.setSelected(false);
+					checkBox3.setSelected(false);
+					scrollPaneAverage.setVisible(false);
+					scrollPaneBasic.setVisible(false);
+					scrollPaneTotal.setVisible(false);
+					scrollPaneEff.setVisible(true);
+				}else{
+					checkBox4.setSelected(true);
+				}
+			}
+		});
+	}
+	
+	private void basicSetting(){
+		final Vector<String> header = new Vector<String>();
+		header.addElement("赛季   ");header.addElement("胜率");
+		header.addElement("场数");header.addElement("胜场");header.addElement("负场");
+		header.addElement("总得分");header.addElement("总失分");
+		header.addElement("场均得分");header.addElement("场均失分");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=teamDataPOs.size()-1;i>=0;i--){
+			TeamDataPO p = teamDataPOs.get(i);
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(p.getSeason());
+			vector.addElement(p.getWR());
+			vector.addElement((int)p.getMatchNumber());
+			vector.addElement((int)p.getWinMatch());
+			vector.addElement((int)(p.getMatchNumber()-p.getWinMatch()));
+			vector.addElement(p.getPTS());
+			vector.addElement(p.getLPS());
+			vector.addElement(p.getPPG());
+			vector.addElement(p.getLPG());
+			data.addElement(vector);
+		}
+		
+		tableBasic = new StyleTable();
+		scrollPaneBasic = new StyleScrollPane(tableBasic);
+		tableBasic.tableSetting(tableBasic, header, data, scrollPaneBasic, rectangle);
+		tableSetting(tableBasic);
+		tableBasic.setSort();
+		scrollPaneBasic.setVisible(false);
+		this.add(scrollPaneBasic);
 	}
 	
 	private void totalSetting(){
@@ -164,12 +216,12 @@ public class TeamData extends BgPanel{
 	
 	private void pgSetting(){
 		final Vector<String> header = new Vector<String>();
-		header.addElement("赛季   ");header.addElement("场均投篮数");
-		header.addElement("场均投篮命中数");header.addElement("场均三分数");
-		header.addElement("场均三分命中数");header.addElement("场均罚球数");header.addElement("场均罚球命中数");header.addElement("场均进攻篮板");
-		header.addElement("场均防守篮板");header.addElement("场均篮板数");header.addElement("场均助攻数");
-		header.addElement("场均抢断数");header.addElement("场均盖帽数");header.addElement("场均失误数");header.addElement("场均犯规数");
-		header.addElement("场均进攻回合数");header.addElement("场均防守回合数");
+		header.addElement("赛季   ");header.addElement("投篮数");
+		header.addElement("投篮命中数");header.addElement("三分数");
+		header.addElement("三分命中数");header.addElement("罚球数");header.addElement("罚球命中数");header.addElement("进攻篮板");
+		header.addElement("防守篮板");header.addElement("篮板数");header.addElement("助攻数");
+		header.addElement("抢断数");header.addElement("盖帽数");header.addElement("失误数");header.addElement("犯规数");
+		header.addElement("进攻回合数");header.addElement("防守回合数");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=teamDataPOs.size()-1;i>=0;i--){

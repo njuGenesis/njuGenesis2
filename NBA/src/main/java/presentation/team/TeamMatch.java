@@ -17,9 +17,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.BgPanel;
 import presentation.component.DateLabel;
+import presentation.component.DatePanel;
+import presentation.component.GLabel;
 import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
+import presentation.contenui.TurnController;
 import presentation.contenui.UIUtil;
+import presentation.mainui.StartUI;
 import bussinesslogic.match.MatchLogic;
 import data.po.MatchDataPO;
 import data.po.TeamDataPO;
@@ -29,7 +33,7 @@ public class TeamMatch extends BgPanel{
 	private static final long serialVersionUID = 1L;
 	private static String file = "";
 	private MatchLogic matchLogic;
-	private DateLabel dateLabel1, dateLabel2;
+	private DatePanel dateLabel1;
 	private ArrayList<MatchDataPO> matchDataPOs;
 	private TeamDataPO po;
 	private StyleScrollPane scrollPane;
@@ -43,15 +47,16 @@ public class TeamMatch extends BgPanel{
 		this.setBackground(UIUtil.bgWhite);
 		this.setVisible(true);
 		
+		GLabel message = new GLabel("*单击表头可排序", new Point(34, 5), new Point(120, 30), this, true, 0, 13);
+		
 		matchLogic = new MatchLogic();
 		this.po = po;
 		matchDataPOs = matchLogic.GetInfo(po.getShortName());
 		
 		rectangle = new Rectangle(14, 50, 920, 460);
 		
-		dateLabel1 = new DateLabel(new Point(25, 9), this, Color.black);
-		dateLabel1.setBackground(UIUtil.bgWhite);
-		dateLabel1.setIcon(new ImageIcon("img/teamDetials/dateIcon.png"));
+//		dateLabel1 = new DatePanel(new Point(25, 9), this, Color.black, new ImageIcon("img/teamDetials/dateIcon.png"));
+//		dateLabel1.setBackground(UIUtil.bgWhite);
 		
 		matchSetting();
 		repaint();
@@ -129,8 +134,22 @@ public class TeamMatch extends BgPanel{
 		});
 		
 		MouseAdapter mouseAdapter = new MouseAdapter() {
-			private final JTable thisTable = table;
+			public void mousePressed(MouseEvent e) {
+				int column = table.getColumnModel().getColumnIndexAtX(e.getX());
+				int row    = e.getY()/table.getRowHeight();
 
+				TurnController turnController = new TurnController();
+				if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 1)) {
+					String name = table.getValueAt(row, 1).toString();
+					StartUI.startUI.turn(turnController.turnToTeamDetials(name));
+				}else{
+					if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 4)) {
+						String date = table.getValueAt(row, 0).toString();
+						String name = table.getValueAt(row, 1).toString();
+						StartUI.startUI.turn(turnController.turnToMatchDetials(date, name));
+					}
+				}
+			}
 		};
 		table.addMouseListener(mouseAdapter);
 	}

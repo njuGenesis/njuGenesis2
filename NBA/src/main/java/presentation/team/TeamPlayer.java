@@ -20,7 +20,9 @@ import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
+import presentation.contenui.TurnController;
 import presentation.contenui.UIUtil;
+import presentation.mainui.StartUI;
 import bussinesslogic.player.PlayerLogic;
 import data.po.PlayerDataPO;
 import data.po.TeamDataPO;
@@ -199,8 +201,16 @@ public class TeamPlayer extends BgPanel{
 		});
 		
 		MouseAdapter mouseAdapter = new MouseAdapter() {
-			private final JTable thisTable = table;
+			public void mousePressed(MouseEvent e) {
+				int column = table.getColumnModel().getColumnIndexAtX(e.getX());
+				int row    = e.getY()/table.getRowHeight();
 
+				TurnController turnController = new TurnController();
+				if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 0)) {
+					String name = table.getValueAt(row, 0).toString();
+					StartUI.startUI.turn(turnController.turnToPlayerDetials(name));
+				}
+			}
 		};
 		table.addMouseListener(mouseAdapter);
 	}

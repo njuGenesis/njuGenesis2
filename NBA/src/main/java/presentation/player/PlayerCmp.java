@@ -1,16 +1,13 @@
-package presentation.team;
+package presentation.player;
 
 import java.awt.Dimension;
 import java.awt.Point;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import bussinesslogic.team.TeamLogic;
-import data.po.TeamDataPO;
+import bussinesslogic.player.PlayerLogic;
+import data.po.PlayerDataPO;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
 import presentation.component.HoriDynamicBarLeft;
@@ -18,14 +15,15 @@ import presentation.component.HoriDynamicBarRight;
 import presentation.component.TeamImageAssist;
 import presentation.contenui.UIUtil;
 
-public class TeamCmp extends BgPanel{
+public class PlayerCmp extends BgPanel{
 	
-	private TeamDataPO po;
-	private TeamLogic teamLogic = new TeamLogic();
+	private static final long serialVersionUID = 1L;
+	private PlayerDataPO po;
+	private PlayerLogic playerLogic = new PlayerLogic();
 	private double[] dataLeft, dataRight;
 	private TeamImageAssist assist = new TeamImageAssist();
-	
-	public TeamCmp(TeamDataPO po){
+
+	public PlayerCmp(PlayerDataPO po){
 		super("");
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
@@ -33,7 +31,7 @@ public class TeamCmp extends BgPanel{
 		this.setVisible(true);
 		this.po = po;
 		
-		GLabel teamPic = new GLabel(assist.loadImageIcon("img/teams/"+po.getShortName()+".svg", 170, 170), new Point(80, 20), new Point(170, 170), this, true);
+		GLabel teamPic = new GLabel("img/portrait/"+po.getName()+".png", new Point(80, 20), new Point(172, 139), this, true);
 		GLabel vs = new GLabel("VS", new Point(454, 80), new Point(60, 60), this, true, 1, 40);
 		GLabel defaultPic = new GLabel("img/teamDetials/default.png", new Point(742, 15), new Point(61, 146), this, true);
 		GLabel defaultText = new GLabel("联盟平均", new Point(730, 171), new Point(200,30), this, true, 0, 20);
@@ -42,18 +40,18 @@ public class TeamCmp extends BgPanel{
 		dataLeft = new double[item.length];
 		dataRight = new double[item.length];
 		
-		ArrayList<Double> rightList = teamLogic.getAvg();
-		dataRight[0] = ShortDouble(rightList.get(0));
-		dataRight[1] = ShortDouble(rightList.get(1));
-		dataRight[2] = ShortDouble(rightList.get(2));
-		dataRight[3] = ShortDouble(rightList.get(3)*100);
-		dataRight[4] = ShortDouble(rightList.get(4)*100);
+		Double[] rightList = playerLogic.getSeasonAverage(playerLogic.getLatestSeason());
+		dataRight[0] = ShortDouble(rightList[0]);
+		dataRight[1] = ShortDouble(rightList[1]);
+		dataRight[2] = ShortDouble(rightList[2]);
+		dataRight[3] = ShortDouble(rightList[3]*100);
+		dataRight[4] = ShortDouble(rightList[4]*100);
 		
 		dataLeft[0] = ShortDouble(po.getPPG());
-		dataLeft[1] = ShortDouble(po.getAssitNumberPG());
-		dataLeft[2] = ShortDouble(po.getBackBoardPG());
-		dataLeft[3] = ShortDouble(po.getTPEff()*100);
-		dataLeft[4] = ShortDouble(po.getFTEff()*100);
+		dataLeft[1] = ShortDouble(po.getAPG());
+		dataLeft[2] = ShortDouble(po.getBPG());
+		dataLeft[3] = ShortDouble(po.getThreePGPercentage()*100);
+		dataLeft[4] = ShortDouble(po.getFTPercentage()*100);
 		
 		for(int i=0;i<item.length;i++){
 			GLabel label = new GLabel(item[i], new Point(430, 232+51*i), new Point(80, 40), this, true, 0, 15);

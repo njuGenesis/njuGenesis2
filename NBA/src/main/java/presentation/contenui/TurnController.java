@@ -3,7 +3,10 @@ package presentation.contenui;
 import java.util.ArrayList;
 
 import presentation.component.BgPanel;
+import presentation.mainui.StartUI;
 import presentation.match.MatchDetailPanel;
+import presentation.player.PlayerDetials;
+import presentation.player.PlayerUI;
 import presentation.team.TeamDetials;
 import presentation.team.TeamUI;
 import bussinesslogic.match.MatchLogic;
@@ -36,6 +39,9 @@ public class TurnController {
 		BgPanel newPanel = new TeamDetials(shortName);
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
+		
+		StartUI.startUI.setMenu(1);
+		
 		return newPanel;
 	}
 	
@@ -43,6 +49,9 @@ public class TurnController {
 		BgPanel newPanel = new PlayerDetials(name);
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
+		
+		StartUI.startUI.setMenu(2);
+		
 		return newPanel;
 	}
 	
@@ -54,6 +63,9 @@ public class TurnController {
 		BgPanel newPanel = new MatchDetailPanel(pos.get(0));
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
+		
+		StartUI.startUI.setMenu(3);
+		
 		return newPanel;
 	}
 }
