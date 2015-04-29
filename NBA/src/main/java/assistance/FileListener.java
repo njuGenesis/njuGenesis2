@@ -35,7 +35,8 @@ public class FileListener {
 		            		//System.out.println(event.context().toString()+event.kind());
 		            		System.out.println("start "+MatchLogic.getTime());
 		            		//p.initialize("./迭代一数据/players/info",ptemp);
-		            		//Thread.sleep(200);
+		            		Thread.sleep(200);
+		            		//Thread.sleep(20);
 		            		p.updatePlayer(event.context().toString(), ptemp);
 		            		System.out.println("play  "+MatchLogic.getTime());
 		            		m.update(temp);

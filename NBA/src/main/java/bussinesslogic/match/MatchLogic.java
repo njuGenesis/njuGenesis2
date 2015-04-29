@@ -206,15 +206,6 @@ public class MatchLogic implements MatchInfoService {
 		 * System.
 		 * out.println(res.get(i).getPlayername()+" "+res.get(i).getData()); }
 		 */
-		ArrayList<MatchDataPO> res = match.GetAllInfo();
-		for (int i = 0; i < res.size(); i++) {
-			if (res.get(i).getFirstteam().equals("IND")
-					|| res.get(i).getSecondteam().equals("IND")) {
-				System.out.println(res.get(i).getWinner() + " "
-						+ res.get(i).getDate());
-			}
-
-		}
 		System.out.println(MatchLogic.getTime());
 	}
 
