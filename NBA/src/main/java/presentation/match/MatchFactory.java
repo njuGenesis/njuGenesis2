@@ -1,8 +1,11 @@
 package presentation.match;
 
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -17,7 +20,9 @@ import presentation.component.HoriDynamicBarRight;
 import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.contenui.TableUtility;
+import presentation.contenui.TurnController;
 import presentation.contenui.UIUtil;
+import presentation.mainui.StartUI;
 import data.po.MatchDataPO;
 import data.po.Match_PlayerPO;
 
@@ -38,7 +43,11 @@ public class MatchFactory {
 
 		GLabel team1 = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getFirstteam()+".svg", 180, 140),new Point(88,55),new Point(180,140),jp,true);
 		GLabel team2 = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getSecondteam()+".svg", 180, 140),new Point(688,55),new Point(180,140),jp,true);
-
+		team1.addMouseListener(new TeamListener(po.getFirstteam()));
+		team1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		team2.addMouseListener(new TeamListener(po.getSecondteam()));
+		team2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
 		GLabel pointall_1 = new GLabel(getPoint1(po.getPoints()),new Point(285,120),new Point(150,40),jp,true,0,30);
 		pointall_1.setHorizontalAlignment(JLabel.CENTER);
 		GLabel pointall_2 = new GLabel(getPoint2(po.getPoints()),new Point(515,120),new Point(150,40),jp,true,0,30);
@@ -403,6 +412,47 @@ public class MatchFactory {
 	private double roundDouble(double d){
 		DecimalFormat df = new DecimalFormat(".00");
 		return Double.parseDouble(df.format(d));
+	}
+	
+	
+	class TeamListener implements MouseListener{
+		
+		String shortName;
+		
+		public TeamListener(String shortName){
+			this.shortName = shortName;
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			TurnController tc = new TurnController();
+			StartUI.startUI.turn(tc.turnToTeamDetials(shortName));
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }
