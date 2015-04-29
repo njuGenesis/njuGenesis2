@@ -1,8 +1,12 @@
 package presentation.contenui;
 
-import data.po.PlayerDataPO;
-import data.po.TeamDataPO;
+import java.util.ArrayList;
+
 import presentation.component.BgPanel;
+import presentation.match.MatchDetailPanel;
+import bussinesslogic.match.MatchLogic;
+import data.po.MatchDataPO;
+import data.po.PlayerDataPO;
 
 public class TurnController {
 
@@ -24,6 +28,8 @@ public class TurnController {
 		return newPanel;
 	}
 	
+//	public 
+	
 	public BgPanel turnToTeamDetials(String shortName){
 		BgPanel newPanel = new TeamDetials(shortName);
 		newPanel.setBounds(15, 50, 1000, 650);
@@ -33,6 +39,17 @@ public class TurnController {
 	
 	public BgPanel turnToPlayerDetials(PlayerDataPO[] pos){
 		BgPanel newPanel = new PlayerDetials(pos);
+		newPanel.setBounds(15, 50, 1000, 650);
+		newPanel.setVisible(false);
+		return newPanel;
+	}
+	
+	//date格式为13-14_01-01
+	public BgPanel turnToMatchDetials(String date,String shortName){
+		MatchLogic l = new MatchLogic();
+		ArrayList<MatchDataPO> pos = l.GetInfo(date, date, shortName);
+		
+		BgPanel newPanel = new MatchDetailPanel(pos.get(0));
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
 		return newPanel;

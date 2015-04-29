@@ -329,8 +329,76 @@ public class TableUtility {
 			ch = "篮网";
 		}else if(en.equals("TOR")){
 			ch = "猛龙";
+		}else if(en.equals("NOH")){
+			ch = "黄蜂";
 		}else if(en.equals("null")){
 			ch = "无";
+		}
+		
+		if(en.equals("马刺")){
+			ch = "SAS";
+		}else if(en.equals("灰熊")){
+			ch = "MEM";
+		}else if(en.equals("火箭")){
+			ch = "HOU";
+		}else if(en.equals("小牛")){
+			ch = "DAL";
+		}else if(en.equals("鹈鹕")){
+			ch = "NOP";
+		}else if(en.equals("国王")){
+			ch = "SAC";
+		}else if(en.equals("太阳")){
+			ch = "PHX";
+		}else if(en.equals("勇士")){
+			ch = "GSW";
+		}else if(en.equals("快船")){
+			ch = "LAC";
+		}else if(en.equals("湖人")){
+			ch = "LAL";
+		}else if(en.equals("森林狼")){
+			ch = "MIN";
+		}else if(en.equals("爵士")){
+			ch = "UTA";
+		}else if(en.equals("开拓者")){
+			ch = "POR";
+		}else if(en.equals("雷霆")){
+			ch = "OKC";
+		}else if(en.equals("掘金")){
+			ch = "DEN";
+		}else if(en.equals("热火")){
+			ch = "MIA";
+		}else if(en.equals("魔术")){
+			ch = "ORL";
+		}else if(en.equals("老鹰")){
+			ch = "ATL";
+		}else if(en.equals("奇才")){
+			ch = "WAS";
+		}else if(en.equals("黄蜂")){
+			ch = "CHA";
+		}else if(en.equals("活塞")){
+			ch = "DET";
+		}else if(en.equals("步行者")){
+			ch = "IND";
+		}else if(en.equals("骑士")){
+			ch = "CLE";
+		}else if(en.equals("公牛")){
+			ch = "CHI";
+		}else if(en.equals("雄鹿")){
+			ch = "MIL";
+		}else if(en.equals("尼克斯")){
+			ch = "NYK";
+		}else if(en.equals("76人")){
+			ch = "PHI";
+		}else if(en.equals("凯尔特人")){
+			ch = "BOS";
+		}else if(en.equals("篮网")){
+			ch = "BKN";
+		}else if(en.equals("猛龙")){
+			ch = "TOR";
+		}else if(en.equals("黄蜂")){
+			ch = "NOH";
+		}else if(en.equals("无")){
+			ch = "null";
 		}
 		return ch;
 	}

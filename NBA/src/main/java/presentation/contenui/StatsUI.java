@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.stats.PlayerStatsPanelNew;
+import presentation.stats.TeamStatsPanelNew;
 
 public class StatsUI extends BgPanel implements Runnable{
 
@@ -113,7 +115,7 @@ public class StatsUI extends BgPanel implements Runnable{
 				this.remove(statsPanel);
 			}
 //			PlayerStatsPanel psp = new PlayerStatsPanel();
-			statsPanel = new PlayerStatsPanel();
+			statsPanel = new PlayerStatsPanelNew();
 			StatsUI.this.add(statsPanel);
 			rightBt.setVisible(true);
 			StatsUI.this.repaint();
@@ -137,7 +139,7 @@ public class StatsUI extends BgPanel implements Runnable{
 			if(statsPanel != null){
 				this.remove(statsPanel);
 			}
-			statsPanel = new TeamStatsPanel();
+			statsPanel = new TeamStatsPanelNew();
 			StatsUI.this.add(statsPanel);
 			rightBt.setVisible(true);
 			StatsUI.this.repaint();
