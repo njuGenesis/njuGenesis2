@@ -36,6 +36,8 @@ public class MatchLogic implements MatchInfoService {
 		System.out.println(MatchLogic.getTime());
 		matches.addAll(MatchList12);
 		matches.addAll(MatchList13);
+		TeamLogic t = new TeamLogic();
+		t.initTeamData();
 		if(MatchList12.size()!=0){
 		add.writeIn(MatchList12);
 		}
@@ -131,7 +133,7 @@ public class MatchLogic implements MatchInfoService {
 		}
 		return res;
 	}
-	// string[0]是赛季（格式13-14），string[1]是日期（格式01-01）,string[3]是赛季_日期（格式13-14_01-01）
+	/*// string[0]是赛季（格式13-14），string[1]是日期（格式01-01）,string[3]是赛季_日期（格式13-14_01-01）
 	public String[] getDate(){
 		String date="";
 		String[] res=new String[3];
@@ -148,13 +150,14 @@ public class MatchLogic implements MatchInfoService {
 		res[1]=date.split("_")[1];
 		res[2]=res[0]+"_"+res[1];
 		return res;
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
+		match.ini();
 	//	match.getDate();
-		System.out.println(match.getDate()[2]);
+		//System.out.println(match.getDate()[2]);
 		/*match.ini();
 		TeamLogic team = new TeamLogic();
 		team.initTeamData();*/

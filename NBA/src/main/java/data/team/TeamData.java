@@ -33,6 +33,13 @@ public class TeamData {
 			ObjectInputStream oos = new ObjectInputStream(fos);
 			@SuppressWarnings("unchecked")
 			ArrayList<TeamDataPO> resArray =(ArrayList<TeamDataPO>) oos.readObject();
+			for(int i=0;i<resArray.size();i++){
+				System.out.println(resArray.get(i).getShortName()+resArray.get(i).getBackBoard());
+				if(!(resArray.get(i).getBackBoard()>0)){
+					resArray.remove(i);
+					i--;
+				}
+			}
 			oos.close();
 			return resArray;
 		} catch (Exception e) {
@@ -48,7 +55,6 @@ public class TeamData {
 			ArrayList<TeamDataPO> TeamArray =ReadOut();
 			for(int i=0;i<TeamArray.size();i++){
 				if(TeamArray.get(i).getShortName().equals(name)||TeamArray.get(i).getName().equals(name)){
-	
 					res.add(TeamArray.get(i));
 				}
 			}

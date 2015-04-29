@@ -1,6 +1,7 @@
 package bussinesslogic.team;
 
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import assistance.GetFileData;
@@ -18,6 +19,9 @@ public class TeamLogic implements TeamInfoService {
 	// 储存球队的球员名
 	private void saveTeamPlayer(PlayerDataPO[] players) {
 		for (int i = 0; i < players.length; i++) {
+			if(players[i].getTeamName().equals("NOH")){
+				players[i].setTeamName("NOP");
+			}
 			for (int k = 0; k < Teams.size(); k++) {
 				if (players[i].getTeamName()
 						.equals(Teams.get(k).getShortName())
@@ -579,7 +583,61 @@ public class TeamLogic implements TeamInfoService {
 		}
 		return res;
 	}
-
+	
+	
+	public ArrayList<Double> getAvg(){
+		ArrayList<TeamDataPO> allTeams=GetAllInfo();
+		String season=allTeams.get(0).getSeason();
+		double pointsAvg=0.0;
+		double assAvg=0.0;
+		double bankAvg=0.0;
+		double threeAvg=0.0;
+		double ftAvg=0.0;
+		
+		for(int i=0;i<allTeams.size();i++){
+			if(season.compareTo(allTeams.get(i).getSeason())<0){
+				season=allTeams.get(i).getSeason();
+			}
+		}
+		allTeams=GetInfoBySeason(season);
+		for(int i=0;i<allTeams.size();i++){
+			System.out.println(i);
+			pointsAvg=(pointsAvg*i+allTeams.get(i).getPPG())/(i+1);
+			assAvg=(assAvg*i+allTeams.get(i).getAssitNumberPG())/(i+1);
+			bankAvg=(bankAvg*i+allTeams.get(i).getBackBoardPG())/(i+1);
+			threeAvg=(threeAvg*i+allTeams.get(i).getTPEff())/(i+1);
+			ftAvg=(ftAvg*i+allTeams.get(i).getFTEff())/(i+1);
+		}
+		BigDecimal bg1 = new BigDecimal(pointsAvg);
+		pointsAvg = bg1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		BigDecimal bg2 = new BigDecimal(assAvg);
+		assAvg = bg2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		BigDecimal bg3 = new BigDecimal(bankAvg);
+		bankAvg = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		BigDecimal bg4 = new BigDecimal(threeAvg);
+		threeAvg = bg4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		BigDecimal bg5 = new BigDecimal(ftAvg);
+		ftAvg = bg5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		
+		ArrayList<Double> res = new ArrayList<Double>();
+		res.add(pointsAvg);
+		res.add(assAvg);
+		res.add(bankAvg);
+		res.add(threeAvg);
+		res.add(ftAvg);
+		
+		return res;
+	}
+	//
+/*	public double[] getAvg(String ){
+		ArrayList<TeamDataPO> teams.
+	}
+*/
 	//自动化测试
 	public void aotoTest(PrintStream out,String season,String date,boolean isAvg,boolean isHigh,String AllOrHotOrKing,int number,
 			String filterCondition,String sortCondition){
@@ -592,10 +650,14 @@ public class TeamLogic implements TeamInfoService {
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		//teams = team.GetAllInfo();
-		team.initTeamData();
-		teams = team.GetAllInfo();
+		//team.initTeamData();
+		/*teams = team.GetAllInfo();
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
+		}*/
+		ArrayList<Double> res= team.getAvg();
+		for(int i=0;i<res.size();i++){
+			System.out.println(res.get(i));
 		}
 			System.out.println(MatchLogic.getTime());
 
