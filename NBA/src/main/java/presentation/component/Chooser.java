@@ -134,7 +134,7 @@ public class Chooser extends JPanel{
             public void mouseExited(MouseEvent me) {
                 if (showComponent.isEnabled()) {
                     showComponent.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    showComponent.setForeground(UIUtil.bgWhite);
+                    showComponent.setForeground(fontColor);
                 }
             }
             public void mousePressed(MouseEvent me) {
@@ -149,7 +149,7 @@ public class Chooser extends JPanel{
             }
             public void mouseReleased(MouseEvent me) {
                 if (showComponent.isEnabled()) {
-                    showComponent.setForeground(UIUtil.bgWhite);
+                    showComponent.setForeground(fontColor);
                 }
             }
         });

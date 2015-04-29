@@ -43,7 +43,7 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 		RefreshData re = new RefreshData();
 		Thread t = new Thread(re);
 		t.setDaemon(true);
-		t.start();
+//		t.start();
 		
 	}
 	

@@ -22,7 +22,7 @@ public class StatsFactory {
 		StyleScrollPane pane = new StyleScrollPane(table);
 		table.tableSetting(table, header, data, pane, new Rectangle(30, 190, 890, 420));
 		setTablePlayer(table);
-		
+
 		return pane;
 	}
 
@@ -37,16 +37,16 @@ public class StatsFactory {
 
 	private void setTablePlayer(JTable table){
 		table.addMouseListener(new TableListenerPlayer());
-		
+
 		TableModel tableModel = table.getModel();
 		TableRowSorter<TableModel> tableRowSorter=new TableRowSorter<TableModel>(tableModel); // 排序 
 		table.setRowSorter(tableRowSorter); 
-		
+
 	}
 
 	private void setTableTeam(JTable table){
 		table.addMouseListener(new TableListenerTeam());
-		
+
 		TableModel tableModel = table.getModel();
 		TableRowSorter<TableModel> tableRowSorter=new TableRowSorter<TableModel>(tableModel); // 排序 
 		table.setRowSorter(tableRowSorter); 
@@ -67,15 +67,14 @@ public class StatsFactory {
 			if(c==0){
 				String player = table.getValueAt(r, c).toString();
 				TurnController tc = new TurnController();
-
-				//				StartUI.startUI.turn(tc.turnToPlayerDetials(player));
+				StartUI.startUI.turn(tc.turnToPlayerDetials(player));
 			}else if(c==1){
 				String team = TableUtility.getShortChTeam(table.getValueAt(r, c).toString());
 				TurnController tc = new TurnController();
 				if(!team.equals("null")){
 					StartUI.startUI.turn(tc.turnToTeamDetials(team));
 				}
-				
+
 			}
 
 		}
@@ -94,7 +93,7 @@ public class StatsFactory {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			
+
 		}
 
 		@Override

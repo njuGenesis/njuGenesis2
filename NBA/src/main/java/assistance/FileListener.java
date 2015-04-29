@@ -49,7 +49,7 @@ public class FileListener {
 		            		m.update(temp);
 		            		
 		            		
-		            		showNotice();
+//		            		showNotice();
 		            		
 		            		
 		            		//System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
