@@ -1760,7 +1760,16 @@ public class PlayerLogic implements PlayerInfoService{
 		return res2 ;
     
     }
-
+    public String getLatestSeason(){
+    	String res = "13-14";
+    	File root = new File("./迭代一数据/matches");//从ser文件中读取所有数据
+		File[] files = root.listFiles();
+		for(File file:files){
+			res = file.getName();
+		}
+		res = res.substring(0,5);
+		return res;
+    }
 	
 	
 	//自动测试需要的方法

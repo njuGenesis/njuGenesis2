@@ -42,10 +42,11 @@ public class TempStart {
 	
 //}
 		
-		PlayerDataPO[] res = p.getAllSeasonInfo("Aaron Brooks");
-		for(int i = 0;i<res.length;i++){
-			System.out.println(res[i].getName()+";"+res[i].getSeason()+res[i].getPPG());
-		}
+//		PlayerDataPO[] res = p.getAllSeasonInfo("Aaron Brooks");
+//		for(int i = 0;i<res.length;i++){
+//			System.out.println(res[i].getName()+";"+res[i].getSeason()+res[i].getPPG());
+//		}
+		System.out.println(p.getLatestSeason());
 	}
 	
 }
