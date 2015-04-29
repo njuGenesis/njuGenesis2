@@ -48,10 +48,16 @@ public class TempStart {
 //			System.out.println(res[i].getName()+";"+res[i].getSeason()+res[i].getPPG());
 //		}
 		//System.out.println(p.getLatestSeason());
-		PlayerDataPO[] res = p.getAllSearch("aaron","null", "null", "13-14");
+//		PlayerDataPO[] res = p.getAllSearch("aaron","null", "null", "13-14");
+//		for(int i = 0;i<res.length;i++){
+//			System.out.println(res[i].getName());
+//		}
+		Double[] res  = p.getSeasonAverage("13-14");
+		
 		for(int i = 0;i<res.length;i++){
-			System.out.println(res[i].getName());
+			System.out.println(res[i]);
 		}
+		
 	}
 	
 }

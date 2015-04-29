@@ -2,6 +2,7 @@ package bussinesslogic.player;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -2352,7 +2353,38 @@ public class PlayerLogic implements PlayerInfoService{
 		
 	}
 	
-	
+	public Double[] getSeasonAverage(String season){
+		PlayerDataPO[] orgin = getAllInfo(season);
+		double ppg = 0;
+		double apg = 0;
+		double bpg = 0;
+		double threeper = 0;
+		double ftper = 0;
+		for(int i = 0;i<orgin.length;i++){
+			ppg = ppg + orgin[i].getPPG();
+			apg = apg + orgin[i].getAPG();
+			bpg = bpg + orgin[i].getBPG();
+			threeper = threeper + orgin[i].getThreePGPercentage();
+			ftper = ftper + orgin[i].getFTPercentage();
+		}
+		Double[] res = new Double[5];
+		BigDecimal bg = new BigDecimal(ppg/orgin.length);
+		res[0] = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		//res[0] = ppg/orgin.length;
+		BigDecimal bg1 = new BigDecimal(apg/orgin.length);
+		res[1] = bg1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		//res[1] = apg/orgin.length;
+		BigDecimal bg2 = new BigDecimal(bpg/orgin.length);
+		res[2] = bg2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		//res[2] = bpg/orgin.length;
+		BigDecimal bg3 = new BigDecimal(threeper/orgin.length);
+		res[3] = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		//res[3] = threeper/orgin.length;
+		BigDecimal bg4 = new BigDecimal(ftper/orgin.length);
+		res[4] = bg4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		//res[4] = ftper/orgin.length;
+		return res;
+	}
 	
 	//自动测试需要的方法
 	public PlayerDataPO[] sort(final String orderName,boolean isASC,PlayerDataPO[] orgin,final boolean isAVG) {
