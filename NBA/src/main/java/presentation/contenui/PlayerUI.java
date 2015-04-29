@@ -267,8 +267,7 @@ public class PlayerUI extends BgPanel{
 
 				if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 0)) {
 					String playerName = table.getValueAt(row, column).toString();
-					PlayerDataPO[] pos = playerLogic.getAllSeasonInfo(playerName);
-					StartUI.startUI.turn(turnController.turnToPlayerDetials(pos));
+					StartUI.startUI.turn(turnController.turnToPlayerDetials(playerName));
 				}else{
 				}
 			}

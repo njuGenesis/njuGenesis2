@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import presentation.component.BgPanel;
 import presentation.match.MatchDetailPanel;
+import presentation.team.TeamDetials;
+import presentation.team.TeamUI;
 import bussinesslogic.match.MatchLogic;
 import data.po.MatchDataPO;
 import data.po.PlayerDataPO;
@@ -37,8 +39,8 @@ public class TurnController {
 		return newPanel;
 	}
 	
-	public BgPanel turnToPlayerDetials(PlayerDataPO[] pos){
-		BgPanel newPanel = new PlayerDetials(pos);
+	public BgPanel turnToPlayerDetials(String name){
+		BgPanel newPanel = new PlayerDetials(name);
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
 		return newPanel;

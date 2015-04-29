@@ -32,10 +32,12 @@ public class PlayerDetials extends BgPanel{
 	private SelectLabel tdMenu[];
 	private PlayerDataPO po;
 	private BgPanel sonPanel;
+	private PlayerLogic playerLogic = new PlayerLogic();
 	
-	public PlayerDetials(final PlayerDataPO[] pos){
+	public PlayerDetials(final String name){
 		super("");
-		this.po = pos[pos.length-1];
+		
+		this.po = playerLogic.getInfo(name, playerLogic.getLatestSeason());
 		
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
@@ -77,6 +79,7 @@ public class PlayerDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[1].setSelected(true);
+				PlayerDataPO[] pos = playerLogic.getAllSeasonInfo(name);
 				PlayerData playerData = new PlayerData(pos);
 				PlayerDetials.this.remove(sonPanel);
 				sonPanel = playerData;
@@ -91,6 +94,7 @@ public class PlayerDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[2].setSelected(true);
+				PlayerDataPO[] pos = playerLogic.getAllSeasonInfo(name);
 				PlayerMatch playerMatch = new PlayerMatch(pos);
 				PlayerDetials.this.remove(sonPanel);
 				sonPanel = playerMatch;
