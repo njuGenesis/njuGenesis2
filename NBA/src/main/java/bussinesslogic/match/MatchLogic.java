@@ -114,7 +114,13 @@ public class MatchLogic implements MatchInfoService {
 		return add.GetPartMatch(shotrName, season);
 	}
 	
-	//根据球员返回比赛
+	//获得一个球队一个赛季的所有比赛 ，season的格式为“13-14”
+	public ArrayList<MatchDataPO> GetInfo(String teamShotrName) {
+		return add.GetInfo(teamShotrName);
+	}
+	
+	
+	//根据球员和赛季返回比赛
 	public ArrayList<MatchDataPO> GetPlayerInfo(String playername, String season) {
 		ArrayList<MatchDataPO> allinfo = GetAllInfo(season);
 		ArrayList<MatchDataPO> res = new  ArrayList<MatchDataPO>();
@@ -179,8 +185,9 @@ public class MatchLogic implements MatchInfoService {
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		match.ini();
-	//	match.getDate();
+		System.out.println(match.GetInfo("HOU").size());
+		//	match.ini();
+		//match.getDate();
 		//System.out.println(match.getDate()[2]);
 		/*match.ini();
 		TeamLogic team = new TeamLogic();

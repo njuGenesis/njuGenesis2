@@ -120,6 +120,19 @@ public class Matchdata implements Serializable {
 		}
 		return res;
 	}
+	
+	// 读取一个队伍一个赛季所有的比赛信息
+		private ArrayList<MatchDataPO> getMatchByTeam(String shotrName) {
+			ArrayList<MatchDataPO> allMatches = readOut();
+			ArrayList<MatchDataPO> res = new ArrayList<MatchDataPO>();
+			for (int i = 0; i < allMatches.size(); i++) {
+				if ((allMatches.get(i).getFirstteam().equals(shotrName) || allMatches
+						.get(i).getSecondteam().equals(shotrName))) {
+					res.add(allMatches.get(i));
+				}
+			}
+			return res;
+		}
 
 	// 读取一个赛季所有的比赛信息
 	private ArrayList<MatchDataPO> getMatch(String season) {
@@ -190,6 +203,12 @@ public class Matchdata implements Serializable {
 		ArrayList<MatchDataPO> result = getMatch(shotrName, season);
 		return result;
 	}
+	
+	// 返回一个队伍的所有比赛
+		public ArrayList<MatchDataPO> GetInfo(String shotrName) {
+			ArrayList<MatchDataPO> result = getMatchByTeam(shotrName);
+			return result;
+		}
 
 	public static void main(String[] args) {
 		Matchdata read = new Matchdata();
