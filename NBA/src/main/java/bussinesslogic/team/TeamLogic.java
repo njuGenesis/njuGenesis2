@@ -155,7 +155,6 @@ public class TeamLogic implements TeamInfoService {
 	public void updateTeamInfo(ArrayList<MatchDataPO> newMatches) {
 		Teams = GetAllInfo(); // 获得之前的球队数据
 		if (Teams.size() == 0) {
-			System.out.println("initTeamData");
 			GetFileData teamFileReader = new GetFileData();
 			Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
 		}
@@ -601,7 +600,6 @@ public class TeamLogic implements TeamInfoService {
 		}
 		allTeams=GetInfoBySeason(season);
 		for(int i=0;i<allTeams.size();i++){
-			System.out.println(i);
 			pointsAvg=(pointsAvg*i+allTeams.get(i).getPPG())/(i+1);
 			assAvg=(assAvg*i+allTeams.get(i).getAssitNumberPG())/(i+1);
 			bankAvg=(bankAvg*i+allTeams.get(i).getBackBoardPG())/(i+1);

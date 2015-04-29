@@ -34,7 +34,6 @@ public class TeamData {
 			@SuppressWarnings("unchecked")
 			ArrayList<TeamDataPO> resArray =(ArrayList<TeamDataPO>) oos.readObject();
 			for(int i=0;i<resArray.size();i++){
-				System.out.println(resArray.get(i).getShortName()+resArray.get(i).getBackBoard());
 				if(!(resArray.get(i).getBackBoard()>0)){
 					resArray.remove(i);
 					i--;

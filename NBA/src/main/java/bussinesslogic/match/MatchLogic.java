@@ -9,6 +9,7 @@ import bslogicService.MatchInfoService;
 import bussinesslogic.team.TeamLogic;
 import data.match.Matchdata;
 import data.po.MatchDataPO;
+import data.po.Match_PlayerPO;
 
 public class MatchLogic implements MatchInfoService {
 	Matchdata add = new Matchdata();
@@ -133,6 +134,29 @@ public class MatchLogic implements MatchInfoService {
 		}
 		return res;
 	}
+	
+	//根据球员返回比赛
+		public ArrayList<Match_PlayerPO> GetPlayerInfo(String playername) {
+			ArrayList<MatchDataPO> allinfo = GetAllInfo();
+			ArrayList<Match_PlayerPO> res = new  ArrayList<Match_PlayerPO>();
+			for(int i=0;i<allinfo.size();i++){
+				for(int k=0;k<allinfo.get(i).getPlayers1().size();k++){
+					if(allinfo.get(i).getPlayers1().get(k).getPlayername().equals(playername)){
+						res.add(allinfo.get(i).getPlayers1().get(k));
+						break;
+					}
+				}
+				for(int k=0;k<allinfo.get(i).getPlayers2().size();k++){
+					if(allinfo.get(i).getPlayers2().get(k).getPlayername().equals(playername)){
+						res.add(allinfo.get(i).getPlayers2().get(k));
+						break;
+					}
+				}
+			}
+			return res;
+		}
+	
+	
 	/*// string[0]是赛季（格式13-14），string[1]是日期（格式01-01）,string[3]是赛季_日期（格式13-14_01-01）
 	public String[] getDate(){
 		String date="";
@@ -161,6 +185,11 @@ public class MatchLogic implements MatchInfoService {
 		/*match.ini();
 		TeamLogic team = new TeamLogic();
 		team.initTeamData();*/
+		/*ArrayList<Match_PlayerPO> res = match.GetPlayerInfo("CJ Miles");
+		System.out.println(res.size());
+		for(int i=0;i<res.size();i++){
+			System.out.println(res.get(i).getPlayername()+" "+res.get(i).getData());
+		}*/
 	    System.out.println(MatchLogic.getTime());
 	}
 
