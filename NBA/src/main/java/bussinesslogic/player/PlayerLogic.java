@@ -2318,6 +2318,42 @@ public class PlayerLogic implements PlayerInfoService{
 		pio.WriteIn(PlayerList.get(i),season);
 		}
 	}
+	public PlayerDataPO[] getPlayerByFirstName(PlayerDataPO[] orgin,String firstCapital){
+		ArrayList<PlayerDataPO> temp = new ArrayList<PlayerDataPO>();
+		for(int j = 0;j<orgin.length;j++){
+			if(orgin[j].getName().startsWith(firstCapital)){
+				temp.add(orgin[j]);
+			}
+		}
+		PlayerDataPO[] res = new PlayerDataPO[temp.size()];
+		for(int i = 0;i<temp.size();i++){
+			res[i] = temp.get(i);
+		}
+		return res;
+	}
+	public PlayerDataPO[] getPlayerByTeam(String teamName,String nameKeys,String position,String season){
+		PlayerDataPO[] orgin = getAllSearch(nameKeys,position,"null",season);
+			ArrayList<PlayerDataPO> temp = new ArrayList<PlayerDataPO>();
+			if(!teamName.equals("null")){
+			for(int i = 0;i<orgin.length;i++){
+				if(orgin[i].getTeamName().equals(teamName)){
+					temp.add(orgin[i]);
+				}
+			}
+			PlayerDataPO[] res = new PlayerDataPO[temp.size()];
+			for(int i = 0;i<temp.size();i++){
+				res[i] = temp.get(i);
+			}
+			return res;
+			}
+			else{
+				return orgin;
+			}
+		
+	}
+	
+	
+	
 	//自动测试需要的方法
 	public PlayerDataPO[] sort(final String orderName,boolean isASC,PlayerDataPO[] orgin,final boolean isAVG) {
 		// TODO Auto-generated method stub
