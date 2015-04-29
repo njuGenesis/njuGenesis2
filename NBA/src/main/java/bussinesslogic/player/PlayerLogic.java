@@ -1193,7 +1193,7 @@ public class PlayerLogic implements PlayerInfoService{
 		
 		for(int i = 0;i<temp.length;i++){
 			
-			if(temp[i].getName().contains(keys)){
+			if(temp[i].getName().toLowerCase().contains(keys.toLowerCase())){
 			res.add(temp[i]);
 			}
 			
@@ -1212,7 +1212,7 @@ public class PlayerLogic implements PlayerInfoService{
 		else {
 			ArrayList<PlayerDataPO> temp = new ArrayList<PlayerDataPO>();
 			for(int i =0;i<res.length;i++){
-				if(res[i].getName().contains(namekeys)){
+				if(res[i].getName().toLowerCase().contains(namekeys.toLowerCase())){
 					temp.add(res[i]);
 				}
 			}
