@@ -6,16 +6,21 @@ import java.awt.Dimension;
 
 
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -43,32 +48,32 @@ public class StyleTable extends JTable {
 
 	public void setStyleTabelModel(TableModel tableModel){
 		super.setModel(tableModel);
-		paintRow(); //将奇偶行分别设置为不同颜色
 		setting();
+		paintRow(); //将奇偶行分别设置为不同颜色
 	}
 	
 	public StyleTable(TableModel tableModel) {
 		super(tableModel);
-		paintRow(); //将奇偶行分别设置为不同颜色
 		setting();
+		paintRow(); //将奇偶行分别设置为不同颜色
 	}
 	
 	public StyleTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
-		paintRow(); //将奇偶行分别设置为不同颜色
 		setting();
+		paintRow(); //将奇偶行分别设置为不同颜色
 	}
 	
 	public StyleTable(Object[][] rowData, Object[] columnNames, String[] color) {
 		super(rowData, columnNames);
+		setting();
 		this.color = color;
 		paintColorRow();
-		setting();
 	}
 
 	private void setting(){
 		//setFixColumnWidth(this); //固定表格的列宽
-		this.setIntercellSpacing(new Dimension(0,0)); //设置数据与单元格边框的眉边距
+		this.setIntercellSpacing(new Dimension(1,0)); //设置数据与单元格边框的眉边距
 		//根据单元内的数据内容自动调整列宽resize column width accordng to content of cell automatically
 		fitTableColumns(this);
 		
@@ -87,11 +92,11 @@ public class StyleTable extends JTable {
 		this.setShowGrid(false);
 		Color color = this.getGridColor();
 		this.setBorder(new MatteBorder(0, 1, 0, 0, color));
-		
+
 		MultiLineHeaderRenderer multiLineHeaderRenderer = new MultiLineHeaderRenderer();
 		TableColumnModel cmodel = this.getColumnModel();  
 		for (int i = 0; i < cmodel.getColumnCount(); i++) {  
-			cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);  
+			cmodel.getColumn(i).setHeaderRenderer(multiLineHeaderRenderer);
 		} 
 	}
 	
@@ -101,6 +106,51 @@ public class StyleTable extends JTable {
 		this.setRowSorter(sorter);
 	}
 
+	public void tableSetting(final StyleTable table, final Vector<String> header, final Vector<Vector<Object>> data, StyleScrollPane scrollPane, java.awt.Rectangle r){
+		DefaultTableModel tableModel = new DefaultTableModel(data, header){
+			private static final long serialVersionUID = 1L;
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+		        return false;
+		    }
+		    public String getColumnName(int columnIndex) {
+		        return header.get(columnIndex);
+		    }
+		 
+		    public int getColumnCount() {return header.size();}
+		    public int getRowCount() { return data.size(); }
+		    public Object getValueAt(int row, int col) {
+		    	return data.get(row).get(col);
+		    }
+		    public Class<?> getColumnClass(int column) {  
+		        Class<?> returnValue;  
+		        if ((column >= 0) && (column < getColumnCount())) {  
+		            returnValue = getValueAt(0, column).getClass();  
+		        } else {  
+		            returnValue = Object.class;  
+		        }
+		        return returnValue;
+		    }
+		};
+		
+		table.setPreferredScrollableViewportSize(new Dimension(r.width, r.height));//设置大小
+		table.setBounds(r);
+		table.getTableHeader().setPreferredSize(new Dimension(r.width, 30));//设置表头大小
+		table.setStyleTabelModel(tableModel);
+		
+		scrollPane.setBounds(r);
+		
+//		MouseAdapter mouseAdapter = new MouseAdapter() {
+//			public void mousePressed(MouseEvent e) {
+//				int column = table.getColumnModel().getColumnIndexAtX(e.getX());
+//				int row    = e.getY()/table.getRowHeight();
+//
+//				if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 0)) {
+//				}else{
+//				}
+//			}
+//		};
+//		table.addMouseListener(mouseAdapter);
+	}
 
 	/**
 	 * 根据color数组中相应字符串所表示的颜色来设置某行的颜色，注意，JTable中可以对列进行整体操作
@@ -184,9 +234,12 @@ public class StyleTable extends JTable {
 				setBackground(new Color(235, 236, 231));
 			else
 				setBackground(new Color(251, 251, 251));
+			
+			//setHorizontalAlignment(SwingConstants.CENTER);
 
 			return super.getTableCellRendererComponent(t, value, isSelected,
 					hasFocus, row, column);
+			
 		}
 	}
 

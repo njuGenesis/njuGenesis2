@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -35,6 +38,7 @@ import data.po.PlayerDataPO;
 import data.po.TeamDataPO;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
 import presentation.hotspot.SelectLabel;
 import presentation.mainui.StartUI;
@@ -45,18 +49,18 @@ public class PlayerUI extends BgPanel{
 	private static String file = "";
 	private GLabel title, chooser;
 	private SelectLabel letter[];
-	private PlayerLogic playerLogic;
-	private TeamLogic teamLogic;
+	private PlayerLogic playerLogic = new PlayerLogic();
+	private TeamLogic teamLogic = new TeamLogic();
 	private StyleTable table;
-	private JScrollPane scrollPane;
+	private StyleScrollPane scrollPane;
 	private JComboBox<String> comboBoxTeam, comboBoxPosition;
 	private JTextField search;
 	private JCheckBox checkBox1, checkBox2;
-	private Vector<String> header;
-	private Vector<Vector<Object>> data;
+	private Vector<String> header = new Vector<String>();
+	private Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 	private TableModel tableModel;
 	private PlayerDataPO[] playList;
-	private TurnController turnController;
+	private TurnController turnController = new TurnController();
 
 	public PlayerUI() {
 		super(file);
@@ -66,16 +70,9 @@ public class PlayerUI extends BgPanel{
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		
-		turnController = new TurnController();
-		playerLogic = new PlayerLogic();
-		teamLogic = new TeamLogic();
+		playList = playerLogic.getAllInfo(playerLogic.getLatestSeason());
 		
-		playList = playerLogic.getAllInfo("13-14");
-		
-		header = new Vector<String>();
-		data = new Vector<Vector<Object>>();
-		
-		title = new GLabel("   比赛",new Point(30,30),new Point(940,52),this,true,0,24);
+		title = new GLabel("  球员",new Point(30,30),new Point(940,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
 		title.setForeground(UIUtil.bgWhite);
@@ -84,22 +81,24 @@ public class PlayerUI extends BgPanel{
 		chooser.setOpaque(true);
 		chooser.setBackground(UIUtil.bgGrey);
 		chooser.setForeground(UIUtil.bgWhite);
-		chooser.setHorizontalAlignment(JLabel.CENTER);
 		
 		GLabel message = new GLabel("*单击表头可排序", new Point(40, 167), new Point(120, 30), this, true, 0, 13);
 		
 		letter = new SelectLabel[26];
 		for(int i=0;i<letter.length;i++){
-			letter[i] = new SelectLabel(String.valueOf((char)(65+i)), new Point(10+i*31, 7), new Point(30, 30), chooser, true, 0, 20);
+			final String letterString = String.valueOf((char)(65+i));
+			letter[i] = new SelectLabel(letterString, new Point(10+i*31, 7), new Point(30, 30), chooser, true, 0, 20);
 			letter[i].setOpaque(true);
 			letter[i].setSelected(false);
-			//letter[i].setBackground(UIUtil.bgGrey);
 			letter[i].setForeground(UIUtil.bgWhite);
 			letter[i].setHorizontalAlignment(SwingConstants.CENTER);
 			letter[i].addMouseListener(new MouseListener() {
 				public void mouseReleased(MouseEvent e) {
 				}
 				public void mousePressed(MouseEvent e) {
+					comboBoxTeam.setSelectedIndex(0);
+					comboBoxPosition.setSelectedIndex(0);
+					search.setText("根据姓名查找");
 					SelectLabel selectLabel = (SelectLabel)e.getSource();
 					for(int i=0;i<letter.length;i++){
 						letter[i].setSelected(false);
@@ -128,71 +127,62 @@ public class PlayerUI extends BgPanel{
 		boxHeaderTeam[0] = "根据球队查找";
 		for(int i=1;i<boxHeaderTeam.length;i++){
 			boxHeaderTeam[i] = TableUtility.getChTeam(teamDataPOs.get(i-1).getShortName())+" "+
-					//teamDataPOs.get(i-1).getName()+" "+
 					teamDataPOs.get(i-1).getShortName();
 		}
 		comboBoxTeam = new JComboBox<String>(boxHeaderTeam);
 		comboBoxTeam.setBounds(10, 44, 200, 30);
 		chooser.add(comboBoxTeam);
+		comboBoxTeam.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(int i=0;i<letter.length;i++){
+					letter[i].setSelected(false);
+				}
+				String team = comboBoxTeam.getSelectedItem().toString();System.out.println(team);
+			}
+		});
 		
 		String[] boxHeaderPosition = {"根据位置查找", "前锋 F", "中锋 C", "后卫 G"};
 		comboBoxPosition = new JComboBox<String>(boxHeaderPosition);
 		comboBoxPosition.setBounds(220, 44, 200, 30);
 		chooser.add(comboBoxPosition);
+		comboBoxPosition.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String team = "";
+				String position = "";
+				String name = "";
+				for(int i=0;i<letter.length;i++){
+					letter[i].setSelected(false);
+				}
+				if(comboBoxTeam.getSelectedIndex()!=0 && comboBoxPosition.getSelectedIndex()!=0){
+					team = comboBoxTeam.getSelectedItem().toString();System.out.println(team);
+					position = comboBoxPosition.getSelectedItem().toString();System.out.println(position);
+				}
+			}
+		});
 		
 		search = new JTextField("根据姓名查找");
 		search.setBounds(430, 44, 200, 30);
 		chooser.add(search);
+		search.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+		search.addMouseListener(new MouseAdapter() {
+			//public void 
+		});
 		
 		infoInit();
-		tableSetting();
-		
 	}
 	
-	private void tableSetting(){
-		
-		tableModel = new DefaultTableModel(data, header){
-			private static final long serialVersionUID = 1L;
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-		        return false;
-		    }
-		    public String getColumnName(int columnIndex) {
-		        return header.get(columnIndex);
-		    }
-		 
-		    public int getColumnCount() {return header.size();}
-		    public int getRowCount() { return data.size(); }
-		    public Object getValueAt(int row, int col) {
-		    	return data.get(row).get(col);
-		    }
-		    public Class<?> getColumnClass(int column) {  
-		        Class<?> returnValue;  
-		        if ((column >= 0) && (column < getColumnCount())) {  
-		            returnValue = getValueAt(0, column).getClass();  
-		        } else {  
-		            returnValue = Object.class;  
-		        }
-		        return returnValue;
-		    }
-		};
-		
-		
-		table = new StyleTable();
-		table.setStyleTabelModel(tableModel);
-		tableSetting(table);
-		table.setSort();
-		
-		scrollPane = new JScrollPane(); 
-		scrollPane.setBounds(40, 200, 920, 440);
-		//scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		scrollPane.setBorder(null);
-		scrollPane.setOpaque(false);
-		scrollPane.getViewport().setOpaque(false);
-		scrollPane.setViewportView(table);
-		scrollPane.setVisible(true);
-		this.add(scrollPane);
-	}
-
 	private void tableSetting(final JTable table){
 		table.setPreferredScrollableViewportSize(new Dimension(920, 440));//设置大小
 		table.setBounds(40, 200, 920, 480);
@@ -276,5 +266,12 @@ public class PlayerUI extends BgPanel{
 			vector.addElement(p.getExp());
 			data.addElement(vector);
 		}
+		
+		table = new StyleTable();
+		scrollPane = new StyleScrollPane(table);
+		table.tableSetting(table, header, data, scrollPane, new Rectangle(40, 200, 920, 440));
+		table.setSort();
+		tableSetting(table);
+		this.add(scrollPane);
 	}
 }

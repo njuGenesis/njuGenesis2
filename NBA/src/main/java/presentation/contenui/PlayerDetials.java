@@ -1,21 +1,27 @@
 package presentation.contenui;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.JScrollPane;
+import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
 
+import bussinesslogic.match.MatchLogic;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
+import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.hotspot.SelectLabel;
+import data.po.MatchDataPO;
+import data.po.Match_PlayerPO;
 import data.po.PlayerDataPO;
 
 public class PlayerDetials extends BgPanel{
@@ -83,11 +89,11 @@ public class PlayerDetials extends BgPanel{
 					tdMenu[i].setSelected(false);
 				}
 				tdMenu[2].setSelected(true);
-//				Match match = new Match(PlayerDetials.this.po);
-//				PlayerDetials.this.remove(sonPanel);
-//				sonPanel = match;
-//				PlayerDetials.this.add(sonPanel);
-//				repaint();
+				PlayerMatch playerMatch = new PlayerMatch(pos);
+				PlayerDetials.this.remove(sonPanel);
+				sonPanel = playerMatch;
+				PlayerDetials.this.add(sonPanel);
+				repaint();
 			}
 		});
 		
@@ -147,7 +153,8 @@ class PlayerData extends BgPanel{
 	
 	private PlayerDataPO[] pos;
 	private StyleTable basicTable, pgTable, effTable;
-	private JScrollPane basicSP, pgSP, effSP;
+	private StyleScrollPane basicSP, pgSP, effSP;
+	private JCheckBox checkBox1, checkBox2, checkBox3;
 
 	public PlayerData(PlayerDataPO[] pos) {
 		super("");
@@ -158,6 +165,62 @@ class PlayerData extends BgPanel{
 		this.setBackground(UIUtil.bgWhite);
 		
 		basicSetting();
+		pgSetting();
+		effSetting();
+		
+		basicSP.setVisible(true);
+		
+		checkBox1 = new JCheckBox("总览");
+		checkBox1.setBounds(670, 15, 70, 30);
+		checkBox1.setSelected(true);
+		this.add(checkBox1);
+		checkBox1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox1.isSelected()){
+					checkBox2.setSelected(false);
+					checkBox3.setSelected(false);
+					pgSP.setVisible(false);
+					effSP.setVisible(false);
+					basicSP.setVisible(true);
+				}else{
+					checkBox1.setSelected(true);
+				}
+			}
+		});
+		
+		checkBox2 = new JCheckBox("场均");
+		checkBox2.setBounds(740, 15, 70, 30);
+		this.add(checkBox2);
+		checkBox2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox2.isSelected()){
+					checkBox1.setSelected(false);
+					checkBox3.setSelected(false);
+					basicSP.setVisible(false);
+					effSP.setVisible(false);
+					pgSP.setVisible(true);
+				}else{
+					checkBox2.setSelected(true);
+				}
+			}
+		});
+		
+		checkBox3 = new JCheckBox("效率");
+		checkBox3.setBounds(810, 15, 70, 30);
+		this.add(checkBox3);
+		checkBox3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox3.isSelected()){
+					checkBox1.setSelected(false);
+					checkBox2.setSelected(false);
+					basicSP.setVisible(false);
+					pgSP.setVisible(false);
+					effSP.setVisible(true);
+				}else{
+					checkBox3.setSelected(true);
+				}
+			}
+		});
 	}
 	
 	private void basicSetting(){
@@ -199,9 +262,10 @@ class PlayerData extends BgPanel{
 		}
 		
 		basicTable = new StyleTable();
-		basicSP = new JScrollPane(); 
-		tableSetting(basicTable, header, data, basicSP);
+		basicSP = new StyleScrollPane(basicTable);
+		basicTable.tableSetting(basicTable, header, data, basicSP,  new java.awt.Rectangle(14, 64, 920, 480));
 		basicTable.setSort();
+		this.add(basicSP);
 	}
 	
 	private void pgSetting(){
@@ -228,14 +292,15 @@ class PlayerData extends BgPanel{
 		}
 		
 		pgTable = new StyleTable();
-		pgSP = new JScrollPane(); 
-		tableSetting(pgTable, header, data, pgSP);
+		pgSP = new StyleScrollPane(pgTable); 
+		pgTable.tableSetting(pgTable, header, data, pgSP,  new java.awt.Rectangle(14, 64, 920, 480));
 		pgTable.setSort();
+		this.add(pgSP);
 	}
 	
 	private void effSetting(){
 		final Vector<String> header = new Vector<String>();
-		header.addElement("赛季");header.addElement("效率");header.addElement("GMSC效率");header.addElement("使用率");header.addElement("真实命中率");
+		header.addElement("赛季");header.addElement("效率  ");header.addElement("GMSC效率");header.addElement("使用率");header.addElement("真实命中率");
 		header.addElement("投篮命中率");header.addElement("三分命中率");header.addElement("罚篮命中率");header.addElement("投篮效率");header.addElement("篮板效率");
 		header.addElement("进攻篮板效率");header.addElement("防守篮板效率");header.addElement("助攻效率");header.addElement("抢断效率");header.addElement("盖帽效率");
 		header.addElement("失误率");
@@ -263,62 +328,224 @@ class PlayerData extends BgPanel{
 		}
 		
 		effTable = new StyleTable();
-		effSP = new JScrollPane(); 
-		tableSetting(effTable, header, data, effSP);
+		effSP = new StyleScrollPane(effTable); 
+		effTable.tableSetting(effTable, header, data, effSP, new java.awt.Rectangle(14, 64, 920, 480));
 		effTable.setSort();
+		this.add(effSP);
 	}
 	
-	private void tableSetting(final StyleTable table, final Vector<String> header, final Vector<Vector<Object>> data, JScrollPane scrollPane){
-		DefaultTableModel tableModel = new DefaultTableModel(data, header){
-			private static final long serialVersionUID = 1L;
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-		        return false;
-		    }
-		    public String getColumnName(int columnIndex) {
-		        return header.get(columnIndex);
-		    }
-		 
-		    public int getColumnCount() {return header.size();}
-		    public int getRowCount() { return data.size(); }
-		    public Object getValueAt(int row, int col) {
-		    	return data.get(row).get(col);
-		    }
-		    public Class<?> getColumnClass(int column) {  
-		        Class<?> returnValue;  
-		        if ((column >= 0) && (column < getColumnCount())) {  
-		            returnValue = getValueAt(0, column).getClass();  
-		        } else {  
-		            returnValue = Object.class;  
-		        }
-		        return returnValue;
-		    }
-		};
-		
-		table.setPreferredScrollableViewportSize(new Dimension(920, 440));//设置大小
-		table.setBounds(14, 20, 920, 480);
-		table.getTableHeader().setPreferredSize(new Dimension(920, 30));//设置表头大小
-		table.setStyleTabelModel(tableModel);
-		
-		scrollPane.setBounds(14, 20, 920, 440);
-		//basicSP.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		scrollPane.setBorder(null);
-		scrollPane.setOpaque(false);
-		scrollPane.getViewport().setOpaque(false);
-		scrollPane.setViewportView(table);
-		scrollPane.setVisible(true);
-		this.add(scrollPane);
-		
-		MouseAdapter mouseAdapter = new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				int column = table.getColumnModel().getColumnIndexAtX(e.getX());
-				int row    = e.getY()/table.getRowHeight();
+}
 
-				if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0 && (column == 0)) {
-				}else{
+class PlayerMatch extends BgPanel{
+	
+	private PlayerDataPO[] pos;
+	private StyleTable basicTable, pgTable, effTable;
+	private StyleScrollPane basicSP, pgSP, effSP;
+	private JCheckBox checkBox1, checkBox2, checkBox3;
+	private MatchLogic matchLogic = new MatchLogic();
+	private ArrayList<Match_PlayerPO> match_PlayerPOs = new ArrayList<Match_PlayerPO>();
+	private ArrayList<ArrayList<MatchDataPO>> matchDataPOs = new ArrayList<ArrayList<MatchDataPO>>();
+
+	public PlayerMatch(PlayerDataPO[] pos) {
+		super("");
+		this.pos = pos;
+		this.setBounds(26, 120, 948, 530);
+		this.setLayout(null);
+		this.setVisible(true);
+		this.setBackground(UIUtil.bgWhite);
+		
+		for(int i=pos.length-1;i>=0;i--){
+			matchDataPOs.add(matchLogic.GetPlayerInfo(pos[i].getName(), pos[i].getSeason()));
+		}
+		
+		for(int i=0;i<matchDataPOs.size();i++){
+			for(int k=matchDataPOs.get(i).size()-1;k>=0;k--){
+				ArrayList<Match_PlayerPO> players1 = matchDataPOs.get(i).get(k).getPlayers1();
+				for(int m=0;m<players1.size();m++){
+					if(players1.get(m).getPlayername().equals(pos[i].getName())){
+						match_PlayerPOs.add(players1.get(m));
+						break;
+					}
+				}
+				ArrayList<Match_PlayerPO> players2 = matchDataPOs.get(i).get(k).getPlayers2();
+				for(int m=0;m<players2.size();m++){
+					if(players2.get(m).getPlayername().equals(pos[i].getName())){
+						match_PlayerPOs.add(players2.get(m));
+						break;
+					}
 				}
 			}
-		};
-		table.addMouseListener(mouseAdapter);
+		}
+		
+		basicSetting();
+		pgSetting();
+		effSetting();
+		
+		basicSP.setVisible(true);
+		
+		checkBox1 = new JCheckBox("总览");
+		checkBox1.setBounds(670, 15, 70, 30);
+		checkBox1.setSelected(true);
+		this.add(checkBox1);
+		checkBox1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox1.isSelected()){
+					checkBox2.setSelected(false);
+					checkBox3.setSelected(false);
+					pgSP.setVisible(false);
+					effSP.setVisible(false);
+					basicSP.setVisible(true);
+				}else{
+					checkBox1.setSelected(true);
+				}
+			}
+		});
+		
+		checkBox2 = new JCheckBox("场均");
+		checkBox2.setBounds(740, 15, 70, 30);
+		this.add(checkBox2);
+		checkBox2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox2.isSelected()){
+					checkBox1.setSelected(false);
+					checkBox3.setSelected(false);
+					basicSP.setVisible(false);
+					effSP.setVisible(false);
+					pgSP.setVisible(true);
+				}else{
+					checkBox2.setSelected(true);
+				}
+			}
+		});
+		
+		checkBox3 = new JCheckBox("效率");
+		checkBox3.setBounds(810, 15, 70, 30);
+		this.add(checkBox3);
+		checkBox3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox3.isSelected()){
+					checkBox1.setSelected(false);
+					checkBox2.setSelected(false);
+					basicSP.setVisible(false);
+					pgSP.setVisible(false);
+					effSP.setVisible(true);
+				}else{
+					checkBox3.setSelected(true);
+				}
+			}
+		});
+	}
+	
+	private double ShortDouble(double d){
+		DecimalFormat df = new DecimalFormat(".00");
+		return Double.parseDouble(df.format(d));
+	}
+	
+	private void basicSetting(){
+		
+		final Vector<String> header = new Vector<String>();
+		//header.addElement("赛季");header.addElement("日期");header.addElement("对手");
+		header.addElement("位置");header.addElement("在场时间");header.addElement("得分");header.addElement("进攻篮板");header.addElement("防守篮板");
+		header.addElement("投球数");header.addElement("罚球数");header.addElement("失误");header.addElement("篮板");
+		header.addElement("投篮命中数");header.addElement("投篮命中率");header.addElement("三分命中率");header.addElement("罚球命中率");header.addElement("三分投篮数");
+		header.addElement("三分命中数");header.addElement("罚篮命中数");header.addElement("助攻数");header.addElement("抢断数");header.addElement("盖帽数");
+		header.addElement("犯规数");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=0;i<pos.length;i++){
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(match_PlayerPOs.get(i).getState());
+			vector.addElement(match_PlayerPOs.get(i).getTime());
+			vector.addElement((int)match_PlayerPOs.get(i).getPoints());
+			vector.addElement((int)match_PlayerPOs.get(i).getBankOff());
+			vector.addElement((int)match_PlayerPOs.get(i).getBankDef());
+			vector.addElement((int)match_PlayerPOs.get(i).getShoot());
+			vector.addElement((int)match_PlayerPOs.get(i).getFT());
+			vector.addElement((int)match_PlayerPOs.get(i).getTo());
+			vector.addElement((int)match_PlayerPOs.get(i).getBank());
+			vector.addElement((int)match_PlayerPOs.get(i).getShootEffNumber());
+			vector.addElement(ShortDouble(match_PlayerPOs.get(i).getShootEff()));
+			vector.addElement(ShortDouble(match_PlayerPOs.get(i).getTPShootEff()));
+			vector.addElement(ShortDouble(match_PlayerPOs.get(i).getFTShootEff()));
+			vector.addElement((int)match_PlayerPOs.get(i).getTPShoot());
+			vector.addElement((int)match_PlayerPOs.get(i).getTPShootEffNumber());
+			vector.addElement((int)match_PlayerPOs.get(i).getFTShootEffNumber());
+			vector.addElement((int)match_PlayerPOs.get(i).getAss());
+			vector.addElement((int)match_PlayerPOs.get(i).getSteal());
+			vector.addElement((int)match_PlayerPOs.get(i).getRejection());
+			vector.addElement((int)match_PlayerPOs.get(i).getFoul());
+			data.addElement(vector);
+		}
+		
+		basicTable = new StyleTable();
+		basicSP = new StyleScrollPane(basicTable); 
+		basicTable.tableSetting(basicTable, header, data, basicSP, new java.awt.Rectangle(14, 64, 920, 480));
+		basicTable.setSort();
+		this.add(basicSP);
+	}
+	
+	private void pgSetting(){
+		final Vector<String> header = new Vector<String>();
+		header.addElement("赛季");header.addElement("场均上场时间");header.addElement("场均得分");
+		header.addElement("场均篮板数");header.addElement("场均助攻数");header.addElement("场均进攻数");header.addElement("场均防守数");header.addElement("场均抢断数");
+		header.addElement("场均盖帽数");header.addElement("场均失误数");header.addElement("场均犯规数");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=0;i<pos.length;i++){
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(pos[pos.length-1-i].getSeason());
+			vector.addElement(pos[pos.length-1-i].getMPG());
+			vector.addElement(pos[pos.length-1-i].getPPG());
+			vector.addElement(pos[pos.length-1-i].getBPG());
+			vector.addElement(pos[pos.length-1-i].getAPG());
+			vector.addElement(pos[pos.length-1-i].getOffPG());
+			vector.addElement(pos[pos.length-1-i].getDefPG());
+			vector.addElement(pos[pos.length-1-i].getStealPG());
+			vector.addElement(pos[pos.length-1-i].getRPG());
+			vector.addElement(pos[pos.length-1-i].getToPG());
+			vector.addElement(pos[pos.length-1-i].getFoulPG());
+			data.addElement(vector);
+		}
+		
+		pgTable = new StyleTable();
+		pgSP = new StyleScrollPane(pgTable); 
+		pgTable.tableSetting(pgTable, header, data, pgSP, new java.awt.Rectangle(14, 64, 920, 480));
+		pgTable.setSort();
+	}
+	
+	private void effSetting(){
+		final Vector<String> header = new Vector<String>();
+		header.addElement("赛季");header.addElement("效率  ");header.addElement("GMSC效率");header.addElement("使用率");header.addElement("真实命中率");
+		header.addElement("投篮命中率");header.addElement("三分命中率");header.addElement("罚篮命中率");header.addElement("投篮效率");header.addElement("篮板效率");
+		header.addElement("进攻篮板效率");header.addElement("防守篮板效率");header.addElement("助攻效率");header.addElement("抢断效率");header.addElement("盖帽效率");
+		header.addElement("失误率");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=0;i<pos.length;i++){
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(pos[pos.length-1-i].getSeason());
+			vector.addElement(pos[pos.length-1-i].getEff());
+			vector.addElement(pos[pos.length-1-i].getGmsc());
+			vector.addElement(pos[pos.length-1-i].getUseEff());
+			vector.addElement(pos[pos.length-1-i].getTruePercentage());
+			vector.addElement(pos[pos.length-1-i].getFieldGoalPercentage());
+			vector.addElement(pos[pos.length-1-i].getThreePGPercentage());
+			vector.addElement(pos[pos.length-1-i].getFTPercentage());
+			vector.addElement(pos[pos.length-1-i].getShootEff());
+			vector.addElement(pos[pos.length-1-i].getBackboardEff());
+			vector.addElement(pos[pos.length-1-i].getOffBEff());
+			vector.addElement(pos[pos.length-1-i].getDefBEff());
+			vector.addElement(pos[pos.length-1-i].getAssitEff());
+			vector.addElement(pos[pos.length-1-i].getStealEff());
+			vector.addElement(pos[pos.length-1-i].getRejectionEff());
+			vector.addElement(pos[pos.length-1-i].getToEff());
+			data.addElement(vector);
+		}
+		
+		effTable = new StyleTable();
+		effSP = new StyleScrollPane(effTable); 
+		effTable.tableSetting(effTable, header, data, effSP, new java.awt.Rectangle(14, 64, 920, 480));
+		effTable.setSort();
 	}
 }
 
