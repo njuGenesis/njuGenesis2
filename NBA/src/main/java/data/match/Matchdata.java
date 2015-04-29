@@ -61,7 +61,7 @@ public class Matchdata implements Serializable {
 			return matches;
 	}
 	//读取一个文件的比赛信息
-	private ArrayList<MatchDataPO> readOut(File matchFile) {
+	public ArrayList<MatchDataPO> readOut(File matchFile) {
 		try {
 			if (!matchFile.exists()) {
 				ArrayList<MatchDataPO> Null = new ArrayList<MatchDataPO>();

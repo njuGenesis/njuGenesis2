@@ -131,19 +131,33 @@ public class MatchLogic implements MatchInfoService {
 		}
 		return res;
 	}
+	// string[0]是赛季（格式13-14），string[1]是日期（格式01-01）,string[3]是赛季_日期（格式13-14_01-01）
+	public String[] getDate(){
+		String date="";
+		String[] res=new String[3];
+	
+		ArrayList<MatchDataPO> allMatches =GetAllInfo();
+		date=allMatches.get(0).getDate();
+		for(int i=1;i<allMatches.size();i++){
+			
+			if(allMatches.get(i).getDate().compareTo(date)>0){
+				date=allMatches.get(i).getDate();
+			}
+		}
+		res[0]=date.split("_")[0];
+		res[1]=date.split("_")[1];
+		res[2]=res[0]+"_"+res[1];
+		return res;
+	}
 	
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		match.ini();
+	//	match.getDate();
+		System.out.println(match.getDate()[2]);
+		/*match.ini();
 		TeamLogic team = new TeamLogic();
-		team.initTeamData();
-		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
-		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
-		//System.out.println(match.GetDateMatch("13-14_01-01", "13-14_01-01").size());
-		//System.out.println(match.GetAllInfo().get(0).getPlayers2().get(0).getPlayername());
-		//System.out.println(match.GetAllInfo().get(0).getPlayers2().get(1).getPlayername());
-		//System.out.println(match.GetAllInfo().size());
+		team.initTeamData();*/
 	    System.out.println(MatchLogic.getTime());
 	}
 
