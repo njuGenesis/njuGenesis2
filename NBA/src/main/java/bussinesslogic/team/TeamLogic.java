@@ -653,10 +653,11 @@ public class TeamLogic implements TeamInfoService {
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
 		}*/
-		ArrayList<Double> res= team.getAvg();
+		/*ArrayList<Double> res= team.getAvg();
 		for(int i=0;i<res.size();i++){
 			System.out.println(res.get(i));
-		}
+		}*/
+		System.out.println(team.GetAllInfo().size());
 			System.out.println(MatchLogic.getTime());
 
 		}

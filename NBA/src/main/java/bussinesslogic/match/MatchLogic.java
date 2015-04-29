@@ -185,8 +185,8 @@ public class MatchLogic implements MatchInfoService {
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		System.out.println(match.GetInfo("HOU").size());
-		//	match.ini();
+		//System.out.println(match.GetInfo("HOU").size());
+			match.ini();
 		//match.getDate();
 		//System.out.println(match.getDate()[2]);
 		/*match.ini();
