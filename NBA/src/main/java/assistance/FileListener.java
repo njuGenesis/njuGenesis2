@@ -1,5 +1,7 @@
 package assistance;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.nio.file.StandardWatchEventKinds;
@@ -7,6 +9,11 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import presentation.mainui.StartUI;
 import bussinesslogic.match.MatchLogic;
 import bussinesslogic.player.PlayerLogic;
 
@@ -39,6 +46,11 @@ public class FileListener {
 		            		p.updatePlayer(event.context().toString(), ptemp);
 		            		System.out.println("play  "+MatchLogic.getTime());
 		            		m.update(temp);
+		            		
+		            		
+		            		showNotice();
+		            		
+		            		
 		            		//System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
 		            		System.out.println("end   "+MatchLogic.getTime());
 		            		
@@ -57,6 +69,30 @@ public class FileListener {
 		        	  e.printStackTrace();
 		          }
 		} 
+	
+	
+	public void showNotice(){
+		final JFrame notice = new JFrame();
+		notice.setSize(300, 300);
+		
+		JLabel info = new JLabel("数据已更新，即将刷新界面");
+		notice.add(info);
+		
+		JButton comfirm = new JButton("确认");
+		comfirm.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notice.setVisible(false);
+				StartUI.startUI.refreshUI();
+			}
+			
+		});
+		notice.add(comfirm);
+		
+		notice.setVisible(true);
+		
+	}
 	   
 	
 	public static void main(String[] args) {
