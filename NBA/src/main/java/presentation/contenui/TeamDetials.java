@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +44,7 @@ import com.sun.xml.internal.ws.api.Component;
 
 import bussinesslogic.match.MatchLogic;
 import bussinesslogic.player.PlayerLogic;
+import bussinesslogic.team.TeamLogic;
 import data.po.MatchDataPO;
 import data.po.PlayerDataPO;
 import data.po.TeamDataPO;
@@ -49,6 +52,7 @@ import presentation.component.BgPanel;
 import presentation.component.CustomScrollBarUI;
 import presentation.component.DateLabel;
 import presentation.component.GLabel;
+import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.hotspot.SelectLabel;
@@ -60,10 +64,13 @@ public class TeamDetials extends BgPanel{
 	private SelectLabel tdMenu[];
 	private TeamDataPO po;
 	private BgPanel sonPanel;
+	private TeamLogic teamLogic = new TeamLogic();
+	private PlayerLogic playerLogic = new PlayerLogic();
 	
-	public TeamDetials(TeamDataPO po){
+	public TeamDetials(String shortName){
 		super("");
-		this.po = po;
+
+		this.po = teamLogic.GetBySN(shortName, playerLogic.getLatestSeason());
 		
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
@@ -197,7 +204,9 @@ class TeamPlayer extends BgPanel{
 	private PlayerLogic playerLogic;
 	private JCheckBox checkBox1, checkBox2;
 	private StyleTable tableBasic, tableDetials;
-	private JScrollPane scrollPane1, scrollPane2;
+	private StyleScrollPane scrollPaneBasic, scrollPaneDetials;
+	private PlayerDataPO[] playerDataPOs;
+	private Rectangle rectangle;
 	
 	public TeamPlayer(TeamDataPO po) {
 		super(file);
@@ -210,121 +219,13 @@ class TeamPlayer extends BgPanel{
 		
 		GLabel message = new GLabel("*单击表头可排序", new Point(34, 5), new Point(120, 30), this, true, 0, 13);
 		
-		String[] playerNames = po.getPlayers().split(";");
-		
-		final String[] headerBasic = {"姓名", "位置", "号码", "身高", "体重", "生日", "球龄"};
-		final Object[][] dataBasic = new Object[playerNames.length][headerBasic.length];
-		for(int i=0;i<dataBasic.length;i++){
-			PlayerDataPO p = playerLogic.getInfo(playerNames[i], "13-14");
-			dataBasic[i][0] = p.getName();
-			dataBasic[i][1] = p.getPosition();
-			dataBasic[i][2] = Integer.valueOf(p.getNumber());
-			dataBasic[i][3] = p.getHeight();
-			dataBasic[i][4] = p.getWeight();
-			dataBasic[i][5] = p.getBirth();
-			dataBasic[i][6] = p.getExp();
-		}
-		
-		final TableModel tableModelBasic = new DefaultTableModel(dataBasic, headerBasic){
-			private static final long serialVersionUID = 1L;
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-		        return false;
-		    }
-		    public String getColumnName(int columnIndex) {
-		        return headerBasic[columnIndex];
-		    }
-		 
-		    public int getColumnCount() {return headerBasic.length;}
-		    public int getRowCount() { return dataBasic.length; }
-		    public Object getValueAt(int row, int col) {
-		    	return dataBasic[row][col];
-		    }
-		    public Class<?> getColumnClass(int column) {  
-		        Class<?> returnValue;  
-		        if ((column >= 0) && (column < getColumnCount())) {  
-		            returnValue = getValueAt(0, column).getClass();  
-		        } else {  
-		            returnValue = Object.class;  
-		        }  
-		        return returnValue;  
-		    }
-		};
-		
-		final String[] headerDetials = {"姓名", "场数", "先发", "分钟", "使用", "三分", "罚球", "进攻", "防守", "场均篮板", "场均助攻", "场均抢断", "场均盖帽", "失误", "犯规", "场均得分"};
-		final Object[][] dataDetials = new Object[playerNames.length][headerDetials.length];
-		for(int i=0;i<dataDetials.length;i++){
-			PlayerDataPO p = playerLogic.getInfo(playerNames[i], "13-14");
-			dataDetials[i][0] = p.getName();
-			dataDetials[i][1] = p.getGP();
-			dataDetials[i][2] = p.getGS();
-			dataDetials[i][3] = p.getMinutesOnField();
-			dataDetials[i][4] = p.getUseEff();
-			dataDetials[i][5] = p.getThreePGPercentage();
-			dataDetials[i][6] = p.getFTPercentage();
-			dataDetials[i][7] = p.getOff();
-			dataDetials[i][8] = p.getDef();
-			dataDetials[i][9] = p.getBPG();
-			dataDetials[i][10] = p.getAPG();
-			dataDetials[i][11] = p.getStealPG();
-			dataDetials[i][12] = p.getRPG();
-			dataDetials[i][13] = p.getTo();
-			dataDetials[i][14] = p.getFoul();
-			dataDetials[i][15] = p.getPPG();
-		}
-		final TableModel tableModelDetials = new DefaultTableModel(dataDetials, headerDetials){
-			private static final long serialVersionUID = 1L;
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-		        return false;
-		    }
-		    public String getColumnName(int columnIndex) {
-		        return headerDetials[columnIndex];
-		    }
-		 
-		    public int getColumnCount() {return headerDetials.length;}
-		    public int getRowCount() { return dataDetials.length; }
-		    public Object getValueAt(int row, int col) {
-		    	return dataDetials[row][col];
-		    }
-		    public Class<?> getColumnClass(int column) {  
-		        Class<?> returnValue;  
-		        if ((column >= 0) && (column < getColumnCount())) {  
-		            returnValue = getValueAt(0, column).getClass();  
-		        } else {  
-		            returnValue = Object.class;  
-		        }  
-		        return returnValue;  
-		    }
-		};
-		
-		tableBasic = new StyleTable();
-		tableDetials = new StyleTable();
-		tableBasic.setStyleTabelModel(tableModelBasic);
-		tableSetting(tableBasic);
-		tableBasic.setSort();
-		tableDetials.setStyleTabelModel(tableModelDetials);
-		tableSetting(tableDetials);
-		tableDetials.setSort();
-		
-		scrollPane2 = new JScrollPane(); 
-		scrollPane2.setBounds(14, 35, 920, 480);
-		//scrollPane2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		scrollPane2.setBorder(null);
-		scrollPane2.setOpaque(false);
-		scrollPane2.getViewport().setOpaque(false);
-		scrollPane2.setViewportView(tableDetials);
-		scrollPane2.setVisible(false);
-		this.add(scrollPane2);
-		
-		scrollPane1 = new JScrollPane(); 
-		scrollPane1.setBounds(14, 35, 920, 480);
-		//scrollPane1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		scrollPane1.setBorder(null);
-		scrollPane1.setOpaque(false);
-		scrollPane1.getViewport().setOpaque(false);
-		scrollPane1.setViewportView(tableBasic);
-		this.add(scrollPane1);
-		
-		
+	    playerDataPOs = playerLogic.getPlayerByTeam(po.getShortName(), "null", "null", po.getSeason());
+	    
+	    rectangle = new Rectangle(14, 35, 920, 480);
+	    
+	    basicSetting();
+	    detialsSetting();
+	    scrollPaneBasic.setVisible(true);
 		
 		checkBox1 = new JCheckBox("信息");
 		checkBox1.setBounds(740, 3, 70, 30);
@@ -334,12 +235,12 @@ class TeamPlayer extends BgPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(checkBox1.isSelected()){
 					checkBox2.setSelected(false);
-					scrollPane2.setVisible(false);
-					scrollPane1.setVisible(true);
+					scrollPaneDetials.setVisible(false);
+					scrollPaneBasic.setVisible(true);
 				}else{
 					checkBox2.setSelected(true);
-					scrollPane1.setVisible(false);
-					scrollPane2.setVisible(true);
+					scrollPaneDetials.setVisible(false);
+					scrollPaneBasic.setVisible(true);
 				}
 			}
 		});
@@ -351,17 +252,86 @@ class TeamPlayer extends BgPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(checkBox2.isSelected()){
 					checkBox1.setSelected(false);
-					scrollPane1.setVisible(false);
-					scrollPane2.setVisible(true);
+					scrollPaneBasic.setVisible(false);
+					scrollPaneDetials.setVisible(true);
 				}else{
 					checkBox1.setSelected(true);
-					scrollPane2.setVisible(false);
-					scrollPane1.setVisible(true);
+					scrollPaneDetials.setVisible(false);
+					scrollPaneBasic.setVisible(true);
 				}
 			}
 		});
 		
 		repaint();
+	}
+	
+	private void basicSetting(){
+		final Vector<String> header = new Vector<String>();
+		header.addElement("姓名");header.addElement("位置");
+		header.addElement("号码");header.addElement("身高");
+		header.addElement("体重");header.addElement("生日");header.addElement("球龄");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=0;i<playerDataPOs.length;i++){
+			PlayerDataPO p = playerDataPOs[i];
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(p.getName());
+			vector.addElement(p.getPosition());
+			vector.addElement(Integer.valueOf(p.getNumber()));
+			vector.addElement(p.getHeight());
+			vector.addElement(p.getWeight());
+			vector.addElement(p.getBirth());
+			vector.addElement(p.getExp());
+			data.addElement(vector);
+		}
+		
+		tableBasic = new StyleTable();
+		scrollPaneBasic = new StyleScrollPane(tableBasic);
+		tableBasic.tableSetting(tableBasic, header, data, scrollPaneBasic, rectangle);
+		tableSetting(tableBasic);
+		tableBasic.setSort();
+		scrollPaneBasic.setVisible(false);
+		this.add(scrollPaneBasic);
+	}
+	
+	private void detialsSetting(){
+		final Vector<String> header = new Vector<String>();
+		header.addElement("姓名");header.addElement("场数");
+		header.addElement("先发");header.addElement("分钟");
+		header.addElement("使用");header.addElement("场均得分");header.addElement("三分");header.addElement("罚球");header.addElement("进攻");header.addElement("防守");
+		header.addElement("场均篮板");
+		header.addElement("场均助攻");header.addElement("场均抢断");header.addElement("场均盖帽");header.addElement("失误");header.addElement("犯规");
+		
+		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		for(int i=0;i<playerDataPOs.length;i++){
+			PlayerDataPO p = playerDataPOs[i];
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(p.getName());
+			vector.addElement(p.getGP());
+			vector.addElement(p.getGS());
+			vector.addElement(p.getMinutesOnField());
+			vector.addElement(p.getUseEff());
+			vector.addElement(p.getPPG());
+			vector.addElement(p.getThreePGPercentage());
+			vector.addElement(p.getFTPercentage());
+			vector.addElement(p.getOff());
+			vector.addElement(p.getDef());
+			vector.addElement(p.getBPG());
+			vector.addElement(p.getAPG());
+			vector.addElement(p.getStealPG());
+			vector.addElement(p.getRPG());
+			vector.addElement(p.getTo());
+			vector.addElement(p.getFoul());
+			data.addElement(vector);
+		}
+		
+		tableDetials = new StyleTable();
+		scrollPaneDetials = new StyleScrollPane(tableDetials);
+		tableDetials.tableSetting(tableDetials, header, data, scrollPaneDetials, rectangle);
+		tableSetting(tableDetials);
+		tableDetials.setSort();
+		scrollPaneDetials.setVisible(false);
+		this.add(scrollPaneDetials);
 	}
 	
 	private void tableSetting(final JTable table){

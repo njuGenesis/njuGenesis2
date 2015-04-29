@@ -68,7 +68,7 @@ public class TeamUI extends BgPanel{
 			}
 			public void mousePressed(MouseEvent e) {
 				GLabel button = (GLabel)e.getSource();
-				StartUI.startUI.turn(turnController.turnToTeamDetials(button.po));
+				StartUI.startUI.turn(turnController.turnToTeamDetials(button.po.getShortName()));
 			}
 		};
 

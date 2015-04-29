@@ -104,6 +104,9 @@ public class PlayerUI extends BgPanel{
 						letter[i].setSelected(false);
 					}
 					selectLabel.setSelected(true);
+					playList = playerLogic.getPlayerByFirstName(playerLogic.getAllInfo(playerLogic.getLatestSeason()), letterString);
+					refreshTable();
+					table.updateUI();
 				}
 				public void mouseExited(MouseEvent e) {
 					SelectLabel selectLabel = (SelectLabel)e.getSource();
@@ -135,10 +138,19 @@ public class PlayerUI extends BgPanel{
 		comboBoxTeam.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(int i=0;i<letter.length;i++){
-					letter[i].setSelected(false);
+				if(comboBoxTeam.getSelectedIndex()!=0){
+					for(int i=0;i<letter.length;i++){
+						letter[i].setSelected(false);
+					}
+					comboBoxPosition.setSelectedIndex(0);
+					search.setText("根据姓名查找");
+					if(comboBoxTeam.getSelectedIndex()!=0){
+						String team = comboBoxTeam.getSelectedItem().toString().split(" ")[1];
+						playList = playerLogic.getPlayerByTeam(team, "null", "null", playerLogic.getLatestSeason());
+						refreshTable();
+						table.updateUI();
+					}
 				}
-				String team = comboBoxTeam.getSelectedItem().toString();System.out.println(team);
 			}
 		});
 		
@@ -149,15 +161,18 @@ public class PlayerUI extends BgPanel{
 		comboBoxPosition.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String team = "";
-				String position = "";
-				String name = "";
-				for(int i=0;i<letter.length;i++){
-					letter[i].setSelected(false);
-				}
-				if(comboBoxTeam.getSelectedIndex()!=0 && comboBoxPosition.getSelectedIndex()!=0){
-					team = comboBoxTeam.getSelectedItem().toString();System.out.println(team);
-					position = comboBoxPosition.getSelectedItem().toString();System.out.println(position);
+				if(comboBoxPosition.getSelectedIndex()!=0){
+					for(int i=0;i<letter.length;i++){
+						letter[i].setSelected(false);
+					}
+					comboBoxTeam.setSelectedIndex(0);
+					search.setText("根据姓名查找");
+					if(comboBoxPosition.getSelectedIndex()!=0){
+						String position = comboBoxPosition.getSelectedItem().toString().split(" ")[1];
+						playList = playerLogic.getPlayerByTeam("null", "null", position, playerLogic.getLatestSeason());
+						refreshTable();
+						table.updateUI();
+					}
 				}
 			}
 		});
@@ -171,13 +186,26 @@ public class PlayerUI extends BgPanel{
 			}
 			@Override
 			public void keyReleased(KeyEvent e) {
+				for(int i=0;i<letter.length;i++){
+					letter[i].setSelected(false);
+				}
+				comboBoxPosition.setSelectedIndex(0);
+				comboBoxTeam.setSelectedIndex(0);
+				String name = search.getText();System.out.println(name);
+				playList = playerLogic.getPlayerByTeam("null", name, "null", playerLogic.getLatestSeason());
+				refreshTable();
+				table.repaint();
 			}
 			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 		});
 		search.addMouseListener(new MouseAdapter() {
-			//public void 
+			public void mousePressed(MouseEvent e) {
+				if(search.getText().equals("根据姓名查找")){
+					search.setText("");
+				}
+			}
 		});
 		
 		infoInit();
@@ -246,6 +274,23 @@ public class PlayerUI extends BgPanel{
 			}
 		};
 		table.addMouseListener(mouseAdapter);
+	}
+	
+	private void refreshTable(){
+		data.removeAllElements();
+		for(int i=0;i<playList.length;i++){
+			PlayerDataPO p = playList[i];
+			Vector<Object> vector = new Vector<Object>();
+			vector.addElement(p.getName());
+			vector.addElement(TableUtility.getChTeam(p.getTeamName())+" "+p.getTeamName());
+			vector.addElement(p.getPosition());
+			vector.addElement(p.getNumber());
+			vector.addElement(p.getHeight());
+			vector.addElement(p.getWeight());
+			vector.addElement(p.getBirth());
+			vector.addElement(p.getExp());
+			data.addElement(vector);
+		}
 	}
 	
 	private void infoInit(){

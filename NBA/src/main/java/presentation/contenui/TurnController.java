@@ -24,8 +24,8 @@ public class TurnController {
 		return newPanel;
 	}
 	
-	public BgPanel turnToTeamDetials(TeamDataPO po){
-		BgPanel newPanel = new TeamDetials(po);
+	public BgPanel turnToTeamDetials(String shortName){
+		BgPanel newPanel = new TeamDetials(shortName);
 		newPanel.setBounds(15, 50, 1000, 650);
 		newPanel.setVisible(false);
 		return newPanel;
