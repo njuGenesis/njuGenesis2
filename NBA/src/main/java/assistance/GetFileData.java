@@ -158,6 +158,8 @@ public class GetFileData {
 			while ((data = br.readLine()).contains(";")) {
 				String[] detail = data.split(";");
 				player=new Match_PlayerPO();
+				player.setOtherTeam(temp[1].split("-")[1]);
+				player.setData(res.getSeason()+"_"+temp[0]);
 				player.setTeam(res.getFirstteam());
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));
@@ -228,6 +230,8 @@ public class GetFileData {
 			while (data != null) {
 				String[] detail = data.split(";");
 				player=new Match_PlayerPO();
+				player.setOtherTeam(temp[1].split("-")[0]);
+				player.setData(res.getSeason()+"_"+temp[0]);
 				player.setTeam(res.getSecondteam());
 				player.setPlayername((detail[0]));
 				player.setState((detail[1]));

@@ -21,7 +21,7 @@ public class TeamLogic implements TeamInfoService {
 			for (int k = 0; k < Teams.size(); k++) {
 				if (players[i].getTeamName()
 						.equals(Teams.get(k).getShortName())
-						&& (Teams.get(k).getSeason().equals("13-14"))) {
+						&& (Teams.get(k).getSeason().equals(players[i].getSeason()))) {
 					if (Teams.get(k).getPlayers() == null) {
 						Teams.get(k).setPlayers("");
 					}
@@ -121,8 +121,8 @@ public class TeamLogic implements TeamInfoService {
 	public void initTeamData() {
 		GetFileData teamFileReader = new GetFileData();
 		Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
-		MatchLogic matchLogic = new MatchLogic();
-		ArrayList<MatchDataPO> Matches = matchLogic.GetAllInfo(); // 一个含有全部比赛基本信息的集合
+	//	MatchLogic matchLogic = new MatchLogic();
+		ArrayList<MatchDataPO> Matches = MatchLogic.matches; // 一个含有全部比赛基本信息的集合
 		for (int i = 0; i < Matches.size(); i++) {
 			if (Matches.get(i).isValid())
 				calcuPoints(Matches.get(i).getPoints(), Matches.get(i)
@@ -137,6 +137,8 @@ public class TeamLogic implements TeamInfoService {
 		}
 		PlayerLogic getPlayers = new PlayerLogic();
 		saveTeamPlayer(getPlayers.getAllInfo("13-14"));
+		saveTeamPlayer(getPlayers.getAllInfo("12-13"));
+		
 		/*
 		 * saveTeamPlayer(getPlayers.getAllInfo("13-14"));
 		 * saveTeamPlayer(getPlayers.getAllInfo("14-15"));
@@ -149,7 +151,9 @@ public class TeamLogic implements TeamInfoService {
 	public void updateTeamInfo(ArrayList<MatchDataPO> newMatches) {
 		Teams = GetAllInfo(); // 获得之前的球队数据
 		if (Teams.size() == 0) {
-			initTeamData();
+			System.out.println("initTeamData");
+			GetFileData teamFileReader = new GetFileData();
+			Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
 		}
 		for (int i = 0; i < newMatches.size(); i++) {
 			if (newMatches.get(i).isValid())
@@ -576,6 +580,7 @@ public class TeamLogic implements TeamInfoService {
 		return res;
 	}
 
+	//自动化测试
 	public void aotoTest(PrintStream out,String season,String date,boolean isAvg,boolean isHigh,String AllOrHotOrKing,int number,
 			String filterCondition,String sortCondition){
 		
@@ -587,14 +592,15 @@ public class TeamLogic implements TeamInfoService {
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		teams = team.GetAllInfo();
-		team.initTeamData();
-		
-		teams=team.GetAllInfo();
+		//team.initTeamData();
+
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
 		}
 			System.out.println(MatchLogic.getTime());
+
 		}
+	
 	
 
 }

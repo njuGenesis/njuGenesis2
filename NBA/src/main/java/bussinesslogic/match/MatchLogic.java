@@ -12,6 +12,8 @@ import data.po.MatchDataPO;
 
 public class MatchLogic implements MatchInfoService {
 	Matchdata add = new Matchdata();
+	public static ArrayList<MatchDataPO> matches=new ArrayList<MatchDataPO>();
+
 
 	/*
 	 * private boolean isExit(){ return m.judge(); }
@@ -26,13 +28,20 @@ public class MatchLogic implements MatchInfoService {
 			if(MatchReader.detailMatch(fileList[i]).getSeason().equals("12-13")){
 			MatchList12.add(calcuRound(MatchReader.detailMatch(fileList[i])));
 			}
+			
 			if(MatchReader.detailMatch(fileList[i]).getSeason().equals("13-14")){
 				MatchList13.add(calcuRound(MatchReader.detailMatch(fileList[i])));
 				}
-			
 		}
+		System.out.println(MatchLogic.getTime());
+		matches.addAll(MatchList12);
+		matches.addAll(MatchList13);
+		if(MatchList12.size()!=0){
 		add.writeIn(MatchList12);
+		}
+		if(MatchList13.size()!=0){
 		add.writeIn(MatchList13);
+		}
 
 		return null;
 	}
@@ -123,18 +132,17 @@ public class MatchLogic implements MatchInfoService {
 		return res;
 	}
 	
-	
-
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
-		//match.ini();
+		match.ini();
+		TeamLogic team = new TeamLogic();
+		team.initTeamData();
 		//System.out.println(match.GetInfo("12-13_01-01", "12-13_12-12", "HOU").size());
 		//System.out.println(match.GetPlayerInfo("Al Horford", "13-14").size());
 		//System.out.println(match.GetDateMatch("13-14_01-01", "13-14_01-01").size());
-	
-		System.out.println(match.GetAllInfo().size());
-		
+		//System.out.println(match.GetAllInfo().get(0).getPlayers2().get(0).getPlayername());
+		//System.out.println(match.GetAllInfo().get(0).getPlayers2().get(1).getPlayername());
 		//System.out.println(match.GetAllInfo().size());
 	    System.out.println(MatchLogic.getTime());
 	}

@@ -8,6 +8,8 @@ public class Match_PlayerPO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	String Data;
+	String OtherTeam;
 	String Team;
 	String Playername;
 	String State;   //位置
@@ -34,6 +36,22 @@ public class Match_PlayerPO implements Serializable{
 	double Rejection;//盖帽数
 	double Foul;//犯规数
 
+	
+	public String getOtherTeam() {
+		return OtherTeam;
+	}
+
+	public void setOtherTeam(String otherTeam) {
+		OtherTeam = otherTeam;
+	}
+
+	public String getData() {
+		return Data;
+	}
+
+	public void setData(String data) {
+		Data = data;
+	}
 	
 	public String getTeam() {
 		return Team;
