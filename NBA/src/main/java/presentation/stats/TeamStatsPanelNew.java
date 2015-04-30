@@ -190,15 +190,15 @@ public class TeamStatsPanelNew extends BgPanel{
 //			"进攻篮板","防守篮板","篮板",
 //			"助攻","抢断","盖帽","失误","犯规","得分",};
 			v.addElement(TableUtility.getChTeam(po.get(i).getName()));
-			v.addElement(po.get(i).getMatchNumber());
-			v.addElement(po.get(i).getShootEffNumber());
-			v.addElement(po.get(i).getShootNumber());
-			v.addElement(po.get(i).getTPEffNumber());
-			v.addElement(po.get(i).getTPNumber());
-			v.addElement(po.get(i).getFTEffNumber());
-			v.addElement(po.get(i).getFTNumber());
-			v.addElement(po.get(i).getOffBackBoard());
-			v.addElement(po.get(i).getDefBackBoard());
+			v.addElement((int)po.get(i).getMatchNumber());
+			v.addElement((int)po.get(i).getShootEffNumber());
+			v.addElement((int)po.get(i).getShootNumber());
+			v.addElement((int)po.get(i).getTPEffNumber());
+			v.addElement((int)po.get(i).getTPNumber());
+			v.addElement((int)po.get(i).getFTEffNumber());
+			v.addElement((int)po.get(i).getFTNumber());
+			v.addElement((int)po.get(i).getOffBackBoard());
+			v.addElement((int)po.get(i).getDefBackBoard());
 			v.addElement(po.get(i).getBackBoard());
 			v.addElement(po.get(i).getAssitNumber());
 			v.addElement(po.get(i).getStealNumber());

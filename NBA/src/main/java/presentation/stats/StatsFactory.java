@@ -1,11 +1,13 @@
 package presentation.stats;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -13,6 +15,7 @@ import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
 import presentation.contenui.TableUtility;
 import presentation.contenui.TurnController;
+import presentation.contenui.UIUtil;
 import presentation.mainui.StartUI;
 
 public class StatsFactory {
@@ -41,6 +44,22 @@ public class StatsFactory {
 		TableModel tableModel = table.getModel();
 		TableRowSorter<TableModel> tableRowSorter=new TableRowSorter<TableModel>(tableModel); // 排序 
 		table.setRowSorter(tableRowSorter); 
+		
+		DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer(){
+			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				if (row % 2 == 0)
+					setBackground(new Color(235, 236, 231));
+				else
+					setBackground(new Color(251, 251, 251));
+
+				setForeground(UIUtil.nbaBlue);
+				return super.getTableCellRendererComponent(t, value, isSelected,
+						hasFocus, row, column);
+			}
+		};
+		table.getColumnModel().getColumn(0).setCellRenderer(defaultTableCellRenderer);
+		table.getColumnModel().getColumn(1).setCellRenderer(defaultTableCellRenderer);
 
 	}
 
@@ -50,6 +69,21 @@ public class StatsFactory {
 		TableModel tableModel = table.getModel();
 		TableRowSorter<TableModel> tableRowSorter=new TableRowSorter<TableModel>(tableModel); // 排序 
 		table.setRowSorter(tableRowSorter); 
+		
+		DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer(){
+			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				if (row % 2 == 0)
+					setBackground(new Color(235, 236, 231));
+				else
+					setBackground(new Color(251, 251, 251));
+
+				setForeground(UIUtil.nbaBlue);
+				return super.getTableCellRendererComponent(t, value, isSelected,
+						hasFocus, row, column);
+			}
+		};
+		table.getColumnModel().getColumn(0).setCellRenderer(defaultTableCellRenderer);
 
 	}
 

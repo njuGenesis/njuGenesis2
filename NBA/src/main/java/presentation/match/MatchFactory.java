@@ -1,22 +1,28 @@
 package presentation.match;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.GLabel;
 import presentation.component.HoriDynamicBarLeft;
 import presentation.component.HoriDynamicBarRight;
+import presentation.component.StyleScrollPane;
 import presentation.component.StyleTable;
 import presentation.component.TeamImageAssist;
 import presentation.contenui.TableUtility;
@@ -79,18 +85,38 @@ public class MatchFactory {
 		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+players.get(0).getTeam()+".svg", 50, 40),new Point(45,10),new Point(50,40),jp,true);
 		GLabel name = new GLabel(TableUtility.getChTeam(players.get(0).getTeam()),new Point(100,20),new Point(200,30),jp,true,0,16);
 		
-		String[] header = {"姓名","位置","分钟","投篮%","命中","出手","三分%","三分命中","三分出手","罚球%","罚球命中","罚球出手",
-				"进攻","防守","篮板","助攻","犯规","抢断","失误","盖帽","得分"};  //21列
-		Object[][] data = getTableData(players);
+		String[] headerStr = {"姓名","位置","分钟","投篮%","命中","出手","三分%","三分命中","三分出手","罚球%","罚球命中","罚球出手",
+				"进攻","防守","篮板","助攻","犯规","抢断","失误","盖帽","得分"};  
+		Vector<String> header = getHeader(headerStr);
+		Vector<Vector<Object>> data = getTableDataV(players);
 		
-		StyleTable table = new StyleTable(data,header);
+//		StyleTable table = new StyleTable(data,header);
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //		table.setSize(940, 420);
 //		table.setPreferredScrollableViewportSize(new Dimension(1200, 420));
 		
-		JScrollPane pane = new JScrollPane(table);
-		pane.setBounds(0, 60, 940, 420);
+//		JScrollPane pane = new JScrollPane(table);
+//		pane.setBounds(0, 60, 940, 420);
 //		pane.add(table);
+		
+		StyleTable table = new StyleTable();
+		StyleScrollPane pane = new StyleScrollPane(table);
+		table.tableSetting(table, header, data, pane, new Rectangle(0, 60, 940, 420));
+		
+		DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer(){
+			public java.awt.Component getTableCellRendererComponent(JTable t, Object value,
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				if (row % 2 == 0)
+					setBackground(new Color(235, 236, 231));
+				else
+					setBackground(new Color(251, 251, 251));
+
+				setForeground(UIUtil.nbaBlue);
+				return super.getTableCellRendererComponent(t, value, isSelected,
+						hasFocus, row, column);
+			}
+		};
+		table.getColumnModel().getColumn(0).setCellRenderer(defaultTableCellRenderer);
 		
 		jp.add(pane);
 		
@@ -407,6 +433,57 @@ public class MatchFactory {
 		}
 		
 		return res;
+	}
+	
+	private Vector<Vector<Object>> getTableDataV(ArrayList<Match_PlayerPO> players){
+		Object[][] res = new Object[players.size()][21];
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		
+//		String[] header = {"姓名","位置","分钟","投篮%","命中",
+//				"出手","三分%","三分命中","三分出手","罚球%",
+//				"罚球命中","罚球出手","进攻","防守","篮板",
+//				"助攻","犯规","抢断","失误","盖帽",
+//				"得分"};  //21列
+		
+		for(int i=0;i<players.size();i++){
+			Vector<Object> v = new Vector<Object>();
+			v.add(players.get(i).getPlayername());
+			v.add(TableUtility.getChPosition(players.get(i).getState()));
+			v.add(players.get(i).getTime());
+			v.add(roundDouble(players.get(i).getShootEff()));
+			v.add((int)players.get(i).getShootEffNumber());
+			
+			v.add((int)players.get(i).getShoot());
+			v.add(roundDouble(players.get(i).getTPShootEff()));
+			v.add((int)players.get(i).getTPShootEffNumber());
+			v.add((int)players.get(i).getTPShoot());
+			v.add(roundDouble(players.get(i).getFTShootEff()));
+			
+			v.add((int)players.get(i).getFTShootEffNumber());
+			v.add((int)players.get(i).getFT());
+			v.add((int)players.get(i).getBankOff());
+			v.add((int)players.get(i).getBankDef());
+			v.add((int)players.get(i).getBank());
+			
+			v.add((int)players.get(i).getAss());
+			v.add((int)players.get(i).getFoul());
+			v.add((int)players.get(i).getSteal());
+			v.add((int)players.get(i).getTo());
+			v.add((int)players.get(i).getRejection());
+			v.add((int)players.get(i).getPoints());
+			
+			data.add(v);
+		}
+		
+		return data;
+	}
+	
+	private Vector<String> getHeader(String[] str){
+		Vector<String> v = new Vector<String>();
+		for(int i=0;i<str.length;i++){
+			v.add(str[i]);
+		}
+		return v;
 	}
 	
 	private double roundDouble(double d){

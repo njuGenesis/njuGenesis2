@@ -227,7 +227,7 @@ public class PlayerStatsPanelNew extends BgPanel{
 			v.addElement(po[i].getRejection());
 			v.addElement(po[i].getTo());
 			v.addElement(po[i].getFoul());
-			v.addElement(po[i].getEff());
+			v.addElement((int)po[i].getEff());
 
 			data.add(v);
 		}

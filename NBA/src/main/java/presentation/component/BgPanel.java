@@ -1,13 +1,13 @@
 package presentation.component;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class BgPanel extends JPanel{
+import presentation.mainui.Refresh;
+
+public class BgPanel extends JPanel implements Refresh{
 	
 	/**
 	 * 
@@ -23,6 +23,11 @@ public class BgPanel extends JPanel{
 		super.paintComponent(g);
 		g.drawImage(im.getImage(), 0, 0, this);   
 		//this.repaint();
+	}
+	@Override
+	public void refreshUI() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -8,6 +8,7 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +21,9 @@ import bussinesslogic.player.PlayerLogic;
 public class FileListener {
 	PlayerLogic p = new PlayerLogic();
 	MatchLogic m = new MatchLogic();
+	
+	int count = 0;
+	
 	public void Listen(String path){
 		 try{
 			 int i = 0;
@@ -30,6 +34,7 @@ public class FileListener {
 		                StandardWatchEventKinds.ENTRY_MODIFY);  
 		        while(true)  
 		        {  
+//		            WatchKey key=watchService.poll(10, TimeUnit.SECONDS);  
 		            WatchKey key=watchService.take();  
 		            for(WatchEvent<?> event:key.pollEvents())  
 		            {  
@@ -47,19 +52,24 @@ public class FileListener {
 		            		p.updatePlayer(event.context().toString(), ptemp);
 		            		System.out.println("play  "+MatchLogic.getTime());
 		            		m.update(temp);
-		            		
-		            		
-//		            		showNotice();
-		            		
-		            		
 		            		//System.out.println(p.getInfo("Paul Pierce", "12-13").getFieldGoalPercentage());
 		            		System.out.println("end   "+MatchLogic.getTime());
 		            		
 		            		//PlayerDataPO res = p.getInfo("Aaron Brooks", "12-13");
 		            		//System.out.println(res.getName()+";"+res.getFieldGoalPercentage()+res.getGP());
+		            		
+		            		count++;
+		            		if(count>50){
+		            			count = 0;
+		            			showNotice();
+		    		            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		            		}
+		            		
+		            		
+		            		
 		            	}
-		                 
 		            }  
+		            
 		            if(!key.reset())  
 		            {  
 		                break;  

@@ -63,7 +63,7 @@ public class TableUtility {
 		}else if(en.equals("前锋")){
 			return "F";
 		}else{
-			return "null";
+			return "无";
 		}
 	}
 	

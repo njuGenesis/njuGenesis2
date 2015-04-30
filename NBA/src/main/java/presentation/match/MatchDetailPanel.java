@@ -21,7 +21,7 @@ public class MatchDetailPanel extends BgPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static String bg = "";
+	private static String bg = "img/hotspot/whitebg.jpg";
 	private MatchDataPO po;
 	
 	private GLabel title;
