@@ -1,5 +1,6 @@
 package assistance;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.FileSystems;
@@ -13,7 +14,14 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import com.sun.org.apache.xerces.internal.impl.dv.dtd.NOTATIONDatatypeValidator;
+import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
+
+import presentation.component.GFrame;
+import presentation.component.GLabel;
+import presentation.contenui.UIUtil;
 import presentation.mainui.StartUI;
 import bussinesslogic.match.MatchLogic;
 import bussinesslogic.player.PlayerLogic;
@@ -83,32 +91,40 @@ public class FileListener {
 	
 	
 	public void showNotice(){
-		final JFrame notice = new JFrame();
-		notice.setSize(300, 300);
+		final GFrame notice = new GFrame();
+		notice.setSize(300, 180);
+		notice.setMiddle();
+		notice.setLayout(null);
 		
-		JLabel info = new JLabel("数据已更新，即将刷新界面");
-		notice.add(info);
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 300, 180);
+		panel.setBackground(UIUtil.nbaBlue);
+		panel.setLayout(null);
+		notice.add(panel);
 		
-		JButton comfirm = new JButton("确认");
-		comfirm.addActionListener(new ActionListener(){
-
+		GLabel message = new GLabel("数据已刷新！", new Point(0, 0), new Point(300, 140), panel, true, 0, 20);
+		message.setForeground(UIUtil.bgWhite);
+		message.setHorizontalAlignment(JLabel.CENTER);
+		
+		JButton yes = new JButton("确认");
+		yes.setBounds(110, 125, 80, 30);
+		panel.add(yes);
+		yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notice.setVisible(false);
+				notice.dispose();
 				StartUI.startUI.refreshUI();
 			}
-			
 		});
-		notice.add(comfirm);
 		
 		notice.setVisible(true);
-		
 	}
 	   
 	
 	public static void main(String[] args) {
 		FileListener l = new FileListener();
 		l.Listen("迭代一数据/matches");
+		
 	}
 }
 
