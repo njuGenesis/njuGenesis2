@@ -407,6 +407,14 @@ public class TableUtility {
 		return ch;
 	}
 	
+	public static String checkNOH(String s){
+		if(s.equals("NOH")){
+			return "NOP";
+		}else{
+			return s;
+		}
+	}
+	
 
 	
 	

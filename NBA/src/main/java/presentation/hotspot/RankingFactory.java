@@ -261,7 +261,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getBigPlayer(po.getName()),new Point(0,102),new Point(207,329),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(215,315),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(215,315),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -282,7 +282,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -303,7 +303,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -324,7 +324,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -345,7 +345,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(435,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -367,7 +367,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getBigPlayer(po.getName()),new Point(0,102),new Point(207,329),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(225,316),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(225,316),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -388,7 +388,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -409,7 +409,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -430,7 +430,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
@@ -451,7 +451,7 @@ public class RankingFactory {
 		GLabel player = new GLabel(getPlayer(po.getName()),new Point(68,23),new Point(81,62),p,true);
 		player.addMouseListener(new PlayerListener(po.getName()));
 		player.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+po.getTeamName()+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
+		GLabel team = new GLabel(imgAssist.loadImageIcon("迭代一数据/teams/"+TableUtility.checkNOH(po.getTeamName())+".svg", 95, 75),new Point(422,23),new Point(95,75),p,true);
 		team.addMouseListener(new TeamListener(po.getTeamName()));
 		team.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		

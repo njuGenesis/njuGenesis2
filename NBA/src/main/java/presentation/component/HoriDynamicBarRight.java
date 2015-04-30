@@ -76,6 +76,7 @@ public class HoriDynamicBarRight extends JLabel{
 		dVal.setOpaque(false);
 		dVal.setBorder(null);
 		dVal.setEditable(false);
+		dVal.setBackground(UIUtil.bgWhite);
 		dVal.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		this.add(dVal);
 	}

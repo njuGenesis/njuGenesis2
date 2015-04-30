@@ -43,10 +43,6 @@ public class PlayerDetials extends BgPanel{
 		this.setBounds(0, 0, 1000, 650);
 		this.setVisible(true);
 		
-		PlayerInfo info = new PlayerInfo(PlayerDetials.this.po);
-		sonPanel = info;
-		this.add(sonPanel);
-		
 		init();
 	}
 	
@@ -63,7 +59,9 @@ public class PlayerDetials extends BgPanel{
 		tdMenu[3] = new SelectLabel("对比", new Point(27+(235+2)*3, 83), new Point(235, 35), this, true, 0, 18);
 		
 		tdMenu[0].setSelected(true);
-		
+		PlayerInfo info = new PlayerInfo(PlayerDetials.this.po);
+		sonPanel = info;
+		this.add(sonPanel);
 		
 		tdMenu[0].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
