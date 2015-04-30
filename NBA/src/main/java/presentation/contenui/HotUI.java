@@ -9,6 +9,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
@@ -67,6 +69,15 @@ public class HotUI extends BgPanel implements Runnable{
 
 	public HotUI(String s) {
 		super(bgStr);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 
 		this.setSize(1000, 650);
 		this.setLocation(15, 50);

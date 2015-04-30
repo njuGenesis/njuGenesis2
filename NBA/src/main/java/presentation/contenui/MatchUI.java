@@ -9,6 +9,8 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -57,6 +59,15 @@ public class MatchUI extends BgPanel{
 	public MatchUI(String s) {
 		super(bgStr);
 
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.setSize(1000, 650);
 		this.setLocation(15, 50);
 		this.setLayout(null);

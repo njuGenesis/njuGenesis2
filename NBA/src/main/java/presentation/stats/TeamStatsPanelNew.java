@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import data.po.TeamDataPO;
 import assistance.NewFont;
@@ -77,6 +79,15 @@ public class TeamStatsPanelNew extends BgPanel{
 
 	public TeamStatsPanelNew() {
 		super(bg);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 		
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);

@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -60,6 +62,15 @@ public class HotPlayerTodayPanel extends BgPanel{
 
 	public HotPlayerTodayPanel() {
 		super(bg);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);

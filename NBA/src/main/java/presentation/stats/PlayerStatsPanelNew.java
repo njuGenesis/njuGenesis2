@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import presentation.component.BgPanel;
 import presentation.component.GComboBox;
@@ -86,6 +88,15 @@ public class PlayerStatsPanelNew extends BgPanel{
 
 	public PlayerStatsPanelNew() {
 		super(bg);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);

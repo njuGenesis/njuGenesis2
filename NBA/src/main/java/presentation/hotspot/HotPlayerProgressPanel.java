@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
@@ -53,6 +55,14 @@ public class HotPlayerProgressPanel extends BgPanel{
 	public HotPlayerProgressPanel() {
 		super(bg);
 		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 		
 		this.setBounds(50, 0, 950, 650);
 		this.setLayout(null);
