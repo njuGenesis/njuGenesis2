@@ -187,7 +187,7 @@ public class PlayerLogic implements PlayerInfoService{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute+seconds/(double)60);
 					}catch(Exception e){
 						
 					}
@@ -323,7 +323,7 @@ public class PlayerLogic implements PlayerInfoService{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute+seconds/(double)60);
 					}catch(Exception e){
 						
 					}
@@ -1981,7 +1981,7 @@ public class PlayerLogic implements PlayerInfoService{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute+seconds/(double)60);
 					}catch(Exception e){
 						
 					}
@@ -2089,7 +2089,7 @@ public class PlayerLogic implements PlayerInfoService{
 					minute = Integer.valueOf(time[0]);//time
 					seconds = Integer.valueOf(time[1]);
 					}
-					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute*60+seconds);
+					PlayerList.get(k).setMinutesOnField(PlayerList.get(k).getMinutesOnField()+minute+seconds/(double)60);
 					}catch(Exception e){
 						
 					}
@@ -3509,7 +3509,7 @@ public class PlayerLogic implements PlayerInfoService{
 					resnormal.setDefend(trueres[i].getDefPG());					
 					resnormal.setFault(trueres[i].getToPG());
 					resnormal.setFoul(trueres[i].getFoulPG());
-					resnormal.setMinute(trueres[i].getMPG()/60);					
+					resnormal.setMinute(trueres[i].getMPG());					
 					resnormal.setOffend(trueres[i].getOffPG());					
 					resnormal.setPoint(trueres[i].getPPG());
 					resnormal.setRebound(trueres[i].getBPG());
@@ -3521,7 +3521,7 @@ public class PlayerLogic implements PlayerInfoService{
 						resnormal.setDefend(trueres[i].getDef());					
 						resnormal.setFault(trueres[i].getTo());
 						resnormal.setFoul(trueres[i].getFoul());
-						resnormal.setMinute(trueres[i].getMinutesOnField()/60);					
+						resnormal.setMinute(trueres[i].getMinutesOnField());					
 						resnormal.setOffend(trueres[i].getOff());					
 						resnormal.setPoint(trueres[i].getPTS());
 						resnormal.setRebound(trueres[i].getBackboard());
