@@ -12,6 +12,8 @@ import java.util.Vector;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -34,26 +36,41 @@ public class TeamData extends BgPanel{
 	private ArrayList<TeamDataPO> teamDataPOs;
 	private TeamLogic teamLogic = new TeamLogic();
 	private Rectangle rectangle;
+	private TeamDataPO po;
 	
 	public TeamData(TeamDataPO po){
 		super("");
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		this.setVisible(true);
-		
+		this.po = po;
+
+		init();
+	}
+	private void init(){
 		GLabel message = new GLabel("*单击表头可排序", new Point(34, 187), new Point(120, 30), this, true, 0, 13);
-		
+
 		assist = new TeamImageAssist();
 		rectangle = new Rectangle(14, 215, 920, 300);
-		
+
 		teamDataPOs = teamLogic.GetInfo(po.getShortName());
-		
+
 		GLabel teamPic = new GLabel(assist.loadImageIcon("img/teams/"+po.getShortName()+".svg", 200, 200), new Point(75, 0), new Point(200, 200), this, true);
 		GLabel wr = new GLabel("胜率:"+String.valueOf(po.getWR()), new Point(460, 120), new Point(200, 30), this, true, 0, 24);
 		GLabel winNumber = new GLabel("胜:"+String.valueOf((int)po.getWinMatch()), new Point(380, 40), new Point(200, 30), this, true, 0, 24);
 		GLabel failNumber = new GLabel("负:"+String.valueOf((int)(po.getMatchNumber()-po.getWinMatch())), new Point(420, 80), new Point(200, 30), this, true, 0, 24);
-		
+
 		basicSetting();
 		totalSetting();
 		pgSetting();
@@ -173,13 +190,13 @@ public class TeamData extends BgPanel{
 	
 	private void totalSetting(){
 		final Vector<String> header = new Vector<String>();
-		header.addElement("赛季   ");header.addElement("投篮数");
-		header.addElement("投篮命中数");header.addElement("三分数");
-		header.addElement("三分命中数");header.addElement("罚球数");header.addElement("罚球命中数");header.addElement("进攻篮板");header.addElement("防守篮板");
-		header.addElement("篮板数");
-		header.addElement("助攻数");
-		header.addElement("抢断数");header.addElement("盖帽数");header.addElement("失误数");header.addElement("犯规数");header.addElement("进攻回合数");
-		header.addElement("防守回合数");
+		header.addElement("赛季   ");header.addElement("投篮");
+		header.addElement("投篮命中");header.addElement("三分");
+		header.addElement("三分命中");header.addElement("罚球");header.addElement("罚球命中");header.addElement("进攻篮板");header.addElement("防守篮板");
+		header.addElement("篮板");
+		header.addElement("助攻");
+		header.addElement("抢断");header.addElement("盖帽");header.addElement("失误");header.addElement("犯规");header.addElement("进攻回合");
+		header.addElement("防守回合");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=teamDataPOs.size()-1;i>=0;i--){
@@ -216,12 +233,12 @@ public class TeamData extends BgPanel{
 	
 	private void pgSetting(){
 		final Vector<String> header = new Vector<String>();
-		header.addElement("赛季   ");header.addElement("投篮数");
-		header.addElement("投篮命中数");header.addElement("三分数");
-		header.addElement("三分命中数");header.addElement("罚球数");header.addElement("罚球命中数");header.addElement("进攻篮板");
-		header.addElement("防守篮板");header.addElement("篮板数");header.addElement("助攻数");
-		header.addElement("抢断数");header.addElement("盖帽数");header.addElement("失误数");header.addElement("犯规数");
-		header.addElement("进攻回合数");header.addElement("防守回合数");
+		header.addElement("赛季   ");header.addElement("投篮");
+		header.addElement("投篮命中");header.addElement("三分");
+		header.addElement("三分命中");header.addElement("罚球");header.addElement("罚球命中");header.addElement("进攻篮板");
+		header.addElement("防守篮板");header.addElement("篮板数");header.addElement("助攻");
+		header.addElement("抢断");header.addElement("盖帽");header.addElement("失误");header.addElement("犯规");
+		header.addElement("进攻回合");header.addElement("防守回合");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=teamDataPOs.size()-1;i>=0;i--){
@@ -304,5 +321,12 @@ public class TeamData extends BgPanel{
 
 		};
 		table.addMouseListener(mouseAdapter);
+	}
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

@@ -15,6 +15,8 @@ import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.BgPanel;
@@ -42,13 +44,28 @@ public class PlayerMatch extends BgPanel{
 
 	public PlayerMatch(PlayerDataPO po) {
 		super("");
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.po = po;
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(UIUtil.bgWhite);
 		
-		rectangle = new Rectangle(14, 40, 920, 480);
+		init();
+		
+	}
+	
+	private void init(){
+rectangle = new Rectangle(14, 40, 920, 480);
 		
 		match_PlayerPOs = matchLogic.GetPlayerInfo(po.getName());
 		
@@ -134,10 +151,10 @@ public class PlayerMatch extends BgPanel{
 		final Vector<String> header = new Vector<String>();
 		header.addElement("日期");header.addElement("对手");
 		header.addElement("进攻篮板");header.addElement("防守篮板");
-		header.addElement("罚球数");header.addElement("失误");header.addElement("投球数");
-		header.addElement("投篮命中数");header.addElement("投篮命中率");header.addElement("三分投篮数");
-		header.addElement("三分命中数");header.addElement("罚篮命中数");header.addElement("抢断数");header.addElement("盖帽数");
-		header.addElement("犯规数");header.addElement("比赛链接");
+		header.addElement("罚球");header.addElement("失误");header.addElement("投球");
+		header.addElement("投篮命中");header.addElement("投篮命中率");header.addElement("三分投篮");
+		header.addElement("三分命中");header.addElement("罚篮命中");header.addElement("抢断");header.addElement("盖帽");
+		header.addElement("犯规");header.addElement("比赛链接");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=match_PlayerPOs.size()-1;i>=0;i--){
@@ -227,5 +244,13 @@ public class PlayerMatch extends BgPanel{
 			}
 		};
 		table.addMouseListener(mouseAdapter);
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

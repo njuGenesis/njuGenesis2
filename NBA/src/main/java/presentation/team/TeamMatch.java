@@ -13,6 +13,8 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.BgPanel;
@@ -42,22 +44,38 @@ public class TeamMatch extends BgPanel{
 	
 	public TeamMatch(TeamDataPO po) {
 		super(file);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		this.setVisible(true);
 		
-		GLabel message = new GLabel("*单击表头可排序", new Point(34, 5), new Point(120, 30), this, true, 0, 13);
+		this.po = po;
 		
+		init();
+	}
+	
+	private void init(){
+		GLabel message = new GLabel("*单击表头可排序", new Point(34, 5), new Point(120, 30), this, true, 0, 13);
+
 		matchLogic = new MatchLogic();
 		this.po = po;
 		matchDataPOs = matchLogic.GetInfo(po.getShortName());
-		
+
 		rectangle = new Rectangle(14, 50, 920, 460);
-		
-//		dateLabel1 = new DatePanel(new Point(25, 9), this, Color.black, new ImageIcon("img/teamDetials/dateIcon.png"));
-//		dateLabel1.setBackground(UIUtil.bgWhite);
-		
+
+		//		dateLabel1 = new DatePanel(new Point(25, 9), this, Color.black, new ImageIcon("img/teamDetials/dateIcon.png"));
+		//		dateLabel1.setBackground(UIUtil.bgWhite);
+
 		matchSetting();
 		repaint();
 	}
@@ -152,5 +170,13 @@ public class TeamMatch extends BgPanel{
 			}
 		};
 		table.addMouseListener(mouseAdapter);
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

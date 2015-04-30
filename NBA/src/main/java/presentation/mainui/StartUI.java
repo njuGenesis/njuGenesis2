@@ -7,10 +7,12 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
+import presentation.component.BeanUtil;
 import presentation.component.BgPanel;
 import presentation.component.BookEffectAssist;
 import presentation.component.GFrame;
@@ -36,6 +38,7 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 	private int menuCurrentNumber, menuNextNumber;
 	private TurnController turnController;
 	private BgPanel currentPanel, nextPanel;
+	private Vector<BgPanel> path = new Vector<BgPanel>();
 	
 	public static void main(String[] args) {
 		new StartUI();
@@ -156,6 +159,21 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 		thread.start();
 	}
 	
+//	public void setBackPath(){
+//		BgPanel panel = BeanUtil.cloneTo(currentPanel);
+//		path.addElement(panel);
+//	}
+//	
+//	public void back(){
+//		StartUI.this.remove(currentPanel);
+//		currentPanel = path.lastElement();
+//		StartUI.this.add(currentPanel);
+//		int x = path.size()-1;
+//		path.removeElementAt(x);
+//		currentPanel.setVisible(true);
+//		StartUI.this.repaint();
+//	}
+	
 	public void setMenu(int number){
 		menu[menuCurrentNumber].setIcon(new ImageIcon("img/Framebg/menu"+menuCurrentNumber+"Blue.png"));
 		menuCurrentNumber = number;
@@ -163,6 +181,8 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 	}
 	
 	public void turn(BgPanel nextPanel){
+		//setBackPath();
+		
 		this.nextPanel = nextPanel;
 		StartUI.this.remove(currentPanel);
 		currentPanel = this.nextPanel;

@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import bussinesslogic.player.PlayerLogic;
 import data.po.PlayerDataPO;
@@ -25,12 +27,26 @@ public class PlayerCmp extends BgPanel{
 
 	public PlayerCmp(PlayerDataPO po){
 		super("");
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		this.setVisible(true);
 		this.po = po;
 		
+		init();
+	}
+	
+	private void init(){
 		GLabel teamPic = new GLabel("img/portrait/"+po.getName()+".png", new Point(80, 20), new Point(172, 139), this, true);
 		GLabel vs = new GLabel("VS", new Point(454, 80), new Point(60, 60), this, true, 1, 40);
 		GLabel defaultPic = new GLabel("img/teamDetials/default.png", new Point(742, 15), new Point(61, 146), this, true);
@@ -82,5 +98,13 @@ public class PlayerCmp extends BgPanel{
 	private double ShortDouble(double d){
 		DecimalFormat df = new DecimalFormat(".00");
 		return Double.parseDouble(df.format(d));
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

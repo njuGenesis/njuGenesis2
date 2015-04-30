@@ -3,6 +3,10 @@ package presentation.player;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import bussinesslogic.player.PlayerLogic;
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
@@ -17,17 +21,36 @@ public class PlayerDetials extends BgPanel{
 	private PlayerDataPO po;
 	private BgPanel sonPanel;
 	private PlayerLogic playerLogic = new PlayerLogic();
+	private String name;
 	
 	public PlayerDetials(final String name){
 		super("");
 		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.po = playerLogic.getInfo(name, playerLogic.getLatestSeason());
+		this.name = name;
 		
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		this.setBounds(0, 0, 1000, 650);
 		this.setVisible(true);
 		
+		PlayerInfo info = new PlayerInfo(PlayerDetials.this.po);
+		sonPanel = info;
+		this.add(sonPanel);
+		
+		init();
+	}
+	
+	private void init(){
 		title = new GLabel("  "+po.getName(), new Point(27, 30), new Point(946, 52), this, true, 0, 25);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
@@ -40,9 +63,7 @@ public class PlayerDetials extends BgPanel{
 		tdMenu[3] = new SelectLabel("对比", new Point(27+(235+2)*3, 83), new Point(235, 35), this, true, 0, 18);
 		
 		tdMenu[0].setSelected(true);
-		PlayerInfo info = new PlayerInfo(PlayerDetials.this.po);
-		sonPanel = info;
-		this.add(sonPanel);
+		
 		
 		tdMenu[0].addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -100,5 +121,18 @@ public class PlayerDetials extends BgPanel{
 				repaint();
 			}
 		});
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			
+			sonPanel.refreshUI();
+			sonPanel.setVisible(true);
+			this.removeAll();
+			this.add(sonPanel);
+			this.init();
+			
+		}
 	}
 }

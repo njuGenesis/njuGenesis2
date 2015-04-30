@@ -3,6 +3,10 @@ package presentation.team;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import bussinesslogic.player.PlayerLogic;
 import bussinesslogic.team.TeamLogic;
 import data.po.TeamDataPO;
@@ -24,6 +28,15 @@ public class TeamDetials extends BgPanel{
 	
 	public TeamDetials(String shortName){
 		super("");
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 
 		this.po = teamLogic.GetBySN(shortName, playerLogic.getLatestSeason());
 		
@@ -32,6 +45,10 @@ public class TeamDetials extends BgPanel{
 		this.setBounds(0, 0, 1000, 650);
 		this.setVisible(true);
 		
+		init();
+	}
+	
+	private void init(){
 		title = new GLabel("  "+TableUtility.getChTeam(po.getShortName()), new Point(26, 30), new Point(948, 52), this, true, 0, 25);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
@@ -117,5 +134,17 @@ public class TeamDetials extends BgPanel{
 				repaint();
 			}
 		});
+	}
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			
+			sonPanel.refreshUI();
+			sonPanel.setVisible(true);
+			this.removeAll();
+			this.add(sonPanel);
+			this.init();
+			
+		}
 	}
 }

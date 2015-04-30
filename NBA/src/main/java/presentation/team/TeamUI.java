@@ -6,6 +6,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import bussinesslogic.team.TeamLogic;
 import data.po.TeamDataPO;
 import presentation.component.BgPanel;
@@ -25,6 +28,16 @@ public class TeamUI extends BgPanel{
 
 	public TeamUI(){
 		super(bg);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		super.setVisible(false);
 		this.setLayout(null);
 		turnController = new TurnController();
@@ -133,5 +146,13 @@ public class TeamUI extends BgPanel{
 	private String getFileAddress(TeamDataPO po){
 		String fileAddress = "img/teamName/"+po.getShortName()+".png";
 		return fileAddress;
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

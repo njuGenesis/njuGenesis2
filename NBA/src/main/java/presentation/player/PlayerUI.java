@@ -15,13 +15,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
+
+import com.sun.org.apache.xml.internal.security.Init;
+
 import bussinesslogic.player.PlayerLogic;
 import bussinesslogic.team.TeamLogic;
 import data.po.PlayerDataPO;
@@ -57,26 +63,39 @@ public class PlayerUI extends BgPanel{
 
 	public PlayerUI() {
 		super(file);
+
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
 		
 		this.setSize(1000, 650);
 		this.setLocation(15, 50);
 		this.setLayout(null);
 		this.setBackground(UIUtil.bgWhite);
 		
+		init();
+	}
+
+	private void init(){
 		playList = playerLogic.getAllInfo(playerLogic.getLatestSeason());
-		
+
 		title = new GLabel("  球员",new Point(30,30),new Point(940,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
 		title.setForeground(UIUtil.bgWhite);
-		
+
 		chooser = new GLabel("",new Point(30,83),new Point(940,80),this,true,0,16);
 		chooser.setOpaque(true);
 		chooser.setBackground(UIUtil.bgGrey);
 		chooser.setForeground(UIUtil.bgWhite);
-		
+
 		GLabel message = new GLabel("*单击表头可排序", new Point(40, 167), new Point(120, 30), this, true, 0, 13);
-		
+
 		letter = new SelectLabel[26];
 		for(int i=0;i<letter.length;i++){
 			final String letterString = String.valueOf((char)(65+i));
@@ -303,5 +322,13 @@ public class PlayerUI extends BgPanel{
 		table.setSort();
 		tableSetting(table);
 		this.add(scrollPane);
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }

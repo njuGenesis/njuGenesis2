@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.JCheckBox;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+import com.sun.org.apache.xml.internal.security.Init;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
@@ -26,26 +30,40 @@ public class PlayerData extends BgPanel{
 
 	public PlayerData(PlayerDataPO[] pos) {
 		super("");
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.pos = pos;
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(UIUtil.bgWhite);
 		
+		init();
+	}
+
+	private void init(){
 		rectangle = new Rectangle(14, 164, 920, 380);
-		
+
 		basicSetting();
 		totalSetting();
 		pgSetting();
 		effSetting();
-		
+
 		basicSP.setVisible(true);
-		
+
 		GLabel palyerPic = new GLabel("img/portrait/"+pos[pos.length-1].getName()+".png", new Point(50, 30), new Point(120, 97), this, true);
 		GLabel ppg = new GLabel("场均得分:"+pos[pos.length-1].getPPG(), new Point(260, 25), new Point(200, 30), this, true, 0, 20);
 		GLabel bpg = new GLabel("场均篮板:"+pos[pos.length-1].getBPG(), new Point(300, 60), new Point(200, 30), this, true, 0, 20);
 		GLabel apg = new GLabel("场均助攻:"+pos[pos.length-1].getAPG(), new Point(340, 95), new Point(200, 30), this, true, 0, 20);
-		
+
 		checkBox1 = new JCheckBox("总览");
 		checkBox1.setBounds(600, 115, 70, 30);
 		checkBox1.setSelected(true);
@@ -127,10 +145,10 @@ public class PlayerData extends BgPanel{
 	private void totalSetting(){
 		final Vector<String> header = new Vector<String>();
 		header.addElement("赛季");
-		header.addElement("进攻篮板数");header.addElement("防守篮板数");header.addElement("总篮板数");header.addElement("总助攻数");header.addElement("总投篮数");
-		header.addElement("总命中数");header.addElement("总三分数");header.addElement("总三分命中数");header.addElement("总罚球数");header.addElement("罚球命中数");
-		header.addElement("进攻数");header.addElement("防守数");header.addElement("抢断数");header.addElement("盖帽数");header.addElement("失误数");
-		header.addElement("犯规数");
+		header.addElement("进攻篮板");header.addElement("防守篮板");header.addElement("总篮板");header.addElement("助攻");header.addElement("投篮");
+		header.addElement("命中");header.addElement("三分");header.addElement("三分命中");header.addElement("罚球");header.addElement("罚球命中");
+		header.addElement("进攻");header.addElement("防守");header.addElement("抢断");header.addElement("盖帽");header.addElement("失误");
+		header.addElement("犯规");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=0;i<pos.length;i++){
@@ -189,9 +207,9 @@ public class PlayerData extends BgPanel{
 	
 	private void pgSetting(){
 		final Vector<String> header = new Vector<String>();
-		header.addElement("赛季");header.addElement("场均上场时间");header.addElement("场均得分");
-		header.addElement("场均篮板数");header.addElement("场均助攻数");header.addElement("场均进攻数");header.addElement("场均防守数");header.addElement("场均抢断数");
-		header.addElement("场均盖帽数");header.addElement("场均失误数");header.addElement("场均犯规数");
+		header.addElement("赛季");header.addElement("上场时间");header.addElement("得分");
+		header.addElement("篮板");header.addElement("助攻");header.addElement("进攻");header.addElement("防守");header.addElement("抢断");
+		header.addElement("盖帽");header.addElement("失误");header.addElement("犯规");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		for(int i=0;i<pos.length;i++){
@@ -221,8 +239,8 @@ public class PlayerData extends BgPanel{
 	private void effSetting(){
 		final Vector<String> header = new Vector<String>();
 		header.addElement("赛季");header.addElement("效率       ");header.addElement("GMSC");header.addElement("使用率");header.addElement("真实命中率");
-		header.addElement("投篮命中率");header.addElement("三分命中率");header.addElement("罚篮命中率");header.addElement("投篮效率");header.addElement("篮板效率");
-		header.addElement("进攻篮板效率");header.addElement("防守篮板效率");header.addElement("助攻效率");header.addElement("抢断效率");header.addElement("盖帽效率");
+		header.addElement("投篮命中率");header.addElement("三分命中率");header.addElement("罚篮命中率");header.addElement("投篮");header.addElement("篮板");
+		header.addElement("进攻篮板");header.addElement("防守篮板");header.addElement("助攻");header.addElement("抢断");header.addElement("盖帽");
 		header.addElement("失误率");
 		
 		final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
@@ -253,6 +271,13 @@ public class PlayerData extends BgPanel{
 		effTable.setSort();
 		effSP.setVisible(false);
 		this.add(effSP);
+	}
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 	
 }

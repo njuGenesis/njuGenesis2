@@ -14,6 +14,8 @@ import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.BgPanel;
@@ -37,26 +39,43 @@ public class TeamPlayer extends BgPanel{
 	private StyleScrollPane scrollPaneBasic, scrollPaneDetials;
 	private PlayerDataPO[] playerDataPOs;
 	private Rectangle rectangle;
+	private TeamDataPO po;
 	
 	public TeamPlayer(TeamDataPO po) {
 		super(file);
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {}
+		
 		this.setBounds(26, 120, 948, 530);
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(UIUtil.bgWhite);
-		
+		this.po = po;
+
+		init();
+
+	}
+
+	private void init(){
 		playerLogic = new PlayerLogic();
-		
+
 		GLabel message = new GLabel("*单击表头可排序", new Point(34, 5), new Point(120, 30), this, true, 0, 13);
-		
-	    playerDataPOs = playerLogic.getPlayerByTeam(po.getShortName(), "null", "null", po.getSeason());
-	    
-	    rectangle = new Rectangle(14, 35, 920, 480);
-	    
-	    basicSetting();
-	    detialsSetting();
-	    scrollPaneBasic.setVisible(true);
-		
+
+		playerDataPOs = playerLogic.getPlayerByTeam(po.getShortName(), "null", "null", po.getSeason());
+
+		rectangle = new Rectangle(14, 35, 920, 480);
+
+		basicSetting();
+		detialsSetting();
+		scrollPaneBasic.setVisible(true);
+
 		checkBox1 = new JCheckBox("信息");
 		checkBox1.setBounds(740, 3, 70, 30);
 		checkBox1.setSelected(true);
@@ -213,5 +232,13 @@ public class TeamPlayer extends BgPanel{
 			}
 		};
 		table.addMouseListener(mouseAdapter);
+	}
+	
+	@Override
+	public void refreshUI(){
+		if(this!=null){
+			this.removeAll();
+			this.init();
+		}
 	}
 }
