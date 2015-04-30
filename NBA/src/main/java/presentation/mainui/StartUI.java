@@ -414,6 +414,7 @@ public class StartUI extends GFrame implements Runnable,Refresh{
 	@Override
 	public void refreshUI() {
 		System.out.println("refresh~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		currentPanel.refreshUI();
 	}
 }
 

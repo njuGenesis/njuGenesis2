@@ -46,7 +46,9 @@ public class MatchDetailLabel extends GLabel{
 		public void mousePressed(MouseEvent e) {
 			big.removeAll();
 			
-			big.add(new MatchDetailPanel(po));
+			big.detail = new MatchDetailPanel(po);
+			
+			big.add(big.detail);
 			big.repaint();
 		}
 

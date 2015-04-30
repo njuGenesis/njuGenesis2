@@ -1,8 +1,6 @@
 package presentation.stats;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +13,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import presentation.component.BgPanel;
 import presentation.component.GComboBox;
@@ -24,9 +20,7 @@ import presentation.component.GLabel;
 import presentation.component.GTable;
 import presentation.component.StyleScrollPane;
 import presentation.contenui.TableUtility;
-import presentation.contenui.TurnController;
 import presentation.contenui.UIUtil;
-import presentation.mainui.StartUI;
 import assistance.NewFont;
 import bussinesslogic.player.PlayerLogic;
 import data.po.PlayerDataPO;
@@ -72,6 +66,23 @@ public class PlayerStatsPanelNew extends BgPanel{
 	JCheckBox eff;  //效率
 
 	StatsFactory factory = new StatsFactory();
+	
+	@Override
+	public void refreshUI() {
+		this.remove(title);
+		this.remove(jspAll);
+		this.remove(jspAvg);
+		this.remove(jspEff);
+		this.remove(position);
+		this.remove(league);
+		this.remove(season);
+		this.remove(submit);
+		this.remove(all);
+		this.remove(avg);
+		this.remove(eff);
+
+		init();
+	}
 
 	public PlayerStatsPanelNew() {
 		super(bg);
@@ -80,6 +91,11 @@ public class PlayerStatsPanelNew extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		init();
+
+	}
+	
+	private void init(){
 		title = new GLabel("   球员",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
@@ -178,7 +194,8 @@ public class PlayerStatsPanelNew extends BgPanel{
 		jspEff = factory.getTablePanePlayer(getHeader2(), getEffData());
 		jspEff.setVisible(false);
 		this.add(jspEff);
-
+		
+		this.repaint();
 	}
 
 

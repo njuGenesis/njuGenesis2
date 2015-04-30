@@ -37,6 +37,18 @@ public class HotPlayerProgressPanel extends BgPanel{
 
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
+	
+	@Override
+	public void refreshUI() {
+		this.remove(title);
+		this.remove(score);
+		this.remove(backboard);
+		this.remove(assis);
+		this.remove(seasonChooser);
+		this.remove(rankingPanel);
+
+		init();
+	}
 
 	public HotPlayerProgressPanel() {
 		super(bg);
@@ -46,6 +58,10 @@ public class HotPlayerProgressPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		init();
+	}
+	
+	private void init(){
 		String[] seasons = {"12-13赛季","13-14赛季"};
 		seasonChooser = new JComboBox<String>(seasons);
 		seasonChooser.setBounds(800-this.getX(), 42, 120, 30);

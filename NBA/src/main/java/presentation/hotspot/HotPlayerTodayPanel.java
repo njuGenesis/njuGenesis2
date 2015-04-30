@@ -43,6 +43,20 @@ public class HotPlayerTodayPanel extends BgPanel{
 
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
+	
+	@Override
+	public void refreshUI() {
+		this.remove(title);
+		this.remove(score);
+		this.remove(backboard);
+		this.remove(assis);
+		this.remove(block);
+		this.remove(steal);
+		this.remove(rankingPanel);
+		this.remove(date);
+
+		init();
+	}
 
 	public HotPlayerTodayPanel() {
 		super(bg);
@@ -51,6 +65,11 @@ public class HotPlayerTodayPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 		
+		init();
+	}
+
+	
+	private void init(){
 		date = new DatePanel(new Point(800-this.getX(),42),this);
 		date.addDocuListener(new DateListener());
 
@@ -105,7 +124,6 @@ public class HotPlayerTodayPanel extends BgPanel{
 
 		this.repaint();
 	}
-
 
 	public void getRankingPanel(String type,String date){
 		String season = getSeason(date);  

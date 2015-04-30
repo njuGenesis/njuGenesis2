@@ -9,7 +9,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import presentation.component.BgPanel;
 import presentation.component.GLabel;
@@ -40,7 +39,7 @@ public class HotUI extends BgPanel implements Runnable{
 	private Point2D[] polygonPlayerSeason = {new Point(500-78-15,185-79),new Point(571-78-15,255-79),new Point(500-78-15,326-79),new Point(430-78-15,255-79)};
 	private Point2D[] polygonPlayerFast = {new Point(394-78-15,432-79),new Point(465-78-15,502-79),new Point(394-78-15,573-79),new Point(324-78-15,502-79)};
 
-	private JPanel hotPanel;
+	private BgPanel hotPanel;
 	
 	private RunType runType;
 
@@ -51,6 +50,20 @@ public class HotUI extends BgPanel implements Runnable{
 		playerseason,
 		back,
 	}
+	
+	@Override
+	public void refreshUI() {
+		if(hotPanel!=null){
+			hotPanel.refreshUI();
+		}else{
+			this.remove(text);
+			this.remove(bluePanel);
+			this.remove(titleLabel);
+			this.remove(rightBt);
+			
+			init();
+		}
+	}
 
 	public HotUI(String s) {
 		super(bgStr);
@@ -60,6 +73,11 @@ public class HotUI extends BgPanel implements Runnable{
 		this.setLayout(null);
 		this.setOpaque(false);
 		
+		init();
+
+	}
+	
+	private void init(){
 		text = new GLabel(HotspotUtil.welcome,new Point(700, 120), new Point(260, 370), this, true);
 
 		bluePanel = new BgPanel("");
@@ -80,7 +98,8 @@ public class HotUI extends BgPanel implements Runnable{
 		rightBt = new GLabel(HotspotUtil.titleBt, new Point(633-15, 310), new Point(16, 30), bluePanel, false);
 		rightBt.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		rightBt.addMouseListener(new BackListener());
-
+		
+		this.repaint();
 	}
 
 	/**
@@ -108,6 +127,7 @@ public class HotUI extends BgPanel implements Runnable{
 			
 			if(hotPanel != null){
 				this.remove(hotPanel);
+				hotPanel = null;
 			}
 			
 			for(int i=0;i<600;i++){

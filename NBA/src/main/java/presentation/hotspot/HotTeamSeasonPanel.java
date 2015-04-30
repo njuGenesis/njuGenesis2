@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +45,23 @@ public class HotTeamSeasonPanel extends BgPanel{
 
 	RankingFactory factory = new RankingFactory();
 	JPanel rankingPanel;
+	
+	@Override
+	public void refreshUI() {
+		this.remove(title);
+		this.remove(score);
+		this.remove(backboard);
+		this.remove(assis);
+		this.remove(block);
+		this.remove(steal);
+		this.remove(tps);
+		this.remove(shooting);
+		this.remove(free);
+		this.remove(seasonChooser);
+		this.remove(rankingPanel);
+
+		init();
+	}
 
 	public HotTeamSeasonPanel() {
 		super(bg);
@@ -53,6 +71,10 @@ public class HotTeamSeasonPanel extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		init();
+	}
+	
+	private void init(){
 		String[] seasons = {"12-13赛季","13-14赛季"};
 		seasonChooser = new JComboBox<String>(seasons);
 		seasonChooser.setBounds(800-this.getX(), 42, 120, 30);

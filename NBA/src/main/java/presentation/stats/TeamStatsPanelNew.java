@@ -58,6 +58,22 @@ public class TeamStatsPanelNew extends BgPanel{
 	public StyleScrollPane jspEff;
 
 	StatsFactory factory = new StatsFactory();
+	
+	@Override
+	public void refreshUI() {
+		this.remove(title);
+		this.remove(jspAll);
+		this.remove(jspAvg);
+		this.remove(jspEff);
+		this.remove(season);
+		this.remove(submit);
+		this.remove(all);
+		this.remove(avg);
+		this.remove(eff);
+
+		init();
+	}
+	
 
 	public TeamStatsPanelNew() {
 		super(bg);
@@ -66,6 +82,13 @@ public class TeamStatsPanelNew extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 		
+		init();
+		
+		
+	}
+	
+	
+	private void init(){
 		title = new GLabel("   球队",new Point(80-this.getX(),30),new Point(890,52),this,true,0,24);
 		title.setOpaque(true);
 		title.setBackground(UIUtil.nbaBlue);
@@ -153,12 +176,9 @@ public class TeamStatsPanelNew extends BgPanel{
 		jspEff = factory.getTablePaneTeam(getHeader2(), getEffData());
 		jspEff.setVisible(false);
 		this.add(jspEff);
-
-
 		
-		
+		this.repaint();
 	}
-	
 	
 	private Vector<String> getHeader1(){
 		Vector<String> v = new Vector<String>();

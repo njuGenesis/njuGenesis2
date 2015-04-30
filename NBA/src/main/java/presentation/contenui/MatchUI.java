@@ -15,6 +15,7 @@ import javax.swing.event.DocumentListener;
 import presentation.component.BgPanel;
 import presentation.component.DatePanel;
 import presentation.component.GLabel;
+import presentation.match.MatchDetailPanel;
 import presentation.match.MatchFactory;
 import bussinesslogic.match.MatchLogic;
 import data.po.MatchDataPO;
@@ -36,6 +37,22 @@ public class MatchUI extends BgPanel{
 	MatchFactory factory = new MatchFactory();
 	JScrollPane matchPane;
 
+	public MatchDetailPanel detail;
+	
+	@Override
+	public void refreshUI() {
+		if(detail!=null){
+			detail.refreshUI();
+		}else{
+			this.remove(dateChooser);
+			this.remove(title);
+			this.remove(date);
+			this.remove(matchPane);
+
+			init();
+		}
+		
+	}
 
 	public MatchUI(String s) {
 		super(bgStr);
@@ -45,6 +62,11 @@ public class MatchUI extends BgPanel{
 		this.setLayout(null);
 		this.setOpaque(false);
 
+		init();
+
+	}
+
+	private void init(){
 		dateChooser = new DatePanel(new Point(800-this.getX(),42),this);
 		//		dateChooser.addActionListener(new DateListener());
 		dateChooser.addDocuListener(new DateListener());
@@ -62,7 +84,7 @@ public class MatchUI extends BgPanel{
 
 		getMatchJSP();
 
-
+		this.repaint();
 	}
 
 	public void getMatchJSP(){
@@ -126,13 +148,13 @@ public class MatchUI extends BgPanel{
 		}
 
 		public void insertUpdate(DocumentEvent e) {
-//			Document doc = e.getDocument();  
-//			try {
-//				String s = doc.getText(0, doc.getLength());
-//			} catch (BadLocationException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			} //返回文本框输入的内容 
+			//			Document doc = e.getDocument();  
+			//			try {
+			//				String s = doc.getText(0, doc.getLength());
+			//			} catch (BadLocationException e1) {
+			//				// TODO Auto-generated catch block
+			//				e1.printStackTrace();
+			//			} //返回文本框输入的内容 
 
 			if(matchPane!=null){
 				MatchUI.this.remove(matchPane);
