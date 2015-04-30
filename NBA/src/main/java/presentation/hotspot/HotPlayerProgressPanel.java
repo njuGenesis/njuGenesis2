@@ -72,7 +72,7 @@ public class HotPlayerProgressPanel extends BgPanel{
 	}
 	
 	private void init(){
-		String[] seasons = {"12-13赛季","13-14赛季"};
+		String[] seasons = {"13-14赛季","12-13赛季",};
 		seasonChooser = new JComboBox<String>(seasons);
 		seasonChooser.setBounds(800-this.getX(), 42, 120, 30);
 		seasonChooser.addActionListener(new SeasonListener());

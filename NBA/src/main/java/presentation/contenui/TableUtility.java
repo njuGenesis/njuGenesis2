@@ -62,9 +62,13 @@ public class TableUtility {
 			return "C";
 		}else if(en.equals("前锋")){
 			return "F";
+		}else if(en.equals("全部位置")){
+			return "null";
 		}else{
 			return "无";
 		}
+		
+		
 	}
 	
 	public static String getChTeam(String en){

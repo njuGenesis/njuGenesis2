@@ -59,6 +59,7 @@ public class DatePanel extends JPanel{
 		jtf.setFont(new Font("微软雅黑",1,13));
 		jtf.setForeground(fore);
 		jtf.setOpaque(false);
+		jtf.setBackground(UIUtil.darkBlue);
 		jtf.setEditable(false);
 		jtf.setBorder(null);
 		
