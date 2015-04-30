@@ -51,7 +51,7 @@ public class PlayerStatsPanelNew extends BgPanel{
 	public String[] positionItem = {"全部位置","后卫","前锋","中锋"}; 
 	public String[] leagueItem = {"全部联盟","东-大西洋分区","东-中央分区","东-东南分区","西-西北分区","西-太平洋分区","西-西南分区"};
 	//	public String[] statsItem = {"得分","篮板","助攻","得分/篮板/助攻","盖帽","抢断","犯规","失误","分钟","效率","投篮","三分","罚球","两双"};
-	public String[] seasonItem = {"12-13赛季","13-14赛季"};
+	public String[] seasonItem = {"13-14赛季","12-13赛季"};
 
 	public JButton submit;
 
@@ -61,7 +61,7 @@ public class PlayerStatsPanelNew extends BgPanel{
 	//			"真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
 
 	String[] header1 = {"姓名","球队","参赛","先发","在场时间","得分","篮板","助攻","两双","进攻","防守","抢断","盖帽","失误","犯规","效率"};
-	String[] header2 = {"姓名","球队","投篮命中率","三分命中率","罚球命中率","GmSc效率","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
+	String[] header2 = {"姓名","球队","投篮%","三分%","罚球%","GmSc效率","真实命中率","投篮效率","篮板%","进攻篮板%","防守篮板%","助攻%","抢断%","盖帽%","失误%","使用%"};
 
 	JCheckBox all;  //总数
 	JCheckBox avg;  //场均

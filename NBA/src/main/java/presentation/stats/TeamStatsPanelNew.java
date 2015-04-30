@@ -44,12 +44,12 @@ public class TeamStatsPanelNew extends BgPanel{
 
 	public JComboBox<String> season;
 	
-	public String[] seasonItem = {"12-13赛季","13-14赛季"};
+	public String[] seasonItem = {"13-14赛季","12-13赛季",};
 
 	public JButton submit;
 	
-	String[] header1 = {"名称","场数","投篮命中","投篮出手","三分命中","三分出手","罚球命中","罚球出手","进攻篮板","防守篮板","篮板","助攻","抢断","盖帽","失误","犯规","得分",};
-	String[] header2 = {"名称","投篮命中率","三分命中率","罚球命中率","胜率","进攻效率","防守效率","篮板效率","抢断效率","助攻率"};
+	String[] header1 = {"名称","场数","投篮命中","投篮","三分命中","三分","罚球命中","罚球","进攻篮板","防守篮板","篮板","助攻","抢断","盖帽","失误","犯规","得分",};
+	String[] header2 = {"名称","投篮%","三分%","罚球%","胜率","进攻效率","防守效率","篮板效率","抢断效率","助攻率"};
 
 	JCheckBox all;  //总数
 	JCheckBox avg;  //场均
@@ -257,7 +257,7 @@ public class TeamStatsPanelNew extends BgPanel{
 //			"进攻篮板","防守篮板","篮板",
 //			"助攻","抢断","盖帽","失误","犯规","得分",};
 			v.addElement(TableUtility.getChTeam(po.get(i).getName()));
-			v.addElement(po.get(i).getMatchNumber());
+			v.addElement((int)po.get(i).getMatchNumber());
 			v.addElement(po.get(i).getShootEffNumberPG());
 			v.addElement(po.get(i).getShootNumberPG());
 			v.addElement(po.get(i).getTPEffNumberPG());
