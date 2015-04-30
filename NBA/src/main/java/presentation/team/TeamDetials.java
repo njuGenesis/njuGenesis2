@@ -139,10 +139,10 @@ public class TeamDetials extends BgPanel{
 	public void refreshUI(){
 		if(this!=null){
 			
-			sonPanel.refreshUI();
-			sonPanel.setVisible(true);
+//			sonPanel.refreshUI();
+//			sonPanel.setVisible(true);
 			this.removeAll();
-			this.add(sonPanel);
+//			this.add(sonPanel);
 			this.init();
 			
 		}
