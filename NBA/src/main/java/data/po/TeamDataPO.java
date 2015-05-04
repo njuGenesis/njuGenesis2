@@ -35,7 +35,7 @@ public class TeamDataPO implements Serializable {
 	double OffBackBoard;// 进攻篮板
 	double OffBackBoardPG;// 场均
 	double DefBackBoard;// 防守篮板
-	double DefBackBoradPG;// 场均
+	double DefBackBoardPG;// 场均
 	double OtherDefBoard;// 对手后场篮板
 	double OtherOffBoard;// 对手前场篮板
 	int BackBoard;// 篮板数
@@ -107,8 +107,8 @@ public class TeamDataPO implements Serializable {
 			return this.OffBackBoardPG;
 		else if (property_double.equals("DefBackBoard"))
 			return this.DefBackBoard;
-		else if (property_double.equals("DefBackBoradPG"))
-			return this.DefBackBoradPG;
+		else if (property_double.equals("DefBackBoardPG"))
+			return this.DefBackBoardPG;
 		else if (property_double.equals("OtherDefBoard"))
 			return this.OtherDefBoard;
 		else if (property_double.equals("OtherOffBoard"))
@@ -428,12 +428,12 @@ public class TeamDataPO implements Serializable {
 	}
 
 	public double getDefBackBoardPG() {
-		return DefBackBoradPG;
+		return DefBackBoardPG;
 	}
 
 	public void setDefBackBoardPG(double defBackBoradPG) {
 		BigDecimal bg = new BigDecimal(defBackBoradPG);
-		DefBackBoradPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		DefBackBoardPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	public int getBackBoard() {
@@ -732,13 +732,6 @@ public class TeamDataPO implements Serializable {
 		Season = season;
 	}
 
-	public double getDefBackBoradPG() {
-		return DefBackBoradPG;
-	}
 
-	public void setDefBackBoradPG(double defBackBoradPG) {
-		BigDecimal bg = new BigDecimal(defBackBoradPG);
-		DefBackBoradPG = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-	}
 
 }

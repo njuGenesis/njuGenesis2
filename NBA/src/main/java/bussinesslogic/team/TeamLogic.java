@@ -4,6 +4,13 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import test.data.PlayerHighInfo;
+import test.data.PlayerHotInfo;
+import test.data.PlayerKingInfo;
+import test.data.PlayerNormalInfo;
+import test.data.TeamHighInfo;
+import test.data.TeamHotInfo;
+import test.data.TeamNormalInfo;
 import assistance.GetFileData;
 import bslogicService.TeamInfoService;
 import bussinesslogic.match.MatchLogic;
@@ -19,13 +26,14 @@ public class TeamLogic implements TeamInfoService {
 	// 储存球队的球员名
 	private void saveTeamPlayer(PlayerDataPO[] players) {
 		for (int i = 0; i < players.length; i++) {
-			if(players[i].getTeamName().equals("NOH")){
+			if (players[i].getTeamName().equals("NOH")) {
 				players[i].setTeamName("NOP");
 			}
 			for (int k = 0; k < Teams.size(); k++) {
 				if (players[i].getTeamName()
 						.equals(Teams.get(k).getShortName())
-						&& (Teams.get(k).getSeason().equals(players[i].getSeason()))) {
+						&& (Teams.get(k).getSeason().equals(players[i]
+								.getSeason()))) {
 					if (Teams.get(k).getPlayers() == null) {
 						Teams.get(k).setPlayers("");
 					}
@@ -125,7 +133,7 @@ public class TeamLogic implements TeamInfoService {
 	public void initTeamData() {
 		GetFileData teamFileReader = new GetFileData();
 		Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
-	//	MatchLogic matchLogic = new MatchLogic();
+		// MatchLogic matchLogic = new MatchLogic();
 		ArrayList<MatchDataPO> Matches = MatchLogic.matches; // 一个含有全部比赛基本信息的集合
 		for (int i = 0; i < Matches.size(); i++) {
 			if (Matches.get(i).isValid())
@@ -142,7 +150,7 @@ public class TeamLogic implements TeamInfoService {
 		PlayerLogic getPlayers = new PlayerLogic();
 		saveTeamPlayer(getPlayers.getAllInfo("13-14"));
 		saveTeamPlayer(getPlayers.getAllInfo("12-13"));
-		
+
 		/*
 		 * saveTeamPlayer(getPlayers.getAllInfo("13-14"));
 		 * saveTeamPlayer(getPlayers.getAllInfo("14-15"));
@@ -582,86 +590,346 @@ public class TeamLogic implements TeamInfoService {
 		}
 		return res;
 	}
-	
-	
-	public ArrayList<Double> getAvg(){
-		ArrayList<TeamDataPO> allTeams=GetAllInfo();
-		String season=allTeams.get(0).getSeason();
-		double pointsAvg=0.0;
-		double assAvg=0.0;
-		double bankAvg=0.0;
-		double threeAvg=0.0;
-		double ftAvg=0.0;
-		
-		for(int i=0;i<allTeams.size();i++){
-			if(season.compareTo(allTeams.get(i).getSeason())<0){
-				season=allTeams.get(i).getSeason();
+
+	public ArrayList<Double> getAvg() {
+		ArrayList<TeamDataPO> allTeams = GetAllInfo();
+		String season = allTeams.get(0).getSeason();
+		double pointsAvg = 0.0;
+		double assAvg = 0.0;
+		double bankAvg = 0.0;
+		double threeAvg = 0.0;
+		double ftAvg = 0.0;
+
+		for (int i = 0; i < allTeams.size(); i++) {
+			if (season.compareTo(allTeams.get(i).getSeason()) < 0) {
+				season = allTeams.get(i).getSeason();
 			}
 		}
-		allTeams=GetInfoBySeason(season);
-		for(int i=0;i<allTeams.size();i++){
-			pointsAvg=(pointsAvg*i+allTeams.get(i).getPPG())/(i+1);
-			assAvg=(assAvg*i+allTeams.get(i).getAssitNumberPG())/(i+1);
-			bankAvg=(bankAvg*i+allTeams.get(i).getBackBoardPG())/(i+1);
-			threeAvg=(threeAvg*i+allTeams.get(i).getTPEff())/(i+1);
-			ftAvg=(ftAvg*i+allTeams.get(i).getFTEff())/(i+1);
+		allTeams = GetInfoBySeason(season);
+		for (int i = 0; i < allTeams.size(); i++) {
+			pointsAvg = (pointsAvg * i + allTeams.get(i).getPPG()) / (i + 1);
+			assAvg = (assAvg * i + allTeams.get(i).getAssitNumberPG())
+					/ (i + 1);
+			bankAvg = (bankAvg * i + allTeams.get(i).getBackBoardPG())
+					/ (i + 1);
+			threeAvg = (threeAvg * i + allTeams.get(i).getTPEff()) / (i + 1);
+			ftAvg = (ftAvg * i + allTeams.get(i).getFTEff()) / (i + 1);
 		}
 		BigDecimal bg1 = new BigDecimal(pointsAvg);
 		pointsAvg = bg1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
+
 		BigDecimal bg2 = new BigDecimal(assAvg);
 		assAvg = bg2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
+
 		BigDecimal bg3 = new BigDecimal(bankAvg);
 		bankAvg = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
+
 		BigDecimal bg4 = new BigDecimal(threeAvg);
 		threeAvg = bg4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
+
 		BigDecimal bg5 = new BigDecimal(ftAvg);
 		ftAvg = bg5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
-		
+
 		ArrayList<Double> res = new ArrayList<Double>();
 		res.add(pointsAvg);
 		res.add(assAvg);
 		res.add(bankAvg);
 		res.add(threeAvg);
 		res.add(ftAvg);
-		
+
 		return res;
 	}
+
 	//
-/*	public double[] getAvg(String ){
-		ArrayList<TeamDataPO> teams.
-	}
-*/
-	//自动化测试
-	public void aotoTest(PrintStream out,String season,String date,boolean isAvg,boolean isHigh,String AllOrHotOrKing,int number,
-			String filterCondition,String sortCondition){
-		
-		
-	}
+	/*
+	 * public double[] getAvg(String ){ ArrayList<TeamDataPO> teams. }
+	 */
+	// 自动化测试
+	public void aotoTest(PrintStream out, boolean isAvg, boolean isHigh,
+			String season, String AllOrHot, String sortCondition, int number) {
+		int size = number;
+
+		ArrayList<TeamDataPO> res = new ArrayList<TeamDataPO>();
+		ArrayList<TeamDataPO> temp = new ArrayList<TeamDataPO>();
+		// all、hot的判断
+		if (AllOrHot.startsWith("hot")) {
+			temp = GetInfoBySeason(season);
+			if (AllOrHot.contains("score")) {
+				res = TeamSortLogic.sortByDouble(temp, "PPG");
+			} else if (AllOrHot.contains("rebound")) {
+				res = TeamSortLogic.sortByDouble(temp, "BackBoardPG");
+			} else if (AllOrHot.contains("blockShot")) {
+				res = TeamSortLogic.sortByDouble(temp, "RejectionPG");
+			} else if (AllOrHot.contains("assist")) {
+				res = TeamSortLogic.sortByDouble(temp, "AssitNumberPG");
+			} else if (AllOrHot.contains("steal")) {
+				res = TeamSortLogic.sortByDouble(temp, "StealNumberPG");
+			} else if (AllOrHot.contains("foul")) {
+				res = TeamSortLogic.sortByDouble(temp, "FoulPG");
+			} else if (AllOrHot.contains("fault")) {
+				res = TeamSortLogic.sortByDouble(temp, "ToPG");
+			} else if (AllOrHot.contains("shot")) {
+				res = TeamSortLogic.sortByDouble(temp, "ShootEff");
+			} else if (AllOrHot.contains("three")) {
+				res = TeamSortLogic.sortByDouble(temp, "TPEff");
+			} else if (AllOrHot.contains("penalty")) {
+				res = TeamSortLogic.sortByDouble(temp, "FTEff");
+			} else if (AllOrHot.contains("defendRebound")) {
+				res = TeamSortLogic.sortByDouble(temp, "DefBackBoardPG");
+			} else if (AllOrHot.contains("offendRebound")) {
+				res = TeamSortLogic.sortByDouble(temp, "OffBackBoardPG");
+			}
+
+			// System.out.println("write hot team");
+			// out输出流写入热点球队数据
+			for (int i = 0; i < size; i++) {
+				TeamHotInfo reshot = new TeamHotInfo();
+				reshot.setTeamName(res.get(i).getName());
+				if (AllOrHot.contains("score")) {
+					reshot.setField("score");
+					reshot.setValue(res.get(i).getPPG());
+				} else if (AllOrHot.contains("rebound")) {
+					reshot.setField("rebound");
+					reshot.setValue(res.get(i).getBackBoardPG());
+				} else if (AllOrHot.contains("blockShot")) {
+					reshot.setField("blockShot");
+					reshot.setValue(res.get(i).getRejectionPG());
+				} else if (AllOrHot.contains("assist")) {
+					reshot.setField("assist");
+					reshot.setValue(res.get(i).getAssitNumberPG());
+				} else if (AllOrHot.contains("steal")) {
+					reshot.setField("steal");
+					reshot.setValue(res.get(i).getStealNumberPG());
+				} else if (AllOrHot.contains("foul")) {
+					reshot.setField("foul");
+					reshot.setValue(res.get(i).getFoulPG());
+				} else if (AllOrHot.contains("fault")) {
+					reshot.setField("fault");
+					reshot.setValue(res.get(i).getToPG());
+				} else if (AllOrHot.contains("shot")) {
+					reshot.setField("shot");
+					reshot.setValue(res.get(i).getShootEff());
+				} else if (AllOrHot.contains("three")) {
+					reshot.setField("three");
+					reshot.setValue(res.get(i).getTPEff());
+				} else if (AllOrHot.contains("penalty")) {
+					reshot.setField("penalty");
+					reshot.setValue(res.get(i).getFTEff());
+				} else if (AllOrHot.contains("defendRebound")) {
+					reshot.setField("defendRebound");
+					reshot.setValue(res.get(i).getDefBackBoardPG());
+				} else if (AllOrHot.contains("offendRebound")) {
+					reshot.setField("offendRebound");
+					reshot.setValue(res.get(i).getOffBackBoardPG());
+				}
+				out.print(reshot);
+			}
+		}
+		// all
+		else {
+			temp = GetInfoBySeason(season);
+			String[] sorttemp = sortCondition.split(",");
+			String[] st1 = sorttemp[0].split("\\.");
+			String orderwords = "";
+			boolean isAsc = true;
+			if (st1[1].equals("desc")) {
+				isAsc = false;
+			} else {
+				isAsc = true;
+			}
+			switch (st1[0]) {
+			case "point":
+				orderwords = "PPG";
+				break;
+			case "rebound":
+				orderwords = "BackBoardPG";
+				break;
+			case "assist":
+				orderwords = "AssitNumberPG";
+				break;
+			case "blockShot":
+				orderwords = "RejectionPG";
+				break;
+			case "steal":
+				orderwords = "StealNumberPG";
+				break;
+			case "foul":
+				orderwords = "FoulPG";
+				break;
+			case "fault":
+				orderwords = "ToPG";
+				break;
+			case "shot":
+				orderwords = "ShootEff";
+				break;
+			case "three":
+				orderwords = "TPEff";
+				break;
+			case "penalty":
+				orderwords = "FTEff";
+				break;
+			case "defendRebound":
+				orderwords = "DefBackBoardPG";
+				break;
+			case "offendRebound":
+				orderwords = "OffBackBoardPG";
+				break;
+			case "winRate":
+				orderwords = "WR";
+				break;
+			case "offendRound":
+				orderwords = "OffPG";
+				break;
+			case "offendEfficient":
+				orderwords = "OffEff";
+				break;
+			case "defendEfficient":
+				orderwords = "DefEff";
+				break;
+			case "defendReboundEfficient":
+				orderwords = "DefBackBoardEff";
+				break;
+			case "offendReboundEfficient":
+				orderwords = "OffBackBoardEff";
+				break;
+			case "stealEfficient":
+				orderwords = "StealEff";
+				break;
+			case "assistEfficient":
+				orderwords = "AssistEff";
+				break;
+			}
 	
+			// 输出对象到输出流
+			if (isHigh) {
+				if (orderwords.equals("")) {
+					orderwords = "WR";
+				}
+				res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
+				if (isAsc) {
+					res = TeamSortLogic.sortAsc(res);
+				}
+				if (isAvg) {
+					for (int i = 0; i < size; i++) {
+						TeamHighInfo reshigh = new TeamHighInfo();
+						reshigh.setTeamName(res.get(i).getName());
+						reshigh.setWinRate(res.get(i).getWR());
+						reshigh.setOffendRound(res.get(i).getOffPG());
+						reshigh.setOffendEfficient(res.get(i).getOffEff());
+						reshigh.setDefendEfficient(res.get(i).getDefEff());
+						reshigh.setOffendReboundEfficient(res.get(i)
+								.getOffBackBoardEff());
+						reshigh.setDefendReboundEfficient(res.get(i)
+								.getDefBackBoardEff());
+						reshigh.setAssistEfficient(res.get(i).getAssistEff());
+						reshigh.setStealEfficient(res.get(i).getStealEff());
+						out.print(reshigh);
+					}
+				} else {
+					for (int i = 0; i < size; i++) {
+						TeamHighInfo reshigh = new TeamHighInfo();
+						reshigh.setTeamName(res.get(i).getName());
+						reshigh.setWinRate(res.get(i).getWR());
+						reshigh.setOffendRound(res.get(i).getOff());
+						reshigh.setOffendEfficient(res.get(i).getOffEff());
+						reshigh.setDefendEfficient(res.get(i).getDefEff());
+						reshigh.setOffendReboundEfficient(res.get(i)
+								.getOffBackBoardEff());
+						reshigh.setDefendReboundEfficient(res.get(i)
+								.getDefBackBoardEff());
+						reshigh.setAssistEfficient(res.get(i).getAssistEff());
+						reshigh.setStealEfficient(res.get(i).getStealEff());
+						out.print(reshigh);
+					}
+				}
+			} 
+			//如果是normal数据
+			else {
+				TeamNormalInfo resnormal = new TeamNormalInfo();
+				if (isAvg) {//如果是normal平均数据
+					if (orderwords.equals("")) {
+						orderwords = "PPG";
+					}
+					res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
+					if (isAsc) {
+						res = TeamSortLogic.sortAsc(res);
+					}
+					for (int i = 0; i < size; i++) {
+						resnormal.setPoint(res.get(i).getPPG());
+						resnormal.setRebound(res.get(i).getBackBoardPG());
+						resnormal.setAssist(res.get(i).getAssitNumberPG());
+						resnormal.setBlockShot(res.get(i).getRejectionPG());
+						resnormal.setSteal(res.get(i).getStealNumberPG());
+						resnormal.setFoul(res.get(i).getFoulPG());
+						resnormal.setFault(res.get(i).getToPG());
+						resnormal.setShot(res.get(i).getShootEff());
+						resnormal.setThree(res.get(i).getTPEff());
+						resnormal.setPenalty(res.get(i).getFTEff());
+						resnormal.setDefendRebound(res.get(i)
+								.getDefBackBoardPG());
+						resnormal.setOffendRebound(res.get(i)
+								.getOffBackBoardPG());
+						resnormal.setTeamName(res.get(i).getName());
+						resnormal.setNumOfGame((int) res.get(i)
+								.getMatchNumber());
+						out.print(resnormal);
+					}
+				}
+				else {//如果是normal总数据
+					if (orderwords.equals("")) {
+						orderwords = "PTS";
+					}
+					res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
+					if (isAsc) {
+						res = TeamSortLogic.sortAsc(res);
+					}
+					for (int i = 0; i < size; i++) {
+						resnormal.setPoint(res.get(i).getPTS());
+						resnormal.setRebound(res.get(i).getBackBoard());
+						resnormal.setAssist(res.get(i).getAssitNumber());
+						resnormal.setBlockShot(res.get(i).getRejection());
+						resnormal.setSteal(res.get(i).getStealNumber());
+						resnormal.setFoul(res.get(i).getFoul());
+						resnormal.setFault(res.get(i).getTo());
+						resnormal.setShot(res.get(i).getShootEff());
+						resnormal.setThree(res.get(i).getTPEff());
+						resnormal.setPenalty(res.get(i).getFTEff());
+						resnormal
+								.setDefendRebound(res.get(i).getDefBackBoard());
+						resnormal
+								.setOffendRebound(res.get(i).getOffBackBoard());
+						resnormal.setTeamName(res.get(i).getName());
+						resnormal.setNumOfGame((int) res.get(i)
+								.getMatchNumber());
+						out.print(resnormal);
+					}
+				}
+			}
+
+			
+		}
+
+	}
+
 	public static void main(String[] args) {
 		System.out.println(MatchLogic.getTime());
 		TeamLogic team = new TeamLogic();
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
-		//teams = team.GetAllInfo();
-		//team.initTeamData();
-		/*teams = team.GetAllInfo();
-		for(int i=0;i<teams.size();i++){
-			System.out.println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers());
-		}*/
-		/*ArrayList<Double> res= team.getAvg();
-		for(int i=0;i<res.size();i++){
-			System.out.println(res.get(i));
-		}*/
+		// teams = team.GetAllInfo();
+		// team.initTeamData();
+		/*
+		 * teams = team.GetAllInfo(); for(int i=0;i<teams.size();i++){
+		 * System.out
+		 * .println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers
+		 * ()); }
+		 */
+		/*
+		 * ArrayList<Double> res= team.getAvg(); for(int i=0;i<res.size();i++){
+		 * System.out.println(res.get(i)); }
+		 */
 		System.out.println(team.GetAllInfo().size());
-			System.out.println(MatchLogic.getTime());
+		System.out.println(MatchLogic.getTime());
 
-		}
-	
-	
+	}
 
 }
