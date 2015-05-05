@@ -23,19 +23,38 @@ public class TeamSortLogic {
 				if (o1.getDoubleProperty(property_double)>o2.getDoubleProperty(property_double)) {
 					return -1;
 				}
+				else if ((o1.getDoubleProperty(property_double)==o2.getDoubleProperty(property_double))&&(((String) o1.getStringProperty("Name")).compareTo((String) o2.getStringProperty("Name"))< 0)) {
+					return -1;
+				}
 				return 1;
 			}
 		});
 		return teams;
 	}
 	
-	public static  ArrayList<TeamDataPO> sortAsc(ArrayList<TeamDataPO> teams) {
+	public static  ArrayList<TeamDataPO> sortByDoubleAsc(ArrayList<TeamDataPO> teams,  final String property_double) {
+		teams.sort(new Comparator<TeamDataPO>() {
+			public int compare(TeamDataPO o1, TeamDataPO o2) {
+				if (o1.getDoubleProperty(property_double)>o2.getDoubleProperty(property_double)) {
+					return 1;
+				}
+				else if ((o1.getDoubleProperty(property_double)==o2.getDoubleProperty(property_double))&&(((String) o1.getStringProperty("Name")).compareTo((String) o2.getStringProperty("Name"))> 0)) {
+					return 1;
+				}
+				return -1;
+			}
+		});
+		return teams;
+	}
+	
+	
+	/*public static  ArrayList<TeamDataPO> sortAsc(ArrayList<TeamDataPO> teams) {
 		ArrayList<TeamDataPO> res= new ArrayList<TeamDataPO>();
 		for(int i=teams.size()-1;i>=0;i--){
 			res.add(teams.get(i));
 		}
 		return res;
-	}
+	}*/
 	
 	
 	
@@ -43,7 +62,7 @@ public class TeamSortLogic {
 
 	public static void main(String[] args) {
 		TeamLogic t = new TeamLogic();
-		ArrayList<TeamDataPO> teams =t.GetAllInfo();
+		ArrayList<TeamDataPO> teams =t.GetInfoBySeason("13-14");
 		/*for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getName());
 		}*/
@@ -56,15 +75,15 @@ public class TeamSortLogic {
 		for(int i=0;i<teams.size();i++){
 			System.out.println(teams.get(i).getBuildyear());
 		}*/
-		TeamSortLogic.sortByDouble(teams,"PPG");
+		TeamSortLogic.sortByDouble(teams,"Buildyear");
 		System.out.println("--------------");
 		for(int i=0;i<teams.size();i++){
-			System.out.println(teams.get(i).getPPG());
+			System.out.println(teams.get(i).getBuildyear()+teams.get(i).getName());
 		}
-		teams=TeamSortLogic.sortAsc(TeamSortLogic.sortByDouble(teams,"PPG"));
+		teams=TeamSortLogic.sortByDoubleAsc(TeamSortLogic.sortByDouble(teams,"Buildyear"),"Buildyear");
 		System.out.println("--------------");
 		for(int i=0;i<teams.size();i++){
-			System.out.println(teams.get(i).getPPG());
+			System.out.println(teams.get(i).getBuildyear()+teams.get(i).getName());
 		}
 	}
 

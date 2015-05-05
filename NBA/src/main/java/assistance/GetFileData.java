@@ -308,6 +308,7 @@ public class GetFileData {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(res.getTeam1Def());
 		return res;
 	}
 

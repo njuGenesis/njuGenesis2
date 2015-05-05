@@ -4,10 +4,6 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import test.data.PlayerHighInfo;
-import test.data.PlayerHotInfo;
-import test.data.PlayerKingInfo;
-import test.data.PlayerNormalInfo;
 import test.data.TeamHighInfo;
 import test.data.TeamHotInfo;
 import test.data.TeamNormalInfo;
@@ -646,9 +642,8 @@ public class TeamLogic implements TeamInfoService {
 	 */
 	// 自动化测试
 	public void aotoTest(PrintStream out, boolean isAvg, boolean isHigh,
-			String season, String AllOrHot, String sortCondition, int number) {
+			String season, String AllOrHot, int number, String sortCondition) {
 		int size = number;
-
 		ArrayList<TeamDataPO> res = new ArrayList<TeamDataPO>();
 		ArrayList<TeamDataPO> temp = new ArrayList<TeamDataPO>();
 		// all、hot的判断
@@ -682,6 +677,9 @@ public class TeamLogic implements TeamInfoService {
 
 			// System.out.println("write hot team");
 			// out输出流写入热点球队数据
+			if(size>res.size()){
+				size=res.size();
+			}
 			for (int i = 0; i < size; i++) {
 				TeamHotInfo reshot = new TeamHotInfo();
 				reshot.setTeamName(res.get(i).getName());
@@ -799,7 +797,6 @@ public class TeamLogic implements TeamInfoService {
 				orderwords = "AssistEff";
 				break;
 			}
-	
 			// 输出对象到输出流
 			if (isHigh) {
 				if (orderwords.equals("")) {
@@ -807,7 +804,10 @@ public class TeamLogic implements TeamInfoService {
 				}
 				res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
 				if (isAsc) {
-					res = TeamSortLogic.sortAsc(res);
+					res = TeamSortLogic.sortByDoubleAsc(res,orderwords);
+				}
+				if(size>res.size()){
+					size=res.size();
 				}
 				if (isAvg) {
 					for (int i = 0; i < size; i++) {
@@ -846,13 +846,17 @@ public class TeamLogic implements TeamInfoService {
 			//如果是normal数据
 			else {
 				TeamNormalInfo resnormal = new TeamNormalInfo();
+				
 				if (isAvg) {//如果是normal平均数据
 					if (orderwords.equals("")) {
 						orderwords = "PPG";
 					}
 					res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
 					if (isAsc) {
-						res = TeamSortLogic.sortAsc(res);
+						res = TeamSortLogic.sortByDoubleAsc(res,orderwords);
+					}
+					if(size>res.size()){
+						size=res.size();
 					}
 					for (int i = 0; i < size; i++) {
 						resnormal.setPoint(res.get(i).getPPG());
@@ -881,7 +885,11 @@ public class TeamLogic implements TeamInfoService {
 					}
 					res = TeamSortLogic.sortByDouble(temp, orderwords); // 排序
 					if (isAsc) {
-						res = TeamSortLogic.sortAsc(res);
+						res = TeamSortLogic.sortByDoubleAsc(res,orderwords);
+					}
+					if(size>res.size()){
+						System.out.print("-----"+res.size());
+						size=res.size();
 					}
 					for (int i = 0; i < size; i++) {
 						resnormal.setPoint(res.get(i).getPTS());
