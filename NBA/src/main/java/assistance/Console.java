@@ -182,7 +182,7 @@ public class Console {
 			System.exit(0);
 		}
 		TeamLogic tl = new TeamLogic();
-		tl.aotoTest(out,  t.isAvg, t.isHigh, "13-14",t.AllOrHot,
+		tl.aotoTest(out,  false, true, "13-14","hot score",
 				t.number, t.sortCondition);
 
 	}

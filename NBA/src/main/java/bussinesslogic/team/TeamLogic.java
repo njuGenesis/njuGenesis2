@@ -677,6 +677,7 @@ public class TeamLogic implements TeamInfoService {
 
 			// System.out.println("write hot team");
 			// out输出流写入热点球队数据
+			
 			if(size>res.size()){
 				size=res.size();
 			}
@@ -685,39 +686,51 @@ public class TeamLogic implements TeamInfoService {
 				reshot.setTeamName(res.get(i).getName());
 				if (AllOrHot.contains("score")) {
 					reshot.setField("score");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getPPG());
 				} else if (AllOrHot.contains("rebound")) {
 					reshot.setField("rebound");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getBackBoardPG());
 				} else if (AllOrHot.contains("blockShot")) {
 					reshot.setField("blockShot");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getRejectionPG());
 				} else if (AllOrHot.contains("assist")) {
 					reshot.setField("assist");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getAssitNumberPG());
 				} else if (AllOrHot.contains("steal")) {
 					reshot.setField("steal");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getStealNumberPG());
 				} else if (AllOrHot.contains("foul")) {
 					reshot.setField("foul");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getFoulPG());
 				} else if (AllOrHot.contains("fault")) {
 					reshot.setField("fault");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getToPG());
 				} else if (AllOrHot.contains("shot")) {
 					reshot.setField("shot");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getShootEff());
 				} else if (AllOrHot.contains("three")) {
 					reshot.setField("three");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getTPEff());
 				} else if (AllOrHot.contains("penalty")) {
 					reshot.setField("penalty");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getFTEff());
 				} else if (AllOrHot.contains("defendRebound")) {
 					reshot.setField("defendRebound");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getDefBackBoardPG());
 				} else if (AllOrHot.contains("offendRebound")) {
 					reshot.setField("offendRebound");
+					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getOffBackBoardPG());
 				}
 				out.print(reshot);
