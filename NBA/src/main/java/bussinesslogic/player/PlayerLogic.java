@@ -1771,6 +1771,16 @@ public class PlayerLogic implements PlayerInfoService{
 		res = res.substring(0,5);
 		return res;
     }
+    public String getLatestDate(){
+    	String res = "4-27";
+    	File root = new File("./迭代一数据/matches");//从ser文件中读取所有数据
+		File[] files = root.listFiles();
+		for(File file:files){
+			res = file.getName();
+		}
+		res = res.substring(6,11);
+		return res;
+    }
 	public void updatePlayer(String filename,String season){
 		PlayerList.clear();
 		
@@ -3223,6 +3233,7 @@ public class PlayerLogic implements PlayerInfoService{
 					reshot.setUpgradeRate(res[i].getAProgressPecentage());
 					reshot.setValue(res[i].getRecentAvgA());
 				}
+				out.print(i+1);
 				out.print(reshot);
 			}
 		}
@@ -3256,6 +3267,7 @@ public class PlayerLogic implements PlayerInfoService{
 						resking.setField("assist");
 						resking.setValue(res[i].getAPG());
 					}
+					out.print(i+1);
 					out.print(resking);
 				}
 			}
@@ -3288,6 +3300,7 @@ public class PlayerLogic implements PlayerInfoService{
 						resking.setField("assist");
 						resking.setValue(res[i].getAssist());
 					}
+					out.print(i+1);
 					out.print(resking);
 				}
 			}
@@ -3493,7 +3506,7 @@ public class PlayerLogic implements PlayerInfoService{
 							||(reshigh.getTeamName().equals("CLE"))){
 						reshigh.setLeague("East");
 					}
-					
+					out.print(i+1);
 					out.print(reshigh);
 				}
 			}
@@ -3536,7 +3549,7 @@ public class PlayerLogic implements PlayerInfoService{
 					resnormal.setShot(trueres[i].getFieldGoalPercentage());
 					resnormal.setStart(trueres[i].getGS());
 					resnormal.setAge(trueres[i].getAge());
-					
+					out.print(i+1);
 					out.print(resnormal);
 				}
 				

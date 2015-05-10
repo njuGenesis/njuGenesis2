@@ -15,7 +15,6 @@ public class Console {
 	public class GameCommand {
 
 	}
-
 	@CmdCommand(names = { "-player", "-p" }, description = "Show Player information")
 	public class PlayerCommand extends GameCommand {
 
@@ -100,7 +99,7 @@ public class Console {
 		}
 	}
 
-	@CmdCommand(names={"-player", "-p"}, description="Show Player information") 
+	@CmdCommand(names={"-team", "-p"}, description="Show Team information") 
 	public class TeamCommand extends GameCommand { 
 		
 		public boolean isAvg = true;
@@ -157,33 +156,43 @@ public class Console {
 	
 	public void execute(PrintStream out, String[] args) {
 		PlayerCommand p = new PlayerCommand();
+		TeamCommand t = new TeamCommand();
+		
+		PlayerLogic pl = new PlayerLogic();
+		TeamLogic tl = new TeamLogic();
+		
+		String season = pl.getLatestSeason();
+		String date = pl.getLatestDate();
+		if(args[0].equals("-player")){
 		CmdlineParser cp = new CmdlineParser(p);
-		cp.setProgramName("firstTest");
+		cp.setProgramName("playerTest");
 		cp.parse(args);
 		// System.out.println(p.temp);
 		if (p.help) {
 			cp.usage();
 			System.exit(0);
 		}
-		PlayerLogic pl = new PlayerLogic();
-		pl.aotoTest(out, "13-14", "4-27", p.isAvg, p.isHigh, p.AllOrHotOrKing,
+		
+		pl.aotoTest(out, season, date, p.isAvg, p.isHigh, p.AllOrHotOrKing,
 				p.number, p.filterCondition, p.sortCondition);
-
-	}
-	
-	public void executeTeam(PrintStream out, String[] args) {
-		TeamCommand t = new TeamCommand();
-		CmdlineParser cp = new CmdlineParser(t);
-		cp.setProgramName("firstTest");
-		cp.parse(args);
-		// System.out.println(p.temp);
-		if (t.help) {
-			cp.usage();
-			System.exit(0);
 		}
-		TeamLogic tl = new TeamLogic();
-		tl.aotoTest(out,  false, true, "13-14","hot score",
-				t.number, t.sortCondition);
+		else if(args[0].equals("-team")){
+			CmdlineParser cp = new CmdlineParser(t);
+			cp.setProgramName("teamTest");
+			cp.parse(args);
+			// System.out.println(p.temp);
+			if (t.help) {
+				cp.usage();
+				System.exit(0);
+			}
+			//TeamLogic tl = new TeamLogic();
+			tl.aotoTest(out,  false, true, season,"hot score",
+					t.number, t.sortCondition);
+		}
+		else{
+			pl.initialize(args[1], season);
+			tl.initTeamData();
+		}
 
 	}
 
