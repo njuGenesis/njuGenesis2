@@ -54,7 +54,7 @@ public class MatchLogic implements MatchInfoService {
 			}
 			
 		}
-		System.out.println(MatchLogic.getTime());
+		//System.out.println(MatchLogic.getTime());
 		matches.addAll(MatchList12);
 		matches.addAll(MatchList13);
 		matches.addAll(MatchListtest);

@@ -159,12 +159,12 @@ public class Console {
 		PlayerCommand p = new PlayerCommand();
 		TeamCommand t = new TeamCommand();
 		
-		PlayerLogic pl = new PlayerLogic();
+		//PlayerLogic pl = new PlayerLogic();
 		TeamLogic tl = new TeamLogic();
 		MatchLogic ml = new MatchLogic();
 		
-		String season = pl.getLatestSeason();
-		String date = pl.getLatestDate();
+		//String season = pl.getLatestSeason();
+	//	String date = pl.getLatestDate();
 		if(args[0].equals("-player")){
 		CmdlineParser cp = new CmdlineParser(p);
 		cp.setProgramName("playerTest");
@@ -174,7 +174,9 @@ public class Console {
 			cp.usage();
 			System.exit(0);
 		}
-		
+		PlayerLogic pl = new PlayerLogic();
+		String season = pl.getLatestSeason();
+		String date = pl.getLatestDate();
 		pl.aotoTest(out, season, date, p.isAvg, p.isHigh, p.AllOrHotOrKing,
 				p.number, p.filterCondition, p.sortCondition);
 		}
@@ -197,6 +199,7 @@ public class Console {
 			String playerPath = datasource+"/players/info";
 			String matchPath = datasource +"/matches";
 			PlayerLogic temppl = new PlayerLogic(playerPath,matchPath);
+			String season = temppl.getLatestSeason();
 			temppl.initialize(datasource, season);
 			ml.ini(datasource);
 		}

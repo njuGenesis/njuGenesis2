@@ -1755,7 +1755,7 @@ public class PlayerLogic implements PlayerInfoService{
     public String getLatestSeason(){
     	String res = "13-14";
     	File root;
-    	
+    	//System.out.println(matchpath);
     		root = new File(matchpath);
     	
 		File[] files = root.listFiles();
