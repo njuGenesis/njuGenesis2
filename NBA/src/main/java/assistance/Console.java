@@ -129,7 +129,7 @@ public class Console {
 			//System.out.println("get AllTeam");
 		}
 		
-		@CmdOption(names = {"-hot"},description = "get hot team", maxCount=1,minCount=0,handler = StringMethodHandler.class,
+		@CmdOption(names = {"-hot"},description = "get hot team", maxCount=1,minCount=0,args={"abc"},handler = StringMethodHandler.class,
 			conflictsWith = {"-all","-sort","-avg","-total"})
 		public void getHot(String temp){
 			AllOrHot = "hot"+";"+temp;
