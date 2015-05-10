@@ -11,7 +11,7 @@ public class PlayerDataInAndOut {
 	public void WriteIn(PlayerDataPO p,String season){
 		try{
 			
-			FileOutputStream fs = new FileOutputStream("./playerInfo/"+season+p.getName()+".ser");
+			FileOutputStream fs = new FileOutputStream("playerInfo/"+season+p.getName()+".ser");
 			ObjectOutputStream os = new ObjectOutputStream(fs);
 			os.writeObject(p);
 			os.close();
@@ -21,7 +21,7 @@ public class PlayerDataInAndOut {
 	}
 	public PlayerDataPO WriteOut(String name,String season){
 		try{
-			FileInputStream fs = new FileInputStream("./playerInfo/"+season + name+".ser");
+			FileInputStream fs = new FileInputStream("playerInfo/"+season + name+".ser");
 			ObjectInputStream os = new ObjectInputStream(fs);
 			Object temp = os.readObject();
 			PlayerDataPO res = (PlayerDataPO)temp;
@@ -36,7 +36,7 @@ public class PlayerDataInAndOut {
 	}
 	public PlayerDataPO WriteOutAllSeason(String filename){
 		try{
-			FileInputStream fs = new FileInputStream("./playerInfo/"+filename);
+			FileInputStream fs = new FileInputStream("playerInfo/"+filename);
 			ObjectInputStream os = new ObjectInputStream(fs);
 			Object temp = os.readObject();
 			PlayerDataPO res = (PlayerDataPO)temp;

@@ -28,8 +28,8 @@ public class PlayerLogic implements PlayerInfoService{
 	String playerpath;
 	String matchpath;
 	public PlayerLogic(){
-		playerpath = "./迭代一数据/players/info";
-		matchpath = "./迭代一数据/matches";
+		playerpath = "迭代一数据/players/info";
+		matchpath = "迭代一数据/matches";
 	}
 	public PlayerLogic(String player,String match){
 	playerpath = 	player;
@@ -1736,7 +1736,7 @@ public class PlayerLogic implements PlayerInfoService{
 	}
     public PlayerDataPO[] getAllSeasonInfo(String name){
     	ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
-		File root = new File("./playerInfo");//从ser文件中读取所有数据
+		File root = new File("playerInfo");//从ser文件中读取所有数据
 		File[] files = root.listFiles();
 		for(File file:files){
 			if(file.getName().contains(name)){
