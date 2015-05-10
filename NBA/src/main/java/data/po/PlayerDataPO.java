@@ -153,14 +153,14 @@ public class PlayerDataPO implements Serializable{
 		return AProgressPecentage;
 	}
 	public void setAProgressPecentage(double aProgressPecentage) {
-		BigDecimal bg = new BigDecimal(aProgressPecentage);
+		BigDecimal bg = new BigDecimal(aProgressPecentage*100);
 		AProgressPecentage = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public double getPProgressPecentage() {
 		return PProgressPecentage;
 	}
 	public void setPProgressPecentage(double pProgressPecentage) {
-		BigDecimal bg = new BigDecimal(pProgressPecentage);
+		BigDecimal bg = new BigDecimal(pProgressPecentage*100);
 		PProgressPecentage =bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public ArrayList<Integer> getRecentBackboard(){
@@ -188,7 +188,7 @@ public class PlayerDataPO implements Serializable{
 		return BProgressPecentage;
 	}
 	public void setBProgressPecnetage(double p){
-		BigDecimal bg = new BigDecimal(p);
+		BigDecimal bg = new BigDecimal(p*100);
 		BProgressPecentage = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public int getTotalb() {
@@ -480,7 +480,7 @@ public class PlayerDataPO implements Serializable{
 	}
 
 	public void setFieldGoalPercentage(double fieldGoalPercentage) {
-		BigDecimal bg = new BigDecimal(fieldGoalPercentage);
+		BigDecimal bg = new BigDecimal(fieldGoalPercentage*100);
 		FieldGoalPercentage = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
@@ -489,7 +489,7 @@ public class PlayerDataPO implements Serializable{
 	}
 
 	public void setThreePGPercentage(double threePGPercentage) {
-		BigDecimal bg = new BigDecimal(threePGPercentage);
+		BigDecimal bg = new BigDecimal(threePGPercentage*100);
 		ThreePGPercentage = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 
 	}
@@ -499,7 +499,7 @@ public class PlayerDataPO implements Serializable{
 	}
 
 	public void setFTPercentage(double fTPercentage) {
-		BigDecimal bg = new BigDecimal(fTPercentage);
+		BigDecimal bg = new BigDecimal(fTPercentage*100);
 		FTPercentage = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
@@ -654,7 +654,7 @@ public class PlayerDataPO implements Serializable{
 	}
 
 	public void setTruePercentage(double truePercentage) {
-		BigDecimal bg = new BigDecimal(truePercentage);
+		BigDecimal bg = new BigDecimal(truePercentage*100);
 		TruePercentage = bg.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 		//TruePercentage = truePercentage;
 	}

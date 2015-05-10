@@ -120,7 +120,7 @@ public class PlayerLogic implements PlayerInfoService{
 				fminute = Integer.valueOf(ftime[0]);//time
 				fseconds = Integer.valueOf(ftime[1]);
 				}
-				firsttotaltime = firsttotaltime + fminute*60+fseconds;
+				firsttotaltime = firsttotaltime + fminute+fseconds/(double)60;
 				}
 				catch(Exception e){
 					
@@ -148,7 +148,7 @@ public class PlayerLogic implements PlayerInfoService{
 				 fminute = Integer.valueOf(ftime[0]);//time
 				fseconds = Integer.valueOf(ftime[1]);
 				}
-				secondtotaltime = secondtotaltime + fminute*60+fseconds;
+				secondtotaltime = secondtotaltime + fminute+fseconds/(double)60;
 			
 				}
 				catch(Exception e){
@@ -270,35 +270,6 @@ public class PlayerLogic implements PlayerInfoService{
 				}
 				}
 			}
-			for(int i = 1;i<m.secondTeamInfo.size();i++){//鏁翠釜鐞冮槦鐨勬暟鎹�
-				int fminute = 0;
-				int fseconds = 0;
-				
-				String[] temp = m.secondTeamInfo.get(i).split(";");
-				secondb = secondb + Integer.valueOf(temp[11]);
-				
-				try{
-				String[] ftime = temp[2].split(":");
-				if(temp[2].equals(null)){
-					
-				}
-				else{
-				 fminute = Integer.valueOf(ftime[0]);//time
-				fseconds = Integer.valueOf(ftime[1]);
-				}
-				secondtotaltime = secondtotaltime + fminute*60+fseconds;
-			
-				}
-				catch(Exception e){
-					
-				}
-				
-				secondGoal = secondGoal + Integer.valueOf(temp[3]);
-				secondFT = secondFT + Integer.valueOf(temp[8]);
-				secondOffb = secondOffb + Integer.valueOf(temp[9]);
-				secondTo = secondTo + Integer.valueOf(temp[15]);
-			}
-			
 			for(int i = 1;i<m.secondTeamInfo.size();i++){				
 				
 				String[] temp = m.secondTeamInfo.get(i).split(";");
@@ -3262,7 +3233,9 @@ public class PlayerLogic implements PlayerInfoService{
 					reshot.setValue(res[i].getRecentAvgA());
 				}
 				out.print(i+1);
+				out.print("\n");
 				out.print(reshot);
+				out.print("\n");
 			}
 		}
 		else if(AllOrHotOrKing.startsWith("king")){
@@ -3296,7 +3269,9 @@ public class PlayerLogic implements PlayerInfoService{
 						resking.setValue(res[i].getAPG());
 					}
 					out.print(i+1);
+					out.print("\n");
 					out.print(resking);
+					out.print("\n");
 				}
 			}
 			else if(AllOrHotOrKing.contains("daily")){//需要找一次球员信息
@@ -3329,7 +3304,9 @@ public class PlayerLogic implements PlayerInfoService{
 						resking.setValue(res[i].getAssist());
 					}
 					out.print(i+1);
+					out.print("\n");
 					out.print(resking);
+					out.print("\n");
 				}
 			}
 			
@@ -3535,7 +3512,9 @@ public class PlayerLogic implements PlayerInfoService{
 						reshigh.setLeague("East");
 					}
 					out.print(i+1);
+					out.print("\n");
 					out.print(reshigh);
+					out.print("\n");
 				}
 			}
 			else {
@@ -3578,7 +3557,9 @@ public class PlayerLogic implements PlayerInfoService{
 					resnormal.setStart(trueres[i].getGS());
 					resnormal.setAge(trueres[i].getAge());
 					out.print(i+1);
+					out.print("\n");
 					out.print(resnormal);
+					out.print("\n");
 				}
 				
 			}
