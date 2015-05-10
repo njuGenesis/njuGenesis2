@@ -44,9 +44,9 @@ public class PlayerLogic implements PlayerInfoService{
 		String filePath = filepath+"\\/" + file.getName();
 		//System.out.println(filepath);
 		String basicInfo = g.readPlayerfile(filePath);
+		//System.out.println(basicInfo);
 		String[] tempbasic = basicInfo.split("\n");
 		PlayerDataPO temp = new PlayerDataPO();
-		
 		if(tempbasic[0].endsWith("Jr.")){
 			
 		temp.setName(tempbasic[0].replaceAll("\\.", ""));	
@@ -56,8 +56,12 @@ public class PlayerLogic implements PlayerInfoService{
 		}
 		temp.setNumber(tempbasic[1]);
 		temp.setPosition(tempbasic[2]);
+		
 		temp.setHeight(tempbasic[3]);
+		
 		temp.setWeight(Double.valueOf(tempbasic[4]));
+		
+		
 		temp.setBirth(tempbasic[5]);
 		temp.setAge(Integer.valueOf(tempbasic[6]));
 		if(tempbasic[7].equals("R")){

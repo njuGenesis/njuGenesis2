@@ -2,7 +2,9 @@ package assistance;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import data.po.MatchDataPO;
@@ -19,7 +21,7 @@ public class GetFileData {
 		try {
 			// System.out.println("hi"+filename);
 			File f = new File(filename);
-			FileReader fr = new FileReader(f);
+			InputStreamReader fr = new InputStreamReader(new FileInputStream(f),"UTF-8");
 			BufferedReader br = new BufferedReader(fr);
 			String data = br.readLine();// 一次读入一行，直到读入null为文件结束
 			// res = res + data + '\n';
@@ -49,6 +51,7 @@ public class GetFileData {
 		} catch (Exception e) {
 			System.out.println("448个球员中不存在"+filename);
 		}
+		System.out.println(res);
 		return res;
 	}
 
@@ -57,11 +60,14 @@ public class GetFileData {
 		for (int j = 0; j < info.length(); j++) {
 			if (info.substring(j, j + 1).equals("│")) {
 				i = j + 1;
-				// System.out.println("hi");
+				//System.out.println("hi");
 				break;
 			}
 		}
+		
+		//System.out.println("│");
 		String res = info.substring(i, info.length() - 1).trim();
+		
 		return res;
 	}
 
@@ -321,7 +327,8 @@ public class GetFileData {
 		TeamDataPO team3 = new TeamDataPO();
 		try {
 			File f = new File(Teamfilename);
-			FileReader fr = new FileReader(f);
+			 
+			InputStreamReader fr = new InputStreamReader(new FileInputStream(f),"UTF-8");
 			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(fr);
 			String data = br.readLine();// 一次读入一行，直到读入null为文件结束
