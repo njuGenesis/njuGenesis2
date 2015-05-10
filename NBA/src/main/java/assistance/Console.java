@@ -190,7 +190,12 @@ public class Console {
 					t.number, t.sortCondition);
 		}
 		else{
-			pl.initialize(args[1], season);
+			//init
+			String datasource = args[1].replaceAll("\\\\", "/");
+			String playerPath = datasource+"/players/info";
+			String matchPath = datasource +"/matches";
+			PlayerLogic temppl = new PlayerLogic(playerPath,matchPath);
+			temppl.initialize(datasource, season);
 			tl.initTeamData();
 		}
 

@@ -25,13 +25,23 @@ public class PlayerLogic implements PlayerInfoService{
 	//PlayerRmi p = new PlayerRmi();
 	PlayerDataInAndOut pio = new PlayerDataInAndOut();
 	//界面层接口方法
-	public void analysData(String filepath,String season) {
+	String playerpath;
+	String matchpath;
+	public PlayerLogic(){
+		playerpath = "./迭代一数据/players/info";
+		matchpath = "./迭代一数据/matches";
+	}
+	public PlayerLogic(String player,String match){
+	playerpath = 	player;
+	matchpath = match;
+	}
+	public void analysData(String filepath,String season,String matchPath) {
 		// TODO Auto-generated method stub
 		PlayerList.clear();
 		File root = new File(filepath);
 		File[] files = root.listFiles();
 		for(File file:files){		
-		String filePath = "./迭代一数据/players/info/" + file.getName();
+		String filePath = filepath+"\\/" + file.getName();
 		//System.out.println(filepath);
 		String basicInfo = g.readPlayerfile(filePath);
 		String[] tempbasic = basicInfo.split("\n");
@@ -65,7 +75,7 @@ public class PlayerLogic implements PlayerInfoService{
 		
 		}
 		//loop over
-		getAllMatch("./迭代一数据/matches",season);
+		getAllMatch(matchPath,season);
 		//写入所有数据
 		//System.out.print(PlayerList.size());
 		for(int i = 0;i<PlayerList.size();i++){	
@@ -1007,7 +1017,10 @@ public class PlayerLogic implements PlayerInfoService{
 	public PlayerDataPO[] getAllInfo(String season) {
 		// TODO Auto-generated method stub
 		ArrayList<PlayerDataPO> res = new ArrayList<PlayerDataPO>();
-		File root = new File("./迭代一数据/players/info");//从ser文件中读取所有数据
+		File root;
+		
+			root = new File(playerpath);
+		
 		File[] files = root.listFiles();
 		for(File file:files){
 			PlayerDataPO temp = pio.WriteOut(file.getName(),season);
@@ -1238,7 +1251,11 @@ public class PlayerLogic implements PlayerInfoService{
 		//else{
 		//	return "has initialized";
 		//}
-		analysData(filepath,season);
+		//filepath = filepath.replaceAll("\\", "/");
+		//System.out.println(filepath);
+	    String playerpath = filepath+"/players/info";
+	    String matchpath = filepath+"/matches";
+		analysData(playerpath,season,matchpath);
 		return "ok";
 	}
 	public PlayerDataPO[] getFirstFifty(final String orderName, PlayerDataPO[] orgin,final boolean isAVG) {
@@ -1459,7 +1476,10 @@ public class PlayerLogic implements PlayerInfoService{
 		//得分，篮板，助攻，盖帽，抢断
 		ArrayList<PlayerDataPO> temp = new ArrayList<PlayerDataPO>();
 		String title = season+"_"+date;
-		File root = new File("./迭代一数据/matches");
+		File root;
+		
+			root = new File(matchpath);
+		
 				File[] files = root.listFiles();
 				for(File file:files){		
 					if(file.getName().startsWith(title)){
@@ -1763,7 +1783,10 @@ public class PlayerLogic implements PlayerInfoService{
     }
     public String getLatestSeason(){
     	String res = "13-14";
-    	File root = new File("./迭代一数据/matches");//从ser文件中读取所有数据
+    	File root;
+    	
+    		root = new File(matchpath);
+    	
 		File[] files = root.listFiles();
 		for(File file:files){
 			res = file.getName();
@@ -1772,8 +1795,11 @@ public class PlayerLogic implements PlayerInfoService{
 		return res;
     }
     public String getLatestDate(){
-    	String res = "4-27";
-    	File root = new File("./迭代一数据/matches");//从ser文件中读取所有数据
+    	String res = "04-27";
+    	File root;
+    	
+    		root = new File(matchpath);
+    	
 		File[] files = root.listFiles();
 		for(File file:files){
 			res = file.getName();
@@ -1796,8 +1822,10 @@ public class PlayerLogic implements PlayerInfoService{
 		int secondFT = 0;//鐞冮槦缃氱悆娆℃暟
 		int secondOffb = 0;//鐞冮槦鎬昏繘鏀荤鏉�
 		int secondTo = 0;//鐞冮槦鎬诲け璇�
+		String mathchPath = "";
 		
-		String mathchPath = "./迭代一数据/matches/"+filename;
+		mathchPath = matchpath+"\\/"+filename;
+	
 		MatchDataPO tempmatch = g.readMatchfile(mathchPath);
 		for(int i = 1;i<tempmatch.firstTeamInfo.size();i++){
 			String playername =tempmatch.firstTeamInfo.get(i).split(";")[0];
