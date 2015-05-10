@@ -3,6 +3,7 @@ package assistance;
 import java.io.PrintStream;
 
 import test.data.PlayerNormalInfo;
+import bussinesslogic.match.MatchLogic;
 import bussinesslogic.player.PlayerLogic;
 import bussinesslogic.team.TeamLogic;
 import data.po.PlayerDataPO;
@@ -160,6 +161,7 @@ public class Console {
 		
 		PlayerLogic pl = new PlayerLogic();
 		TeamLogic tl = new TeamLogic();
+		MatchLogic ml = new MatchLogic();
 		
 		String season = pl.getLatestSeason();
 		String date = pl.getLatestDate();
@@ -186,7 +188,7 @@ public class Console {
 				System.exit(0);
 			}
 			//TeamLogic tl = new TeamLogic();
-			tl.aotoTest(out,  false, true, season,"hot score",
+			tl.aotoTest(out,  t.isAvg, t.isHigh,t.AllOrHot,
 					t.number, t.sortCondition);
 		}
 		else{
@@ -196,7 +198,7 @@ public class Console {
 			String matchPath = datasource +"/matches";
 			PlayerLogic temppl = new PlayerLogic(playerPath,matchPath);
 			temppl.initialize(datasource, season);
-			tl.initTeamData();
+			ml.ini(datasource);
 		}
 
 	}

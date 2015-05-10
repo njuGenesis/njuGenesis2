@@ -19,13 +19,14 @@ public class MatchLogic implements MatchInfoService {
 	 * private boolean isExit(){ return m.judge(); }
 	 */
 
-	public ArrayList<MatchDataPO> ini() {
+	public ArrayList<MatchDataPO> ini(String fileDir) {
 		ArrayList<MatchDataPO> MatchList12 = new ArrayList<MatchDataPO>();
 		ArrayList<MatchDataPO> MatchList13 = new ArrayList<MatchDataPO>();
+		ArrayList<MatchDataPO> MatchListtest = new ArrayList<MatchDataPO>();
 		GetFileData MatchReader = new GetFileData();
-		File[] fileList = MatchReader.getAllMathcFielName();
+		File[] fileList = MatchReader.getAllMathcFielName(fileDir);
 		for (int i = 0; i < fileList.length; i++) {
-			if (MatchReader.detailMatch(fileList[i]).getSeason()
+			/*if (MatchReader.detailMatch(fileList[i]).getSeason()
 					.equals("12-13")) {
 				if (!MatchReader.detailMatch(fileList[i]).getPoints()
 						.equals("0-0")) {
@@ -41,18 +42,32 @@ public class MatchLogic implements MatchInfoService {
 					MatchList13.add(calcuRound(MatchReader
 							.detailMatch(fileList[i])));
 				}
+			}*/
+			
+		//else
+		{
+				if (!MatchReader.detailMatch(fileList[i]).getPoints()
+						.equals("0-0")) {
+					MatchListtest.add(calcuRound(MatchReader
+							.detailMatch(fileList[i])));
+				}
 			}
+			
 		}
 		System.out.println(MatchLogic.getTime());
 		matches.addAll(MatchList12);
 		matches.addAll(MatchList13);
+		matches.addAll(MatchListtest);
 		TeamLogic t = new TeamLogic();
-		t.initTeamData();
+		t.initTeamData(fileDir);
 		if (MatchList12.size() != 0) {
 			add.writeIn(MatchList12);
 		}
 		if (MatchList13.size() != 0) {
 			add.writeIn(MatchList13);
+		}
+		if (MatchListtest.size() != 0) {
+			add.writeIn(MatchListtest);
 		}
 
 		return null;
@@ -194,7 +209,7 @@ public class MatchLogic implements MatchInfoService {
 		System.out.println(MatchLogic.getTime());
 		MatchLogic match = new MatchLogic();
 		// System.out.println(match.GetInfo("HOU").size());
-		 match.ini();
+		match.ini("C:\\Users\\zy\\Documents\\GitHub\\njuGenesis2\\NBA\\迭代一数据");
 		// match.getDate();
 		// System.out.println(match.getDate()[2]);
 		/*

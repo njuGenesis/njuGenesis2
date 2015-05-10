@@ -126,9 +126,9 @@ public class TeamLogic implements TeamInfoService {
 	}
 
 	// 球队名称，所在地等从teams文件里直接读取的信息
-	public void initTeamData() {
+	public void initTeamData(String fileDir) {
 		GetFileData teamFileReader = new GetFileData();
-		Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
+		Teams = teamFileReader.readTeamfile(fileDir); // 球队基本信息初始化
 		// MatchLogic matchLogic = new MatchLogic();
 		ArrayList<MatchDataPO> Matches = MatchLogic.matches; // 一个含有全部比赛基本信息的集合
 		for (int i = 0; i < Matches.size(); i++) {
@@ -143,9 +143,10 @@ public class TeamLogic implements TeamInfoService {
 						Matches.get(i).getSecondteam(), Matches.get(i)
 								.getSeason());
 		}
-		PlayerLogic getPlayers = new PlayerLogic();
+		/*PlayerLogic getPlayers = new PlayerLogic();
 		saveTeamPlayer(getPlayers.getAllInfo("13-14"));
 		saveTeamPlayer(getPlayers.getAllInfo("12-13"));
+		saveTeamPlayer(getPlayers.getAllInfo(getPlayers.getLatestSeason()));*/
 
 		/*
 		 * saveTeamPlayer(getPlayers.getAllInfo("13-14"));
@@ -158,10 +159,10 @@ public class TeamLogic implements TeamInfoService {
 	// 根据新添加的比赛更新球队信息
 	public void updateTeamInfo(ArrayList<MatchDataPO> newMatches) {
 		Teams = GetAllInfo(); // 获得之前的球队数据
-		if (Teams.size() == 0) {
+		/*if (Teams.size() == 0) {
 			GetFileData teamFileReader = new GetFileData();
 			Teams = teamFileReader.readTeamfile(); // 球队基本信息初始化
-		}
+		}*/
 		for (int i = 0; i < newMatches.size(); i++) {
 			if (newMatches.get(i).isValid())
 				calcuPoints(newMatches.get(i).getPoints(), newMatches.get(i)
@@ -185,7 +186,10 @@ public class TeamLogic implements TeamInfoService {
 		String[] point = points.split("-");
 		for (int i = 0; i < Teams.size(); i++) {
 			if (Teams.get(i).getShortName().equals(team1)
-					&& Teams.get(i).getSeason().equals(season)) {
+					&&( Teams.get(i).getSeason().equals(season)||Teams.get(i).getSeason().equals("unknow"))) {
+				if(Teams.get(i).getSeason().equals("unknow")){
+					Teams.get(i).setSeason(season);
+				}
 				Teams.get(i).setMatchNumber(Teams.get(i).getMatchNumber() + 1); // 比赛场数+1
 				if (point[0].compareTo(point[1]) >= 0) {
 					Teams.get(i).setWinMatch(Teams.get(i).getWinMatch() + 1);
@@ -207,7 +211,10 @@ public class TeamLogic implements TeamInfoService {
 						Teams.get(i).getLPS() / Teams.get(i).getMatchNumber());// 均失分
 
 			} else if (Teams.get(i).getShortName().equals(team2)
-					&& Teams.get(i).getSeason().equals(season)) {
+					&& (Teams.get(i).getSeason().equals(season)||Teams.get(i).getSeason().equals("unknow"))) {
+				if(Teams.get(i).getSeason().equals("unknow")){
+					Teams.get(i).setSeason(season);
+				}
 				Teams.get(i).setMatchNumber(Teams.get(i).getMatchNumber() + 1); // 比赛场数+1
 				if (point[0].compareTo(point[1]) <= 0) {
 					Teams.get(i).setWinMatch(Teams.get(i).getWinMatch() + 1);
@@ -642,13 +649,13 @@ public class TeamLogic implements TeamInfoService {
 	 */
 	// 自动化测试
 	public void aotoTest(PrintStream out, boolean isAvg, boolean isHigh,
-			String season, String AllOrHot, int number, String sortCondition) {
+			String AllOrHot, int number, String sortCondition) {
 		int size = number;
 		ArrayList<TeamDataPO> res = new ArrayList<TeamDataPO>();
 		ArrayList<TeamDataPO> temp = new ArrayList<TeamDataPO>();
 		// all、hot的判断
 		if (AllOrHot.startsWith("hot")) {
-			temp = GetInfoBySeason(season);
+			temp = GetAllInfo();
 			if (AllOrHot.contains("score")) {
 				res = TeamSortLogic.sortByDouble(temp, "PPG");
 			} else if (AllOrHot.contains("rebound")) {
@@ -683,7 +690,13 @@ public class TeamLogic implements TeamInfoService {
 			}
 			for (int i = 0; i < size; i++) {
 				TeamHotInfo reshot = new TeamHotInfo();
-				reshot.setTeamName(res.get(i).getName());
+				reshot.setTeamName(res.get(i).getShortName());
+				if(res.get(i).getEorW().equals("W")){
+					res.get(i).setEorW("West");
+				}
+				if(res.get(i).getEorW().equals("E")){
+					res.get(i).setEorW("Eest");
+				}
 				if (AllOrHot.contains("score")) {
 					reshot.setField("score");
 					reshot.setLeague(res.get(i).getEorW());
@@ -715,15 +728,15 @@ public class TeamLogic implements TeamInfoService {
 				} else if (AllOrHot.contains("shot")) {
 					reshot.setField("shot");
 					reshot.setLeague(res.get(i).getEorW());
-					reshot.setValue(res.get(i).getShootEff());
+					reshot.setValue(res.get(i).getShootEff()*100);
 				} else if (AllOrHot.contains("three")) {
 					reshot.setField("three");
 					reshot.setLeague(res.get(i).getEorW());
-					reshot.setValue(res.get(i).getTPEff());
+					reshot.setValue(res.get(i).getTPEff()*100);
 				} else if (AllOrHot.contains("penalty")) {
 					reshot.setField("penalty");
 					reshot.setLeague(res.get(i).getEorW());
-					reshot.setValue(res.get(i).getFTEff());
+					reshot.setValue(res.get(i).getFTEff()*100);
 				} else if (AllOrHot.contains("defendRebound")) {
 					reshot.setField("defendRebound");
 					reshot.setLeague(res.get(i).getEorW());
@@ -733,12 +746,15 @@ public class TeamLogic implements TeamInfoService {
 					reshot.setLeague(res.get(i).getEorW());
 					reshot.setValue(res.get(i).getOffBackBoardPG());
 				}
+				out.print(i+1);
+				out.print("\n");
 				out.print(reshot);
+				out.print("\n");
 			}
 		}
 		// all
 		else {
-			temp = GetInfoBySeason(season);
+			temp = GetAllInfo();
 			String[] sorttemp = sortCondition.split(",");
 			String[] st1 = sorttemp[0].split("\\.");
 			String orderwords = "";
@@ -825,7 +841,7 @@ public class TeamLogic implements TeamInfoService {
 				if (isAvg) {
 					for (int i = 0; i < size; i++) {
 						TeamHighInfo reshigh = new TeamHighInfo();
-						reshigh.setTeamName(res.get(i).getName());
+						reshigh.setTeamName(res.get(i).getShortName());
 						reshigh.setWinRate(res.get(i).getWR());
 						reshigh.setOffendRound(res.get(i).getOffPG());
 						reshigh.setOffendEfficient(res.get(i).getOffEff());
@@ -836,12 +852,15 @@ public class TeamLogic implements TeamInfoService {
 								.getDefBackBoardEff());
 						reshigh.setAssistEfficient(res.get(i).getAssistEff());
 						reshigh.setStealEfficient(res.get(i).getStealEff());
+						out.print(i+1);
+						out.print("\n");
 						out.print(reshigh);
+						out.print("\n");
 					}
 				} else {
 					for (int i = 0; i < size; i++) {
 						TeamHighInfo reshigh = new TeamHighInfo();
-						reshigh.setTeamName(res.get(i).getName());
+						reshigh.setTeamName(res.get(i).getShortName());
 						reshigh.setWinRate(res.get(i).getWR());
 						reshigh.setOffendRound(res.get(i).getOff());
 						reshigh.setOffendEfficient(res.get(i).getOffEff());
@@ -852,7 +871,10 @@ public class TeamLogic implements TeamInfoService {
 								.getDefBackBoardEff());
 						reshigh.setAssistEfficient(res.get(i).getAssistEff());
 						reshigh.setStealEfficient(res.get(i).getStealEff());
+						out.print(i+1);
+						out.print("\n");
 						out.print(reshigh);
+						out.print("\n");
 					}
 				}
 			} 
@@ -879,17 +901,21 @@ public class TeamLogic implements TeamInfoService {
 						resnormal.setSteal(res.get(i).getStealNumberPG());
 						resnormal.setFoul(res.get(i).getFoulPG());
 						resnormal.setFault(res.get(i).getToPG());
-						resnormal.setShot(res.get(i).getShootEff());
-						resnormal.setThree(res.get(i).getTPEff());
-						resnormal.setPenalty(res.get(i).getFTEff());
+						resnormal.setShot(res.get(i).getShootEff()*100);
+						resnormal.setThree(res.get(i).getTPEff()*100);
+						resnormal.setPenalty(res.get(i).getFTEff()*100);
 						resnormal.setDefendRebound(res.get(i)
 								.getDefBackBoardPG());
 						resnormal.setOffendRebound(res.get(i)
 								.getOffBackBoardPG());
-						resnormal.setTeamName(res.get(i).getName());
+						resnormal.setTeamName(res.get(i).getShortName());
 						resnormal.setNumOfGame((int) res.get(i)
 								.getMatchNumber());
+						
+						out.print(i+1);
+						out.print("\n");
 						out.print(resnormal);
+						out.print("\n");
 					}
 				}
 				else {//如果是normal总数据
@@ -912,17 +938,21 @@ public class TeamLogic implements TeamInfoService {
 						resnormal.setSteal(res.get(i).getStealNumber());
 						resnormal.setFoul(res.get(i).getFoul());
 						resnormal.setFault(res.get(i).getTo());
-						resnormal.setShot(res.get(i).getShootEff());
-						resnormal.setThree(res.get(i).getTPEff());
-						resnormal.setPenalty(res.get(i).getFTEff());
+						resnormal.setShot(res.get(i).getShootEff()*100);
+						resnormal.setThree(res.get(i).getTPEff()*100);
+						resnormal.setPenalty(res.get(i).getFTEff()*100);
 						resnormal
 								.setDefendRebound(res.get(i).getDefBackBoard());
 						resnormal
 								.setOffendRebound(res.get(i).getOffBackBoard());
-						resnormal.setTeamName(res.get(i).getName());
+						resnormal.setTeamName(res.get(i).getShortName());
 						resnormal.setNumOfGame((int) res.get(i)
 								.getMatchNumber());
+					
+						out.print(i+1);
+						out.print("\n");
 						out.print(resnormal);
+						out.print("\n");
 					}
 				}
 			}
@@ -933,23 +963,15 @@ public class TeamLogic implements TeamInfoService {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(MatchLogic.getTime());
-		TeamLogic team = new TeamLogic();
-		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
-		// teams = team.GetAllInfo();
-		// team.initTeamData();
-		/*
-		 * teams = team.GetAllInfo(); for(int i=0;i<teams.size();i++){
-		 * System.out
-		 * .println(teams.get(i).getShortName()+"   "+teams.get(i).getPlayers
-		 * ()); }
-		 */
-		/*
-		 * ArrayList<Double> res= team.getAvg(); for(int i=0;i<res.size();i++){
-		 * System.out.println(res.get(i)); }
-		 */
-		System.out.println(team.GetAllInfo().size());
-		System.out.println(MatchLogic.getTime());
+		TeamLogic t = new TeamLogic();
+		ArrayList<TeamDataPO> a = t.GetAllInfo();
+		System.out.println(a.size());
+		for(int i=0;i<a.size();i++){
+			System.out.println(i);
+			System.out.println(a.get(i).getSeason()+" "+a.get(i).getPlayers()+" "+a.get(i).getShortName());
+		}
+		
+		
 
 	}
 

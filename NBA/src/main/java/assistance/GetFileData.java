@@ -11,8 +11,8 @@ import data.po.TeamDataPO;
 
 public class GetFileData {
 	boolean isjoin = false;
-	String MatchFileName ="./迭代一数据/matches";  
-	String Teamfilename = "./迭代一数据/teams/teams";    
+	String MatchFileName ="/matches";  
+	String Teamfilename = "/teams/teams";    
 
 	public String readPlayerfile(String filename) {
 		String res = "";
@@ -308,15 +308,17 @@ public class GetFileData {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(res.getTeam1Def());
 		return res;
 	}
 
-	public ArrayList<TeamDataPO> readTeamfile() {
+	public ArrayList<TeamDataPO> readTeamfile(String fileDir) {
+		fileDir.replaceAll("\\\\", "/");
+		Teamfilename=fileDir+Teamfilename;
 		ArrayList<TeamDataPO> teams = new ArrayList<TeamDataPO>();
 		TeamDataPO team = new TeamDataPO();
-		TeamDataPO team1 = new TeamDataPO();
+		//TeamDataPO team1 = new TeamDataPO();
 		TeamDataPO team2 = new TeamDataPO();
+		TeamDataPO team3 = new TeamDataPO();
 		try {
 			File f = new File(Teamfilename);
 			FileReader fr = new FileReader(f);
@@ -326,8 +328,9 @@ public class GetFileData {
 
 			while (data != null) {
 				team = new TeamDataPO();
-				team1 = new TeamDataPO();
+			/*	team1 = new TeamDataPO();*/
 				team2 = new TeamDataPO();
+				team3 = new TeamDataPO();
 				while (data.contains("═")) {
 					data = br.readLine();
 				}
@@ -342,14 +345,14 @@ public class GetFileData {
 				team.setBuildyear(Integer.parseInt(teamData[6].trim()));
 				team.setSeason("12-13");
 				
-				team1.setName(teamData[0].trim());
+			/*	team1.setName(teamData[0].trim());
 				team1.setShortName(teamData[1].trim());
 				team1.setCity(teamData[2].trim());
 				team1.setEorW(teamData[3].trim());
 				team1.setArea(teamData[4].trim());
 				team1.setMainposition(teamData[5].trim());
 				team1.setBuildyear(Integer.parseInt(teamData[6].trim()));
-				team1.setSeason("13-14");
+				team1.setSeason("13-14");*/
 				
 				team2.setName(teamData[0].trim());
 				team2.setShortName(teamData[1].trim());
@@ -360,11 +363,19 @@ public class GetFileData {
 				team2.setBuildyear(Integer.parseInt(teamData[6].trim()));
 				team2.setSeason("14-15");
 				
-            
-				
+				team3.setName(teamData[0].trim());
+				team3.setShortName(teamData[1].trim());
+				team3.setCity(teamData[2].trim());
+				team3.setEorW(teamData[3].trim());
+				team3.setArea(teamData[4].trim());
+				team3.setMainposition(teamData[5].trim());
+				team3.setBuildyear(Integer.parseInt(teamData[6].trim()));
+				team3.setSeason("unknow");
+
 				teams.add(team);
-				teams.add(team1);
+				//teams.add(team1);
 				teams.add(team2);
+				teams.add(team3);
 				
 				data = br.readLine();
 				if (data.contains("═")) {
@@ -379,7 +390,9 @@ public class GetFileData {
 	}
 
 	// 获得所有比赛文件的完整路径返回File[]
-	public File[] getAllMathcFielName() {
+	public File[] getAllMathcFielName(String fileDir) {
+		fileDir.replaceAll("\\\\", "/");
+		MatchFileName=fileDir+MatchFileName;
 		File file = new File(MatchFileName);
 		return file.listFiles();
 	}
